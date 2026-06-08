@@ -1,9 +1,8 @@
-package pages;
+package test.pages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
-import org.openqa.selenium.WebDriver;
 import static com.codeborne.selenide.Selenide.*;
 import static org.testng.Assert.assertEquals;
 
@@ -16,19 +15,14 @@ public class LoginPage extends BasePage {
             errorMessage = $x("//div[contains(@style,'red')]"),
             title = $x("//div[contains(text(), 'Authorization')]");
 
-    public LoginPage(WebDriver driver) {
-        super(driver);
-    }
-
     @Step("Авторизоваться с данными: Логин - {0}, Пароль - {1}")
     public LoginPage authorization(String user, String password) {
-        openLoginPage();
+        verifyOpenLoginPage();
         login(user, password);
         return this;
     }
 
-    public void openLoginPage() {
-        open("/#");
+    public void verifyOpenLoginPage() {
         title.shouldBe(Condition.visible);
     }
 

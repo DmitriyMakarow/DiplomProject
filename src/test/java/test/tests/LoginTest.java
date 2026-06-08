@@ -1,4 +1,4 @@
-package tests;
+package test.tests;
 
 import io.qameta.allure.*;
 import org.testng.annotations.Test;
