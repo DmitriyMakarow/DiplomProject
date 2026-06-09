@@ -2,7 +2,6 @@ package enumUI;
 
 public enum Users {
     RELOAD("Reload"),
-    SORT_BY("Sort"),
     ID("ID"),
     FIRST_NAME("First"),
     LAST_NAME("Last"),
