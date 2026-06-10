@@ -1,7 +1,6 @@
 package test.pages.base;
 
 import io.qameta.allure.Step;
-import test.pages.BasePage;
 
 import static org.testng.Assert.assertTrue;
 import static test.pages.base.BaseLocators.*;
