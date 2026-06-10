@@ -11,7 +11,6 @@ public enum Users {
 
     private final String buttonName;
 
-
     Users(String buttonName) {
         this.buttonName = buttonName;
     }

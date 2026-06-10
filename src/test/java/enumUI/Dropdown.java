@@ -32,7 +32,6 @@ public enum Dropdown {
 
     private final String tableName;
 
-
     Dropdown(String buttonName) {
         this.tableName = buttonName;
     }
