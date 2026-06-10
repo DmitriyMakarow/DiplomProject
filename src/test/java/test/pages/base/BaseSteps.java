@@ -1,16 +1,16 @@
-package ui;
+package test.pages.base;
 
 import io.qameta.allure.Step;
 import test.pages.BasePage;
 
 import static org.testng.Assert.assertTrue;
-import static ui.BaseLocators.*;
+import static test.pages.base.BaseLocators.*;
 
 public class BaseSteps extends BasePage {
 
     @Step("Раскрыть выпадающий список {0}")
     public BaseSteps showDropdown(String nameDropdown) {
-        getNameDropdown(nameDropdown).click();
+        getItemDropdown(nameDropdown).click();
         assertTrue(waitVisible(getDropdown(nameDropdown)), "Выпадающий список у наименования \"%s\" не отображается"
                 .formatted(nameDropdown));
         return this;
