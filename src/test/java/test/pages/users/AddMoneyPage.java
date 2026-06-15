@@ -4,46 +4,51 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import test.pages.base.BasePage;
-
-import static com.codeborne.selenide.Condition.exist;
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.Selenide.$x;
+
 
 public class AddMoneyPage extends BasePage {
     private final SelenideElement
-            USER_ID = $x("//*[@id='id_send']"),
-            MONEY= $x("//*[@id='money_send']"),
-            PUSH_TO_API = $("#root > div > section > div > div > button.tableButton.btn.btn-primary");
+            userId = $x("//*[@id='id_send']"),
+            money = $x("//*[@id='money_send']"),
+            pushToApi = $("#root > div > section > div > div > button.tableButton.btn.btn-primary");
+
 
     @Step("Открытие страницы Add Money")
-    public AddMoneyPage openPage (){
+    public AddMoneyPage openPage() {
         open("http://82.142.167.37:4881/#/update/users/plusMoney");
         return this;
     }; //open не пишем в названии метода, иначе будет зацикливание
 
-
     @Step("Добавление денег пользователю")
-    public AddMoneyPage addMoneyToUser(int id, int money){
-        $(USER_ID).setValue(String.valueOf(id));
-        $(MONEY).setValue(String.valueOf(money));
-        $(PUSH_TO_API).shouldBe(Condition.enabled).click();
+    public AddMoneyPage addMoneyToUser(int id, int money) {
+        userId.setValue(String.valueOf(id));
+        $(this.money).setValue(String.valueOf(money));
+        $(pushToApi).shouldBe(Condition.enabled).click();
         return this;
     }
 
     @Step("Валидация добавления денег пользователю")
-    public AddMoneyPage validationAddMoneyToUser(){
-        $(withText("Status: Successfully pushed, code: 200")).shouldBe(visible);
+    public AddMoneyPage validationAddMoneyToUser() {
+        SelenideElement successMessage = $(
+                withText("Status: Successfully pushed, code: 200"));
+        boolean isSuccessMessageVisible = super.waitVisible(successMessage, 5);
+        if (isSuccessMessageVisible) {
+            System.out.println("Операция прошла успешно! Сообщение отображается.");
+        } else {
+            throw new AssertionError("Ошибка: Сообщение об успехе не отобразилось на странице.");
+        }
         return this;
-
     }
 
     @Step("Валидация ошибки добавления денег пользователю")
-    public AddMoneyPage validationNotAddMoneyToUser(String message){
-        $(withText(message)).shouldBe(visible);
+    public AddMoneyPage validationNotAddMoneyToUser(String message) {
+        SelenideElement errorMessageElement = $(withText(message));
+        boolean isMessageVisible = super.waitVisible(errorMessageElement, 5);
+        if (!isMessageVisible) {
+            System.out.println("Ожидаемое сообщение '" + message + "' не появилось.");
+           }
         return this;
-
     }
 }

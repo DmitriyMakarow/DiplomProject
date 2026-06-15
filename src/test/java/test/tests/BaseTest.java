@@ -92,12 +92,10 @@ public class BaseTest {
         addMoneyPage = new AddMoneyPage();
     }
 
-    /*@AfterMethod(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     @Description("Закрытие браузера")
     public void tearDown(ITestContext ctx) {
         com.codeborne.selenide.Selenide.closeWebDriver();
         ctx.removeAttribute("driver");
     }
-
-     */
 }
