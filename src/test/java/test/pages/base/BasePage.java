@@ -4,8 +4,11 @@ import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 import static com.codeborne.selenide.Condition.*;
 
@@ -136,5 +139,45 @@ public class BasePage {
         } catch (AssertionError e) {
             return false;
         }
+    }
+
+    public boolean isNumeric(List<String> data) {
+        return data.stream().allMatch(str -> {
+            try {
+                new BigDecimal(str);
+                return true;
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        });
+    }
+
+    public Comparator<String> getStringComparator(boolean ascending) {
+        return (a, b) -> {
+            if (a.isEmpty() && b.isEmpty()) return 0;
+            if (a.isEmpty()) return ascending ? -1 : 1;
+            if (b.isEmpty()) return ascending ? 1 : -1;
+
+            boolean aIsNumber = a.matches("-?\\d+(\\.\\d+)?");
+            boolean bIsNumber = b.matches("-?\\d+(\\.\\d+)?");
+
+            if (aIsNumber && bIsNumber) {
+                try {
+                    BigDecimal numA = new BigDecimal(a);
+                    BigDecimal numB = new BigDecimal(b);
+                    return ascending ? numA.compareTo(numB) : numB.compareTo(numA);
+                } catch (NumberFormatException e) {
+                    return ascending ? a.compareTo(b) : b.compareTo(a);
+                }
+            }
+            if (aIsNumber) {
+                return ascending ? -1 : 1;
+            }
+            if (bIsNumber) {
+                return ascending ? 1 : -1;
+            }
+
+            return ascending ? a.compareToIgnoreCase(b) : b.compareToIgnoreCase(a);
+        };
     }
 }

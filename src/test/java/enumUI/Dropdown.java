@@ -1,12 +1,16 @@
 package enumUI;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum Dropdown {
 
     /**
      * Users
      */
     USERS("Users"),
-    READ_ALL_USERS("Read all"),
     READ_USER_WITH_CARS("Read user with cars"),
     CREATE_NEW_USERS("Create new"),
     ADD_MONEY("Add money"),
@@ -31,10 +35,6 @@ public enum Dropdown {
     SETTLE_OR_EVICT_USER("Settle or evict user");
 
     private final String tableName;
-
-    Dropdown(String buttonName) {
-        this.tableName = buttonName;
-    }
 
     @Override
     public String toString() {

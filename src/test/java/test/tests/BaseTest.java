@@ -13,6 +13,7 @@ import org.testng.ITestContext;
 import org.testng.annotations.*;
 import test.pages.base.BasePage;
 import test.pages.LoginPage;
+import test.pages.base.BaseSteps;
 import utils.PropertyReader;
 import utils.TestListener;
 
@@ -29,6 +30,7 @@ public class BaseTest {
 
     protected BasePage basePage;
     protected LoginPage loginPage;
+    protected BaseSteps baseSteps;
 
     /**
      * Настройка браузера.
@@ -87,6 +89,7 @@ public class BaseTest {
 
         basePage = new BasePage();
         loginPage = new LoginPage();
+        baseSteps = new BaseSteps();
     }
 
     @AfterMethod(alwaysRun = true)
