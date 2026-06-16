@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Generated schema for Root",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "number"
+    },
+    "floorCount": {
+      "type": "number"
+    },
+    "price": {
+      "type": "number"
+    },
+    "parkingPlaces": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "isWarm": {
+            "type": "boolean"
+          },
+          "isCovered": {
+            "type": "boolean"
+          },
+          "placesCount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "isWarm",
+          "isCovered",
+          "placesCount"
+        ]
+      }
+    },
+    "lodgers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "secondName": {
+            "type": "string"
+          },
+          "age": {
+            "type": "number"
+          },
+          "sex": {
+            "type": "string"
+          },
+          "money": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "firstName",
+          "secondName",
+          "age",
+          "sex",
+          "money"
+        ]
+      }
+    }
+  },
+  "required": [
+    "id",
+    "floorCount",
+    "price",
+    "parkingPlaces",
+    "lodgers"
+  ]
+}
