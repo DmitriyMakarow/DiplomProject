@@ -15,15 +15,15 @@ public class CarRequest {
 
     @SerializedName("engineType")
     @Expose
-    private final String engineType;
+    private String engineType;
 
     @SerializedName("mark")
     @Expose
-    private final String mark;
+    private String mark;
 
     @SerializedName("model")
     @Expose
-    private final String model;
+    private String model;
 
     @SerializedName("price")
     @Expose

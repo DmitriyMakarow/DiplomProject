@@ -8,7 +8,7 @@ import static io.restassured.RestAssured.given;
 
 public class CarAdapter extends BaseAdapter {
 
-    public CarResponse createProject(CarRequest carRequest) {
+    public CarResponse createCar(CarRequest carRequest) {
         return given()
                 .spec(spec)
                 .body(gson.toJson(carRequest))
