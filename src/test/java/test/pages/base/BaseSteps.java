@@ -7,7 +7,6 @@ import io.qameta.allure.Step;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.testng.Assert.*;
 import static test.pages.base.BaseLocators.*;
@@ -69,7 +68,7 @@ public class BaseSteps extends BasePage {
                 .stream()
                 .limit(10)
                 .map(row -> row.$$("td").texts())
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Step("Сравнение двух состояний таблицы")
@@ -110,7 +109,7 @@ public class BaseSteps extends BasePage {
                 .stream()
                 .limit(10)
                 .map(row -> row.$$("td").get(columnIndex).getText().trim())
-                .collect(Collectors.toList());
+                .toList();
 
         List<String> sortedData = new ArrayList<>(actualData);
 
@@ -152,7 +151,7 @@ public class BaseSteps extends BasePage {
                 .stream()
                 .limit(10)
                 .map(row -> row.$$("td").get(columnIndex).getText().trim())
-                .collect(Collectors.toList());
+                .toList();
 
         List<String> sortedData = new ArrayList<>(actualData);
 

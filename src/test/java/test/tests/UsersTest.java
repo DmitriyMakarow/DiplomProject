@@ -26,7 +26,6 @@ public class UsersTest extends BaseTest {
     @Description("Тест проверяет сортировку по колонке \"ID\" пользователей")
     @Test(testName = "Сортировка по ID")
     public void checkSortingID() {
-
         baseSteps
                 .openTableFromDropdown(USERS, READ_ALL_USERS)
                 .clickBtn("ID")
@@ -61,7 +60,6 @@ public class UsersTest extends BaseTest {
     @Description("Тест проверяет сортировку по колонке \"Last name\" пользователей")
     @Test(testName = "Сортировка по колонке \"Last name\"")
     public void checkSortingLastName() {
-
         baseSteps
                 .openTableFromDropdown(USERS, READ_ALL_USERS)
                 .clickBtn("Last")
@@ -77,7 +75,6 @@ public class UsersTest extends BaseTest {
     @Description("Тест проверяет сортировку по колонке \"Age\" пользователей")
     @Test(testName = "Сортировка по колонке \"Age\"")
     public void checkSortingAge() {
-
         baseSteps
                 .openTableFromDropdown(USERS, READ_ALL_USERS)
                 .clickBtn("Age")
@@ -93,7 +90,6 @@ public class UsersTest extends BaseTest {
     @Description("Тест проверяет сортировку по колонке \"Sex\" пользователей")
     @Test(testName = "Сортировка по колонке \"Sex\"")
     public void checkSortingSex() {
-
         baseSteps
                 .openTableFromDropdown(USERS, READ_ALL_USERS)
                 .clickBtn("Sex")
@@ -109,7 +105,6 @@ public class UsersTest extends BaseTest {
     @Description("Тест проверяет сортировку по колонке \"Money\" пользователей")
     @Test(testName = "Сортировка по колонке \"Money\"")
     public void checkSortingMoney() {
-
         baseSteps.openTableFromDropdown(USERS, READ_ALL_USERS);
         List<List<String>> initialData = baseSteps.getTableData();
         baseSteps
