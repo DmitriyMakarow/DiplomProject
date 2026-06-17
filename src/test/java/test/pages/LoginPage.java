@@ -3,6 +3,8 @@ package test.pages;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
+import test.pages.base.BasePage;
+
 import static com.codeborne.selenide.Selenide.*;
 import static org.testng.Assert.assertEquals;
 

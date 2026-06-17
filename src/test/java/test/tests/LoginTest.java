@@ -11,7 +11,7 @@ public class LoginTest extends BaseTest {
     @Story("Авторизация с валидными данными")
     public void checkPositiveCred() {
         loginPage
-                .authorization(user, password)
+                .authorization("user@pflb.ru", "user")
                 .verifySuccessAuthorization();
     }
 }
