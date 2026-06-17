@@ -24,4 +24,8 @@ public class CarResponse {
     @SerializedName("price")
     @Expose
     public double price;
+
+    public int getId() {
+        return id;
+    }
 }

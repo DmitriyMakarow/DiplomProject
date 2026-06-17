@@ -1,5 +1,7 @@
 package test.tests;
 
+import api.adapters.BaseAdapter;
+import api.adapters.CarAdapter;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
@@ -29,6 +31,8 @@ public class BaseTest {
 
     protected BasePage basePage;
     protected LoginPage loginPage;
+    protected CarAdapter carAdapter;
+    protected BaseAdapter baseAdapter;
 
     /**
      * Настройка браузера.
@@ -87,6 +91,8 @@ public class BaseTest {
 
         basePage = new BasePage();
         loginPage = new LoginPage();
+        carAdapter = new CarAdapter();
+        baseAdapter = new BaseAdapter();
     }
 
     @AfterMethod(alwaysRun = true)
