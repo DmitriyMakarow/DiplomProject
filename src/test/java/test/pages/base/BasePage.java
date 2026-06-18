@@ -157,4 +157,15 @@ public class BasePage extends BaseTest {
             return false;
         }
     }
+
+    public static int getColumnIndex(String columnName, List<String> headers) {
+        for (int i = 0; i < headers.size(); i++) {
+            String header = headers.get(i);
+            if (header.toLowerCase().contains(columnName.toLowerCase())) {
+                return i;
+            }
+        }
+        throw new IllegalArgumentException("Колонка \"%s\" не найдена. Доступные заголовки: %s"
+                .formatted(columnName, headers));
+    }
 }

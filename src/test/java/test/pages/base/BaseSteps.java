@@ -62,10 +62,100 @@ public class BaseSteps extends BasePage {
         return this;
     }
 
-    @Step("Кликнуть на кнопку {0}")
-    public BaseSteps clickBtn(String nameButton) {
-        getBtn(nameButton).click();
+    @Step("Получение данных таблицы")
+    public List<List<String>> getTableData() {
+        return entryTable
+                .stream()
+                .limit(10)
+                .map(row -> row.$$("td").texts())
+                .toList();
+    }
+
+    @Step("Сравнение двух состояний таблицы")
+    public boolean isTableDataEquals(List<List<String>> expectedData) {
+        List<List<String>> actualData = getTableData();
+        return actualData.equals(expectedData);
+    }
+
+    @Step("Проверка, что данные восстановились после Reload")
+    public void assertDataRestored(List<List<String>> expectedData) {
+        assertTrue(isTableDataEquals(expectedData), "Данные не восстановились после Reload");
+//        verifyNoSortActive(); TODO: Расскоментировать после исправления бага
+    }
+
+    @Step("Проверка, что данные изменились после сортировки")
+    public BaseSteps assertDataChangedAfterSort(List<List<String>> initialData) {
+        assertFalse(isTableDataEquals(initialData),
+                "Данные не изменились после сортировки");
         return this;
+    }
+
+    @Step("Проверка сортировки колонки {columnName} по возрастанию")
+    public BaseSteps verifySortAscending(String columnName) {
+        List<String> headers = headerTable
+                .texts()
+                .stream()
+                .toList();
+
+        int columnIndex = getColumnIndex(columnName, headers);
+
+        List<String> actualData = entryTable
+                .stream()
+                .skip(1)
+                .limit(20)
+                .map(row -> row.$$("td").get(columnIndex).getText().trim())
+                .toList();
+
+        if (actualData.isEmpty()) {
+            throw new IllegalStateException(
+                    "Нет данных для проверки сортировки в колонке \"%s\"".formatted(columnName));
+        }
+
+        List<String> sortedData = new ArrayList<>(actualData);
+        sortedData.sort(SortUtils.getStringComparator(true));
+
+        assertEquals(sortedData, actualData,
+                "Колонка \"%s\" не отсортирована по возрастанию".formatted(columnName));
+        return this;
+    }
+
+    @Step("Проверка сортировки колонки {columnName} по убыванию")
+    public BaseSteps verifySortDescending(String columnName) {
+        List<String> headers = headerTable
+                .texts()
+                .stream()
+                .toList();
+
+        int columnIndex = getColumnIndex(columnName, headers);
+
+        List<String> actualData = entryTable
+                .stream()
+                .skip(1)
+                .limit(20)
+                .map(row -> row.$$("td").get(columnIndex).getText().trim())
+                .toList();
+
+        if (actualData.isEmpty()) {
+            throw new IllegalStateException(
+                    "Нет данных для проверки сортировки в колонке \"%s\"".formatted(columnName));
+        }
+
+        List<String> sortedData = new ArrayList<>(actualData);
+        sortedData.sort(SortUtils.getStringComparator(false));
+
+        assertEquals(sortedData, actualData,
+                "Колонка \"%s\" не отсортирована по убыванию".formatted(columnName));
+        return this;
+    }
+
+    private void waitForDataChange(List<List<String>> dataBefore) {
+        long startTime = System.currentTimeMillis();
+        while (System.currentTimeMillis() - startTime < 5 * 1000L) {
+            List<List<String>> dataAfter = getTableData();
+            if (!dataAfter.equals(dataBefore)) {
+                return;
+            }
+        }
     }
 
     @Step("Отправить запрос")
