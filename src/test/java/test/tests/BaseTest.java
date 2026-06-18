@@ -15,6 +15,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
 import test.pages.LoginPage;
+import test.pages.users.AddMoneyPage;
 import test.pages.base.BasePage;
 import test.pages.base.BaseSteps;
 import test.pages.cars.CarsPage;
@@ -36,6 +37,7 @@ public class BaseTest {
     protected BasePage basePage;
     protected BaseSteps baseSteps;
     protected LoginPage loginPage;
+    protected AddMoneyPage addMoneyPage;
     protected CarAdapter carAdapter;
     protected BaseAdapter baseAdapter;
     protected CarsPage carsPage;
@@ -98,6 +100,7 @@ public class BaseTest {
         basePage = new BasePage();
         baseSteps = new BaseSteps();
         loginPage = new LoginPage();
+        addMoneyPage = new AddMoneyPage();
         carAdapter = new CarAdapter();
         baseAdapter = new BaseAdapter();
         carsPage = new CarsPage();
