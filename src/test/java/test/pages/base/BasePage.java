@@ -7,6 +7,7 @@ import test.tests.BaseTest;
 
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.List;
 
 import static com.codeborne.selenide.Condition.*;
 

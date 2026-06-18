@@ -1,23 +1,64 @@
 package test.pages.base;
 
+import enumUI.Dropdown;
+import enumUI.TableType;
 import io.qameta.allure.Step;
+import utils.SortUtils;
 
-import static org.testng.Assert.assertTrue;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.testng.Assert.*;
 import static test.pages.base.BaseLocators.*;
 
 public class BaseSteps extends BasePage {
 
     @Step("Раскрыть выпадающий список {0}")
-    public BaseSteps showDropdown(String nameDropdown) {
+    public void showDropdown(Dropdown nameDropdown) {
         getItemDropdown(nameDropdown).click();
         assertTrue(waitVisible(getDropdown(nameDropdown)), "Выпадающий список у наименования \"%s\" не отображается"
                 .formatted(nameDropdown));
-        return this;
     }
 
     @Step("Открыть таблицу {1} из выпадающего списка {0}")
-    public BaseSteps openTableFromDropdown(String nameDropdown, String tableName) {
+    public BaseSteps openTableFromDropdown(Dropdown nameDropdown, TableType tableName) {
         getDescription(nameDropdown, tableName).click();
+        waitForPageLoader(tableName);
+        return this;
+    }
+
+    @Step("Ожидание загрузки таблицы {tableName}")
+    public void waitForPageLoader(TableType tableName) {
+        List<String> columns = tableName.getColumns();
+        columns.forEach(column -> assertTrue(waitVisible(getBtnColumnName(column)),
+                "Колонки с именем: \"%s\" не существует".formatted(column)));
+        assertTrue(waitVisible(entryTable.first()), "Таблица не загрузилась - первая строка не видима");
+    }
+
+    @Step("Кликнуть на кнопку {buttonName}")
+    public BaseSteps clickBtn(String buttonName) {
+        List<List<String>> dataBefore = getTableData();
+        getBtnColumnName(buttonName).click();
+        waitForDataChange(dataBefore);
+        return this;
+    }
+
+    @Step("Проверка отображения сортировки по убыванию у кнопки {buttonName}")
+    public BaseSteps verifyColumnNameDesc(String buttonName) {
+        assertTrue(waitVisible(getBtnColumnNameDesc(buttonName)), "Должна быть стрелка вниз");
+        return this;
+    }
+
+    @Step("Проверка отображения сортировки по возрастанию у кнопки {buttonName}")
+    public BaseSteps verifyColumnNameAsc(String buttonName) {
+        assertTrue(waitVisible(getBtnColumnNameAsc(buttonName)), "Должна быть стрелка вверх");
+        return this;
+    }
+
+    @Step("Проверка, что сортировка не активна (нет стрелок)")
+    public BaseSteps verifyNoSortActive() {
+        assertTrue(arrowAsc.isEmpty(), "Найдена стрелка вверх - сортировка по возрастанию активна");
+        assertTrue(arrowDesc.isEmpty(), "Найдена стрелка вниз - сортировка по убыванию активна");
         return this;
     }
 
