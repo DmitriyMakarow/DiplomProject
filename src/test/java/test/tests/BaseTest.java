@@ -1,19 +1,24 @@
 package test.tests;
 
+import api.adapters.BaseAdapter;
+import api.adapters.CarAdapter;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Description;
 import io.qameta.allure.selenide.AllureSelenide;
 import io.qameta.allure.testng.AllureTestNg;
+import net.datafaker.Faker;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
-import test.pages.base.BasePage;
 import test.pages.LoginPage;
+import test.pages.users.AddMoneyPage;
+import test.pages.base.BasePage;
 import test.pages.base.BaseSteps;
+import test.pages.cars.CarsPage;
 import utils.PropertyReader;
 import utils.TestListener;
 
@@ -27,10 +32,15 @@ public class BaseTest {
     protected final String baseUrl = "http://82.142.167.37:4881/#";
     protected final String user = System.getProperty("user", PropertyReader.getProperty("user"));
     protected final String password = System.getProperty("password", PropertyReader.getProperty("password"));
+    public static Faker faker = new Faker();
 
     protected BasePage basePage;
-    protected LoginPage loginPage;
     protected BaseSteps baseSteps;
+    protected LoginPage loginPage;
+    protected AddMoneyPage addMoneyPage;
+    protected CarAdapter carAdapter;
+    protected BaseAdapter baseAdapter;
+    protected CarsPage carsPage;
 
     /**
      * Настройка браузера.
@@ -88,8 +98,12 @@ public class BaseTest {
         context.setAttribute("driver", WebDriverRunner.getWebDriver());
 
         basePage = new BasePage();
-        loginPage = new LoginPage();
         baseSteps = new BaseSteps();
+        loginPage = new LoginPage();
+        addMoneyPage = new AddMoneyPage();
+        carAdapter = new CarAdapter();
+        baseAdapter = new BaseAdapter();
+        carsPage = new CarsPage();
     }
 
     @AfterMethod(alwaysRun = true)

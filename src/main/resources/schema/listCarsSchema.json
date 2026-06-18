@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Generated schema for Root",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "engineType": {
+        "type": "string"
+      },
+      "id": {
+        "type": "number"
+      },
+      "mark": {
+        "type": "string"
+      },
+      "model": {
+        "type": "string"
+      },
+      "price": {
+        "type": "number"
+      }
+    },
+    "required": [
+      "engineType",
+      "id",
+      "mark",
+      "model",
+      "price"
+    ]
+  }
+}
