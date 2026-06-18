@@ -4,6 +4,7 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import enumUI.Dropdown;
 import enumUI.TableType;
+import org.openqa.selenium.devtools.v146.audits.model.SRIMessageSignatureError;
 
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
@@ -37,6 +38,10 @@ public class BaseLocators {
     public static SelenideElement getBtnColumnName(String buttonName) {
         return $x("//div[@aria-label='sort']//button[contains(., '%s')]"
                 .formatted(buttonName));
+    }
+
+    public static SelenideElement getColumnName(String columnName) {
+        return $x("//thead//th[contains(., '%s')]".formatted(columnName));
     }
 
     public static SelenideElement getBtnColumnNameDesc(String buttonName) {

@@ -23,7 +23,6 @@ public enum Dropdown {
      */
     CARS("Cars"),
     READ_ALL_CARS("Read all"),
-    CREATE_NEW_CARS("Create new"),
     BUY_OR_SELL_CAR_CARS("Buy or sell car"),
 
     /**

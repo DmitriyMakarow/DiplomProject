@@ -1,5 +1,6 @@
 package test.tests.ui;
 
+import enumUI.Dropdown;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Issue;
@@ -9,6 +10,9 @@ import org.testng.annotations.Test;
 import test.pages.cars.CarsPage;
 import test.tests.BaseTest;
 import wrappers.Input;
+
+import static enumUI.Dropdown.CARS;
+import static enumUI.TableType.CREATE_NEW_CARS;
 
 @Epic("Автомобили")
 @Feature("Создание автомобиля")
@@ -25,8 +29,8 @@ public class CreateCarTest extends BaseTest {
 
         loginPage.authorization();
         baseSteps
-                .showDropdown("Cars")
-                .openTableFromDropdown("Cars", "Create new");
+                .showDropdown(CARS)
+                .openTableFromDropdown(CARS, CREATE_NEW_CARS);
         new Input("engine_type").fillField("Electric");
         new Input("mark").fillField(mark);
         new Input("model").fillField(model);
@@ -46,8 +50,8 @@ public class CreateCarTest extends BaseTest {
 
         loginPage.authorization();
         baseSteps
-                .showDropdown("Cars")
-                .openTableFromDropdown("Cars", "Create new");
+                .showDropdown(CARS)
+                .openTableFromDropdown(CARS, CREATE_NEW_CARS);
         new Input("engine_type").fillField(engineType);
         new Input("mark").fillField(mark);
         new Input("model").fillField(model);
@@ -66,8 +70,8 @@ public class CreateCarTest extends BaseTest {
 
         loginPage.authorization();
         baseSteps
-                .showDropdown("Cars")
-                .openTableFromDropdown("Cars", "Create new");
+                .showDropdown(CARS)
+                .openTableFromDropdown(CARS, CREATE_NEW_CARS);
         new Input("engine_type").fillField("PHEV");
         new Input("mark").fillField("Porsche");
         new Input("model").fillField("911");

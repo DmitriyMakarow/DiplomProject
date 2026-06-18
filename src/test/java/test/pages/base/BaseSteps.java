@@ -14,23 +14,23 @@ import static test.pages.base.BaseLocators.*;
 public class BaseSteps extends BasePage {
 
     @Step("Раскрыть выпадающий список {0}")
-    public void showDropdown(Dropdown nameDropdown) {
+    public BaseSteps showDropdown(Dropdown nameDropdown) {
         getItemDropdown(nameDropdown).click();
         assertTrue(waitVisible(getDropdown(nameDropdown)), "Выпадающий список у наименования \"%s\" не отображается"
                 .formatted(nameDropdown));
+        return this;
     }
 
     @Step("Открыть таблицу {1} из выпадающего списка {0}")
-    public BaseSteps openTableFromDropdown(Dropdown nameDropdown, TableType tableName) {
+    public void openTableFromDropdown(Dropdown nameDropdown, TableType tableName) {
         getDescription(nameDropdown, tableName).click();
         waitForPageLoader(tableName);
-        return this;
     }
 
     @Step("Ожидание загрузки таблицы {tableName}")
     public void waitForPageLoader(TableType tableName) {
         List<String> columns = tableName.getColumns();
-        columns.forEach(column -> assertTrue(waitVisible(getBtnColumnName(column)),
+        columns.forEach(column -> assertTrue(waitVisible(getColumnName(column)),
                 "Колонки с именем: \"%s\" не существует".formatted(column)));
         assertTrue(waitVisible(entryTable.first()), "Таблица не загрузилась - первая строка не видима");
     }
