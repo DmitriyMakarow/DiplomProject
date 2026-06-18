@@ -3,8 +3,8 @@ package test.pages.base;
 import enumUI.Dropdown;
 import enumUI.TableType;
 import io.qameta.allure.Step;
+import utils.SortUtils;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,37 +95,24 @@ public class BaseSteps extends BasePage {
         List<String> headers = headerTable
                 .texts()
                 .stream()
-                .map(text -> text.replace(":", "").trim())
-                .map(text -> text.replace("\u00A0", " "))
-                .map(text -> text.replaceAll("\\s+", " "))
                 .toList();
 
-        int columnIndex = headers.indexOf(columnName);
-        if (columnIndex == -1) {
-            throw new IllegalArgumentException("Колонка \"%s\" не найдена".formatted(columnName));
-        }
+        int columnIndex = getColumnIndex(columnName, headers);
 
         List<String> actualData = entryTable
                 .stream()
-                .limit(10)
+                .skip(1)
+                .limit(20)
                 .map(row -> row.$$("td").get(columnIndex).getText().trim())
                 .toList();
 
-        List<String> sortedData = new ArrayList<>(actualData);
-
-        if (isNumeric(actualData)) {
-            sortedData.sort((a, b) -> {
-                try {
-                    BigDecimal numA = new BigDecimal(a);
-                    BigDecimal numB = new BigDecimal(b);
-                    return numA.compareTo(numB);
-                } catch (NumberFormatException e) {
-                    return a.compareTo(b);
-                }
-            });
-        } else {
-            sortedData.sort(getStringComparator(true));
+        if (actualData.isEmpty()) {
+            throw new IllegalStateException(
+                    "Нет данных для проверки сортировки в колонке \"%s\"".formatted(columnName));
         }
+
+        List<String> sortedData = new ArrayList<>(actualData);
+        sortedData.sort(SortUtils.getStringComparator(true));
 
         assertEquals(sortedData, actualData,
                 "Колонка \"%s\" не отсортирована по возрастанию".formatted(columnName));
@@ -137,37 +124,24 @@ public class BaseSteps extends BasePage {
         List<String> headers = headerTable
                 .texts()
                 .stream()
-                .map(text -> text.replace(":", "").trim())
-                .map(text -> text.replace("\u00A0", " "))
-                .map(text -> text.replaceAll("\\s+", " "))
                 .toList();
 
-        int columnIndex = headers.indexOf(columnName);
-        if (columnIndex == -1) {
-            throw new IllegalArgumentException("Колонка \"%s\" не найдена".formatted(columnName));
-        }
+        int columnIndex = getColumnIndex(columnName, headers);
 
         List<String> actualData = entryTable
                 .stream()
-                .limit(10)
+                .skip(1)
+                .limit(20)
                 .map(row -> row.$$("td").get(columnIndex).getText().trim())
                 .toList();
 
-        List<String> sortedData = new ArrayList<>(actualData);
-
-        if (isNumeric(actualData)) {
-            sortedData.sort((a, b) -> {
-                try {
-                    BigDecimal numA = new BigDecimal(a);
-                    BigDecimal numB = new BigDecimal(b);
-                    return numB.compareTo(numA);
-                } catch (NumberFormatException e) {
-                    return b.compareTo(a);
-                }
-            });
-        } else {
-            sortedData.sort(getStringComparator(false));
+        if (actualData.isEmpty()) {
+            throw new IllegalStateException(
+                    "Нет данных для проверки сортировки в колонке \"%s\"".formatted(columnName));
         }
+
+        List<String> sortedData = new ArrayList<>(actualData);
+        sortedData.sort(SortUtils.getStringComparator(false));
 
         assertEquals(sortedData, actualData,
                 "Колонка \"%s\" не отсортирована по убыванию".formatted(columnName));

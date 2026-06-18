@@ -14,7 +14,7 @@ public class BaseLocators {
             rootNavbar = $x("//div[@class='me-auto navbar-nav']");
 
     public static ElementsCollection
-            headerTable = $$x("//table//thead//th"),
+            headerTable = $$x("//th"),
             entryTable = $$x("//table//tbody//tr"),
             arrowAsc = $$x("//div[@aria-label='sort']//button[contains(., '↑')]"),
             arrowDesc = $$x("//div[@aria-label='sort']//button[contains(., '↓')]");
