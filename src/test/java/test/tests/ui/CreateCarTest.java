@@ -1,12 +1,12 @@
-package tests.ui;
+package test.tests.ui;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 
-import pages.cars.CarsPage;
-import tests.BaseTest;
+import test.pages.cars.CarsPage;
+import test.tests.BaseTest;
 import wrappers.Input;
 
 @Story("Создание автомобиля")

@@ -1,8 +1,8 @@
-package tests.ui;
+package test.tests.ui;
 
 import io.qameta.allure.*;
 import org.testng.annotations.Test;
-import tests.BaseTest;
+import test.tests.BaseTest;
 
 @Story("Авторизация")
 public class LoginTest extends BaseTest {

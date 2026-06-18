@@ -1,4 +1,4 @@
-package tests;
+package test.tests;
 
 import api.adapters.BaseAdapter;
 import api.adapters.CarAdapter;
@@ -14,10 +14,10 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
-import pages.base.BasePage;
 import pages.LoginPage;
+import test.pages.base.BasePage;
 import pages.base.BaseSteps;
-import pages.cars.CarsPage;
+import test.pages.cars.CarsPage;
 import utils.PropertyReader;
 import utils.TestListener;
 
