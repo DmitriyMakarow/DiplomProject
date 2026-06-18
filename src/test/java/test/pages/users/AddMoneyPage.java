@@ -6,14 +6,13 @@ import io.qameta.allure.Step;
 import test.pages.base.BasePage;
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.*;
-
+import static org.testng.Assert.assertTrue;
 
 public class AddMoneyPage extends BasePage {
     private final SelenideElement
             userId = $x("//*[@id='id_send']"),
-            money = $x("//*[@id='money_send']"),
+            moneyfield = $x("//*[@id='money_send']"),
             pushToApi = $("#root > div > section > div > div > button.tableButton.btn.btn-primary");
-
 
     @Step("Открытие страницы Add Money")
     public AddMoneyPage openPage() {
@@ -24,21 +23,18 @@ public class AddMoneyPage extends BasePage {
     @Step("Добавление денег пользователю")
     public AddMoneyPage addMoneyToUser(int id, int money) {
         userId.setValue(String.valueOf(id));
-        $(this.money).setValue(String.valueOf(money));
-        $(pushToApi).shouldBe(Condition.enabled).click();
+        moneyfield.setValue(String.valueOf(money));
+        pushToApi.shouldBe(Condition.enabled).click();
         return this;
     }
 
     @Step("Валидация добавления денег пользователю")
     public AddMoneyPage validationAddMoneyToUser() {
-        SelenideElement successMessage = $(
-                withText("Status: Successfully pushed, code: 200"));
+        String expectedMessage = "Status: Successfully pushed, code: 200";
+        SelenideElement successMessage = $(withText(expectedMessage));
         boolean isSuccessMessageVisible = super.waitVisible(successMessage, 5);
-        if (isSuccessMessageVisible) {
-            System.out.println("Операция прошла успешно! Сообщение отображается.");
-        } else {
-            throw new AssertionError("Ошибка: Сообщение об успехе не отобразилось на странице.");
-        }
+        assertTrue(isSuccessMessageVisible,
+                "Ошибка: Сообщение '%s' не появилось за отведенное время.".formatted(expectedMessage));
         return this;
     }
 
@@ -46,9 +42,7 @@ public class AddMoneyPage extends BasePage {
     public AddMoneyPage validationNotAddMoneyToUser(String message) {
         SelenideElement errorMessageElement = $(withText(message));
         boolean isMessageVisible = super.waitVisible(errorMessageElement, 5);
-        if (!isMessageVisible) {
-            System.out.println("Ожидаемое сообщение '" + message + "' не появилось.");
-           }
-        return this;
+        assertTrue(isMessageVisible, "Ожидаемое сообщение '" + message + "' не появилось.");
+                return this;
     }
 }
