@@ -3,6 +3,7 @@ package test.pages.base;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import test.tests.BaseTest;
 
 import java.time.Duration;
 import java.util.Arrays;
@@ -10,7 +11,7 @@ import java.util.List;
 
 import static com.codeborne.selenide.Condition.*;
 
-public class BasePage {
+public class BasePage extends BaseTest {
 
     /**
      * Ожидает, что элемент присутствует в DOM (существует). Таймаут: 10 секунд.
@@ -139,14 +140,21 @@ public class BasePage {
         }
     }
 
-    public static int getColumnIndex(String columnName, List<String> headers) {
-        for (int i = 0; i < headers.size(); i++) {
-            String header = headers.get(i);
-            if (header.toLowerCase().contains(columnName.toLowerCase())) {
-                return i;
-            }
+    public boolean waitEqualsText(String expectedText, SelenideElement selenideElement) {
+        try {
+            selenideElement.shouldHave(exactText(expectedText));
+            return true;
+        } catch (AssertionError e) {
+            return false;
         }
-        throw new IllegalArgumentException("Колонка \"%s\" не найдена. Доступные заголовки: %s"
-                .formatted(columnName, headers));
+    }
+
+    public boolean waitContainsText(String expectedText, SelenideElement selenideElement) {
+        try {
+            selenideElement.shouldHave(text(expectedText));
+            return true;
+        } catch (AssertionError e) {
+            return false;
+        }
     }
 }
