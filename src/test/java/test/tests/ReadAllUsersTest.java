@@ -15,7 +15,6 @@ import static enumUI.TableType.READ_ALL_USERS;
 @Epic("Пользователи")
 @Feature("Чтение всех пользователей")
 @Owner("Lazarev G.A")
-
 public class ReadAllUsersTest extends BaseTest {
 
     @BeforeMethod

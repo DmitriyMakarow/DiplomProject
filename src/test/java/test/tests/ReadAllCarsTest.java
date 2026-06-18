@@ -13,7 +13,6 @@ import static enumUI.TableType.READ_ALL_CARS;
 @Epic("Автомобили")
 @Feature("Чтение всех автомобилей")
 @Owner("Lazarev G.A")
-
 public class ReadAllCarsTest extends BaseTest {
 
     @BeforeMethod
