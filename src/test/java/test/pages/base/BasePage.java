@@ -3,13 +3,14 @@ package test.pages.base;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import test.tests.BaseTest;
 
 import java.time.Duration;
 import java.util.Arrays;
 
 import static com.codeborne.selenide.Condition.*;
 
-public class BasePage {
+public class BasePage extends BaseTest {
 
     /**
      * Ожидает, что элемент присутствует в DOM (существует). Таймаут: 10 секунд.
@@ -132,6 +133,24 @@ public class BasePage {
     public boolean waitDisappear(ElementsCollection elements, int duration) {
         try {
             elements.shouldHave(CollectionCondition.size(0), Duration.ofSeconds(duration));
+            return true;
+        } catch (AssertionError e) {
+            return false;
+        }
+    }
+
+    public boolean waitEqualsText(String expectedText, SelenideElement selenideElement) {
+        try {
+            selenideElement.shouldHave(exactText(expectedText));
+            return true;
+        } catch (AssertionError e) {
+            return false;
+        }
+    }
+
+    public boolean waitContainsText(String expectedText, SelenideElement selenideElement) {
+        try {
+            selenideElement.shouldHave(text(expectedText));
             return true;
         } catch (AssertionError e) {
             return false;

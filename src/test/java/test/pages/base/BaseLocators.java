@@ -7,7 +7,10 @@ import static com.codeborne.selenide.Selenide.$x;
 public class BaseLocators {
 
     public static SelenideElement
-    rootNavbar = $x("//div[@class='me-auto navbar-nav']");
+            rootNavbar = $x("//div[@class='me-auto navbar-nav']"),
+            btnPushToApi = $x("//button[contains(text(), 'PUSH')]"),
+            btnStatus = $x("//button[contains(@class, 'status')]"),
+            btnNewIdObject = $x("//button[contains(@class, 'newId')]");
 
     public static SelenideElement getItemDropdown(String itemDropdown) {
         return rootNavbar.$x(".//a[text()='%s']".formatted(itemDropdown));
