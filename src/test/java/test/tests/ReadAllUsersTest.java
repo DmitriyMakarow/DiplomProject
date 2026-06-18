@@ -40,7 +40,6 @@ public class ReadAllUsersTest extends BaseTest {
 
     @Test(dataProvider = "columns")
     @Story("Сортировка пользователей")
-    @Severity(SeverityLevel.CRITICAL)
     @Description("Тест проверяет сортировку по колонке \"{columnName}\"")
     public void checkSorting(String columnName) {
         Allure.parameter("Колонка", columnName);
