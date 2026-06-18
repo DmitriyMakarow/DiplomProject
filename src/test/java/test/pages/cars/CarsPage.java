@@ -3,8 +3,6 @@ package test.pages.cars;
 import org.testng.annotations.DataProvider;
 import test.pages.base.BasePage;
 
-import static com.codeborne.selenide.Selenide.open;
-
 public class CarsPage extends BasePage {
 
     @DataProvider(name = "Тестовые данные для негативных проверок создания автомобиля")
