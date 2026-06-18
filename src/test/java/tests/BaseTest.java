@@ -1,4 +1,4 @@
-package test.tests;
+package tests;
 
 import api.adapters.BaseAdapter;
 import api.adapters.CarAdapter;
@@ -8,13 +8,16 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Description;
 import io.qameta.allure.selenide.AllureSelenide;
 import io.qameta.allure.testng.AllureTestNg;
+import net.datafaker.Faker;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
-import test.pages.base.BasePage;
-import test.pages.LoginPage;
+import pages.base.BasePage;
+import pages.LoginPage;
+import pages.base.BaseSteps;
+import pages.cars.CarsPage;
 import utils.PropertyReader;
 import utils.TestListener;
 
@@ -28,11 +31,14 @@ public class BaseTest {
     protected final String baseUrl = "http://82.142.167.37:4881/#";
     protected final String user = System.getProperty("user", PropertyReader.getProperty("user"));
     protected final String password = System.getProperty("password", PropertyReader.getProperty("password"));
+    public static Faker faker = new Faker();
 
     protected BasePage basePage;
+    protected BaseSteps baseSteps;
     protected LoginPage loginPage;
     protected CarAdapter carAdapter;
     protected BaseAdapter baseAdapter;
+    protected CarsPage carsPage;
 
     /**
      * Настройка браузера.
@@ -90,9 +96,11 @@ public class BaseTest {
         context.setAttribute("driver", WebDriverRunner.getWebDriver());
 
         basePage = new BasePage();
+        baseSteps = new BaseSteps();
         loginPage = new LoginPage();
         carAdapter = new CarAdapter();
         baseAdapter = new BaseAdapter();
+        carsPage = new CarsPage();
     }
 
     @AfterMethod(alwaysRun = true)
