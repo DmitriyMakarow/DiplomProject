@@ -2,14 +2,16 @@ package test.tests;
 
 import api.models.CarRequest;
 import api.models.CarResponse;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import org.testng.annotations.Test;
-import net.datafaker.Faker;
 
 import static org.testng.Assert.assertEquals;
 
+@Epic("Автомобили. API")
+@Feature("Создание автомобиля")
 public class CarApiTest extends BaseTest {
 
-    Faker faker = new Faker();
     private final Integer id = faker.number().numberBetween(1, Integer.MAX_VALUE);
     private final String
             engineType = "Electric",
@@ -25,8 +27,7 @@ public class CarApiTest extends BaseTest {
             .price(price)
             .build();
 
-    @Test(testName = "Проверка создания автомобиля",
-            description = "Проверка создания автомобиля с валидными параметрами")
+    @Test(testName = "Проверка создания автомобиля с валидными параметрами")
     void checkCreateCar() {
         CarResponse carResponse = carAdapter.createApiCar(car);
         Integer idCar = carResponse.id;
@@ -37,8 +38,7 @@ public class CarApiTest extends BaseTest {
         carAdapter.deleteApiCar(idCar);
     }
 
-    @Test(testName = "Проверка редактирования автомобиля",
-            description = "Проверка редактирования автомобиля валидными параметрами")
+    @Test(testName = "Проверка редактирования автомобиля валидными параметрами")
     void checkEditCar() {
         String newEngineType = "Gasoline",
                 newMark = faker.vehicle().manufacturer(),
