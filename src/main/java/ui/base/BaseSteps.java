@@ -1,9 +1,9 @@
-package test.pages.base;
+package ui.base;
 
 import io.qameta.allure.Step;
 
 import static org.testng.Assert.assertTrue;
-import static test.pages.base.BaseLocators.*;
+import static ui.base.BaseLocators.*;
 
 public class BaseSteps extends BasePage {
 

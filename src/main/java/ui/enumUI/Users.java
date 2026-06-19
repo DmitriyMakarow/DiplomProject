@@ -1,4 +1,4 @@
-package enumUI;
+package ui.enumUI;
 
 public enum Users {
     RELOAD("Reload"),

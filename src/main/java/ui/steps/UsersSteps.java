@@ -1,9 +1,9 @@
-package test.pages.users;
+package ui.steps;
 
 import io.qameta.allure.Step;
-import test.pages.base.BaseSteps;
+import ui.base.BaseSteps;
 
-import static test.pages.base.BaseLocators.getBtn;
+import static ui.base.BaseLocators.getBtn;
 
 public class UsersSteps extends BaseSteps {
 

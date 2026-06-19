@@ -1,4 +1,4 @@
-package test.tests;
+package tests;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
@@ -11,8 +11,9 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
-import test.pages.base.BasePage;
-import test.pages.LoginPage;
+import ui.base.BasePage;
+import ui.pages.IssueALoanPage;
+import ui.pages.LoginPage;
 import utils.PropertyReader;
 import utils.TestListener;
 
@@ -29,6 +30,7 @@ public class BaseTest {
 
     protected BasePage basePage;
     protected LoginPage loginPage;
+    protected IssueALoanPage issueALoanPage;
 
     /**
      * Настройка браузера.
@@ -87,6 +89,7 @@ public class BaseTest {
 
         basePage = new BasePage();
         loginPage = new LoginPage();
+        issueALoanPage = new IssueALoanPage();
     }
 
     @AfterMethod(alwaysRun = true)

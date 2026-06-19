@@ -1,4 +1,4 @@
-package test.pages.users;
+package ui.pages;
 
 import static com.codeborne.selenide.Selenide.$x;
 

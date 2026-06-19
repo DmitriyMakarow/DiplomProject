@@ -1,4 +1,4 @@
-package test.pages.base;
+package ui.base;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.ElementsCollection;
@@ -10,6 +10,7 @@ import java.util.Arrays;
 import static com.codeborne.selenide.Condition.*;
 
 public class BasePage {
+
 
     /**
      * Ожидает, что элемент присутствует в DOM (существует). Таймаут: 10 секунд.
