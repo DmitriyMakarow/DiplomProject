@@ -1,10 +1,11 @@
-package test.tests;
+package test.tests.api;
 
 import api.models.CarRequest;
 import api.models.CarResponse;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.testng.annotations.Test;
+import test.tests.BaseTest;
 
 import static org.testng.Assert.assertEquals;
 

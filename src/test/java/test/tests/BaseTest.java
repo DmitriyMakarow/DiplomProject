@@ -2,6 +2,7 @@ package test.tests;
 
 import api.adapters.BaseAdapter;
 import api.adapters.CarAdapter;
+import api.adapters.HouseAdapter;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
@@ -39,8 +40,10 @@ public class BaseTest {
     protected LoginPage loginPage;
     protected AddMoneyPage addMoneyPage;
     protected CarAdapter carAdapter;
+    protected HouseAdapter houseAdapter;
     protected BaseAdapter baseAdapter;
     protected CarsPage carsPage;
+
 
     /**
      * Настройка браузера.
@@ -102,6 +105,7 @@ public class BaseTest {
         loginPage = new LoginPage();
         addMoneyPage = new AddMoneyPage();
         carAdapter = new CarAdapter();
+        houseAdapter = new HouseAdapter();
         baseAdapter = new BaseAdapter();
         carsPage = new CarsPage();
     }
