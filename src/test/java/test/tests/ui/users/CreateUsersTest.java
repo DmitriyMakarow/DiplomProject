@@ -17,8 +17,6 @@ import static io.qameta.allure.Allure.step;
 @Feature("Создание пользователя")
 public class CreateUsersTest extends BaseTest {
 
-    private String status;
-
     UserTestData userTestDataEmpty = UserTestDataFactory.getUserTestData();
 
     @BeforeMethod
