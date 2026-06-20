@@ -19,6 +19,7 @@ import test.pages.users.AddMoneyPage;
 import test.pages.base.BasePage;
 import test.pages.base.BaseSteps;
 import test.pages.cars.CarsPage;
+import test.pages.users.UsersPage;
 import utils.PropertyReader;
 import utils.TestListener;
 
@@ -41,6 +42,7 @@ public class BaseTest {
     protected CarAdapter carAdapter;
     protected BaseAdapter baseAdapter;
     protected CarsPage carsPage;
+    protected UsersPage usersPage;
 
     /**
      * Настройка браузера.
@@ -104,6 +106,7 @@ public class BaseTest {
         carAdapter = new CarAdapter();
         baseAdapter = new BaseAdapter();
         carsPage = new CarsPage();
+        usersPage = new UsersPage();
     }
 
     @AfterMethod(alwaysRun = true)

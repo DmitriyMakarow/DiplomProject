@@ -2,9 +2,9 @@ package test.pages.base;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import enumUI.RadioLabel;
 import enumUI.Dropdown;
 import enumUI.TableType;
-import org.openqa.selenium.devtools.v146.audits.model.SRIMessageSignatureError;
 
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
@@ -52,5 +52,9 @@ public class BaseLocators {
     public static SelenideElement getBtnColumnNameAsc(String buttonName) {
         return $x("//div[@aria-label='sort']//button[contains(., '↑') and contains(., '%s')]"
                 .formatted(buttonName));
+    }
+
+    public static SelenideElement getRadioLabel(RadioLabel radioLabel) {
+        return $x("//input[@value='%s']".formatted(radioLabel));
     }
 }

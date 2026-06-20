@@ -1,6 +1,7 @@
 package test.pages.base;
 
 import enumUI.Dropdown;
+import enumUI.RadioLabel;
 import enumUI.TableType;
 import io.qameta.allure.Step;
 import utils.SortUtils;
@@ -25,6 +26,24 @@ public class BaseSteps extends BasePage {
     public void openTableFromDropdown(Dropdown nameDropdown, TableType tableName) {
         getDescription(nameDropdown, tableName).click();
         waitForPageLoader(tableName);
+    }
+
+    @Step("Выбор радиокнопки {radioLabel}")
+    public BaseSteps selectRadioLabel(RadioLabel radioLabel) {
+        getRadioLabel(radioLabel).click();
+        verifyShouldBeSelected(radioLabel);
+        return this;
+    }
+
+    @Step("Проверка, что радиокнопка {radioLabel} выбрана")
+    public void verifyShouldBeSelected(RadioLabel radioLabel) {
+        assertTrue(getRadioLabel(radioLabel).isSelected(), "Радиокнопка не выбрана");
+    }
+
+    @Step("Проверка, что радиокнопка {radioLabel} не выбрана")
+    public BaseSteps verifyShouldNotBeSelected(RadioLabel radioLabel) {
+        assertFalse(getRadioLabel(radioLabel).isSelected(), "Радиокнопка выбрана");
+        return this;
     }
 
     @Step("Ожидание загрузки таблицы {tableName}")
