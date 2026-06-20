@@ -28,6 +28,7 @@ public enum Dropdown {
     /**
      * Houses
      */
+    HOUSES("Houses"),
     READ_ALL_HOUSES("Read all"),
     READ_ONE_BY_ID("Read one by ID"),
     CREATE_NEW_HOUSES("Create new"),
