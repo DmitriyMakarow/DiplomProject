@@ -8,38 +8,13 @@ import static io.restassured.RestAssured.given;
 
 public class HouseAdapter extends BaseAdapter {
 
-    private static final String AUTH_URL = "http://82.142.167.37:4879";
-    private static final String API_URL = "http://82.142.167.37:4879";
-
-    private String getAuthToken() {
-        return given()
-                .baseUri(AUTH_URL)
-                .contentType("application/json")
-                .body("{\"username\": \"user@pflb.ru\", \"password\": \"user\"}")
-                .log().all()
-                .when()
-                .post("/login")
-                .then()
-                .log().all()
-                .statusCode(202)
-                .extract()
-                .path("access_token");
-    }
-
-    private io.restassured.specification.RequestSpecification getHouseSpec() {
-        String token = getAuthToken();
-        return given()
-                .baseUri(API_URL)
-                .header("Authorization", "Bearer " + token)
-                .contentType("application/json");
-    }
-
     public HouseResponse getHouse(Integer id) {
-        return getHouseSpec()
+        return given()
+                .spec(getSpec())
                 .pathParam("id", id)
                 .log().all()
                 .when()
-                .get("/house/{id}")  // ← БЕЗ /api
+                .get("/house/{id}")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -50,11 +25,10 @@ public class HouseAdapter extends BaseAdapter {
 
     public HouseResponse getHouses() {
         return given()
-                .baseUri(API_URL)
-                .header("Authorization", "Bearer " + getAuthToken())
+                .spec(getSpec())
                 .log().all()
                 .when()
-                .get("/houses")  // ← БЕЗ /api
+                .get("/houses")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -63,11 +37,12 @@ public class HouseAdapter extends BaseAdapter {
     }
 
     public HouseResponse createApiHouse(HouseRequest houseRequest) {
-        return getHouseSpec()
+        return given()
+                .spec(getSpec())
                 .body(gson.toJson(houseRequest))
                 .log().all()
                 .when()
-                .post("/house")  // ← БЕЗ /api
+                .post("/house")
                 .then()
                 .log().all()
                 .statusCode(201)
@@ -77,12 +52,13 @@ public class HouseAdapter extends BaseAdapter {
     }
 
     public HouseResponse putApiHouse(Integer id, HouseRequest houseRequest) {
-        return getHouseSpec()
+        return given()
+                .spec(getSpec())
                 .body(gson.toJson(houseRequest))
                 .pathParam("id", id)
                 .log().all()
                 .when()
-                .put("/house/{id}")  // ← БЕЗ /api
+                .put("/house/{id}")
                 .then()
                 .log().all()
                 .statusCode(202)
@@ -93,14 +69,13 @@ public class HouseAdapter extends BaseAdapter {
 
     public void deleteApiHouse(Integer id) {
         given()
-                .baseUri(API_URL)
-                .header("Authorization", "Bearer " + getAuthToken())
+                .spec(getSpec())
                 .pathParam("id", id)
                 .log().all()
                 .when()
-                .delete("/house/{id}")  // ← БЕЗ /api
+                .delete("/house/{id}")
                 .then()
                 .log().all()
-                .statusCode(204);
+                .spec(code204);
     }
 }

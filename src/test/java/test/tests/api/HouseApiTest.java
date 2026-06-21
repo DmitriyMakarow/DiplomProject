@@ -1,4 +1,4 @@
-package test.tests.api.houses;
+package test.tests.api;
 
 import api.models.HouseRequest;
 import api.models.HouseResponse;
@@ -15,20 +15,17 @@ import static org.testng.Assert.assertEquals;
 @Feature("Создание и редактирование дома")
 public class HouseApiTest extends BaseTest {
 
-    private final Integer id = faker.number().numberBetween(1, Integer.MAX_VALUE);
     private final int floorCount = faker.number().numberBetween(1, 50);
     private final double price = faker.number().numberBetween(100000, 10000000);
     private final int parkingCount = faker.number().numberBetween(1, 10);
 
     HouseRequest.ParkingPlace parkingPlace = HouseRequest.ParkingPlace.builder()
-            .id(0)
             .isWarm(true)
             .isCovered(true)
             .placesCount(parkingCount)
             .build();
 
     HouseRequest house = HouseRequest.builder()
-            .id(id)
             .floorCount(floorCount)
             .price(price)
             .parkingPlaces(Collections.singletonList(parkingPlace))
@@ -38,10 +35,10 @@ public class HouseApiTest extends BaseTest {
     @Test(testName = "Проверка создания дома с валидными параметрами")
     void checkCreateHouse() {
         HouseResponse houseResponse = houseAdapter.createApiHouse(house);
-        Integer idHouse = houseResponse.id;
+        Integer idHouse = houseResponse.getId();
 
-        assertEquals(houseResponse.floorCount, floorCount);
-        assertEquals(houseResponse.price, price);
+        assertEquals(houseResponse.getFloorCount(), floorCount, "Количество этажей не совпадает");
+        assertEquals(houseResponse.getPrice(), price, "Цена не совпадает");
 
         houseAdapter.deleteApiHouse(idHouse);
     }
@@ -55,18 +52,16 @@ public class HouseApiTest extends BaseTest {
 
         // создаём исходный дом
         HouseResponse createdHouse = houseAdapter.createApiHouse(house);
-        Integer idHouse = createdHouse.id;
+        Integer idHouse = createdHouse.getId();
 
-        // формируем запрос на обновление (используем тот же id, но новые данные)
+        // формируем запрос на обновление (id генерируется автоматически)
         HouseRequest.ParkingPlace newParkingPlace = HouseRequest.ParkingPlace.builder()
-                .id(0)
                 .isWarm(false) // меняем значение для проверки
                 .isCovered(true)
                 .placesCount(newParkingCount)
                 .build();
 
         HouseRequest updatedHouse = HouseRequest.builder()
-                .id(idHouse)
                 .floorCount(newFloorCount)
                 .price(newPrice)
                 .parkingPlaces(Collections.singletonList(newParkingPlace))
@@ -77,9 +72,11 @@ public class HouseApiTest extends BaseTest {
         HouseResponse updatedResponse = houseAdapter.putApiHouse(idHouse, updatedHouse);
 
         // проверяем, что данные обновились
-        assertEquals(updatedResponse.floorCount, newFloorCount);
-        assertEquals(updatedResponse.price, newPrice);
-        assertEquals(updatedResponse.parkingPlaces.get(0).getPlacesCount(), newParkingCount);
+        assertEquals(updatedResponse.getFloorCount(), newFloorCount,
+                "Количество этажей не совпадает после обновления");
+        assertEquals(updatedResponse.getPrice(), newPrice, "Цена не совпадает после обновления");
+        assertEquals(updatedResponse.getParkingPlaces().get(0).getPlacesCount(), newParkingCount,
+                "Количество парковочных мест не совпадает после обновления");
 
         // удаляем дом после теста
         houseAdapter.deleteApiHouse(idHouse);
