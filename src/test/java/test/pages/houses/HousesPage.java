@@ -18,10 +18,10 @@ public class HousesPage extends BasePage {
                         "",
                         String.valueOf(faker.number().numberBetween(1, 10))},
 
-                // 3. Пустые Price И Parking (гарантированная ошибка!)
+                // 3. Пустые Price И Parking
                 {String.valueOf(faker.number().numberBetween(1, 50)),
                         "",
-                        ""}  // ← Теперь два пустых поля!
+                        ""}
         };
     }
 }

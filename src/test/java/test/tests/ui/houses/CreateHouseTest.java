@@ -1,4 +1,4 @@
-package test.tests.ui;
+package test.tests.ui.houses;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;

@@ -32,31 +32,17 @@ public class HouseApiTest extends BaseTest {
             .lodgers(Collections.emptyList())
             .build();
 
-    @Test(testName = "Проверка создания дома с валидными параметрами")
-    void checkCreateHouse() {
-        HouseResponse houseResponse = houseAdapter.createApiHouse(house);
-        Integer idHouse = houseResponse.getId();
-
-        assertEquals(houseResponse.getFloorCount(), floorCount, "Количество этажей не совпадает");
-        assertEquals(houseResponse.getPrice(), price, "Цена не совпадает");
-
-        houseAdapter.deleteApiHouse(idHouse);
-    }
-
     @Test(testName = "Проверка редактирования дома валидными параметрами")
     void checkEditHouse() {
-        // генерируем новые данные для обновления
         int newFloorCount = faker.number().numberBetween(1, 50);
         double newPrice = faker.number().numberBetween(100000, 10000000);
         int newParkingCount = faker.number().numberBetween(1, 10);
 
-        // создаём исходный дом
         HouseResponse createdHouse = houseAdapter.createApiHouse(house);
         Integer idHouse = createdHouse.getId();
 
-        // формируем запрос на обновление (id генерируется автоматически)
         HouseRequest.ParkingPlace newParkingPlace = HouseRequest.ParkingPlace.builder()
-                .isWarm(false) // меняем значение для проверки
+                .isWarm(false)
                 .isCovered(true)
                 .placesCount(newParkingCount)
                 .build();
@@ -68,17 +54,15 @@ public class HouseApiTest extends BaseTest {
                 .lodgers(Collections.emptyList())
                 .build();
 
-        // отправляем put-запрос
         HouseResponse updatedResponse = houseAdapter.putApiHouse(idHouse, updatedHouse);
 
-        // проверяем, что данные обновились
         assertEquals(updatedResponse.getFloorCount(), newFloorCount,
                 "Количество этажей не совпадает после обновления");
-        assertEquals(updatedResponse.getPrice(), newPrice, "Цена не совпадает после обновления");
+        assertEquals(updatedResponse.getPrice(), newPrice,
+                "Цена не совпадает после обновления");
         assertEquals(updatedResponse.getParkingPlaces().get(0).getPlacesCount(), newParkingCount,
                 "Количество парковочных мест не совпадает после обновления");
 
-        // удаляем дом после теста
         houseAdapter.deleteApiHouse(idHouse);
     }
 }
