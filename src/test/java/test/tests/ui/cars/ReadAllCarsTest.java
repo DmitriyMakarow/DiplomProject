@@ -1,9 +1,10 @@
-package test.tests;
+package test.tests.ui.cars;
 
 import io.qameta.allure.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import test.tests.BaseTest;
 
 import java.util.List;
 

@@ -1,6 +1,5 @@
-package test.tests.ui;
+package test.tests.ui.cars;
 
-import enumUI.Dropdown;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Issue;
