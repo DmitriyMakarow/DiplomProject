@@ -1,0 +1,81 @@
+package api.adapters;
+
+import api.models.HouseRequest;
+import api.models.HouseResponse;
+import io.restassured.module.jsv.JsonSchemaValidator;
+
+import static io.restassured.RestAssured.given;
+
+public class HouseAdapter extends BaseAdapter {
+
+    public HouseResponse getHouse(Integer id) {
+        return given()
+                .spec(getSpec())
+                .pathParam("id", id)
+                .log().all()
+                .when()
+                .get("/house/{id}")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/houseSchema.json"))
+                .extract()
+                .as(HouseResponse.class);
+    }
+
+    public HouseResponse getHouses() {
+        return given()
+                .spec(getSpec())
+                .log().all()
+                .when()
+                .get("/houses")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .extract()
+                .as(HouseResponse.class);
+    }
+
+    public HouseResponse createApiHouse(HouseRequest houseRequest) {
+        return given()
+                .spec(getSpec())
+                .body(gson.toJson(houseRequest))
+                .log().all()
+                .when()
+                .post("/house")
+                .then()
+                .log().all()
+                .statusCode(201)
+                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/houseSchema.json"))
+                .extract()
+                .as(HouseResponse.class);
+    }
+
+    public HouseResponse putApiHouse(Integer id, HouseRequest houseRequest) {
+        return given()
+                .spec(getSpec())
+                .body(gson.toJson(houseRequest))
+                .pathParam("id", id)
+                .log().all()
+                .when()
+                .put("/house/{id}")
+                .then()
+                .log().all()
+                .statusCode(202)
+                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/houseSchema.json"))
+                .extract()
+                .as(HouseResponse.class);
+    }
+
+    public void deleteApiHouse(Integer id) {
+        given()
+                .spec(getSpec())
+                .pathParam("id", id)
+                .log().all()
+                .when()
+                .delete("/house/{id}")
+                .then()
+                .log().all()
+                .spec(code204);
+    }
+}
