@@ -64,23 +64,23 @@ public class UsersPage extends BasePage {
     @DataProvider(name = "Тестовые данные с некорректными значениями для пользователя")
     public Object[][] invalidUserData() {
         return new Object[][] {
-//                {UserTestData.builder()
-//                        .firstName("John123")
-//                        .lastName("Doe")
-//                        .age("25")
-//                        .money("5000")
-//                        .gender(MALE)
-//                        .description("Имя с цифрами")
-//                        .build()},
-//
-//                {UserTestData.builder()
-//                        .firstName("John")
-//                        .lastName("Doe!@#")
-//                        .age("25")
-//                        .money("5000")
-//                        .gender(FEMALE)
-//                        .description("Фамилия со спецсимволами")
-//                        .build()},
+                {UserTestData.builder()
+                        .firstName("John123")
+                        .lastName("Doe")
+                        .age("25")
+                        .money("5000")
+                        .gender(MALE)
+                        .description("Имя с цифрами")
+                        .build()},
+
+                {UserTestData.builder()
+                        .firstName("John")
+                        .lastName("Doe!@#")
+                        .age("25")
+                        .money("5000")
+                        .gender(FEMALE)
+                        .description("Фамилия со спецсимволами")
+                        .build()},
 
                 {UserTestData.builder()
                         .firstName("John")
@@ -91,14 +91,14 @@ public class UsersPage extends BasePage {
                         .description("Превышение максимального значения на 1 у возраста")
                         .build()},
 
-//                {UserTestData.builder()
-//                        .firstName("John")
-//                        .lastName("Doe")
-//                        .age("-5")
-//                        .money("5000")
-//                        .gender(MALE)
-//                        .description("Отрицательный возраст")
-//                        .build()}
+                {UserTestData.builder()
+                        .firstName("John")
+                        .lastName("Doe")
+                        .age("-5")
+                        .money("5000")
+                        .gender(MALE)
+                        .description("Отрицательный возраст")
+                        .build()}
         };
     }
 
