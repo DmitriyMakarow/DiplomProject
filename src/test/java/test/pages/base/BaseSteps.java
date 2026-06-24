@@ -31,17 +31,17 @@ public class BaseSteps extends BasePage {
     @Step("Выбор радиокнопки {radioLabel}")
     public BaseSteps selectRadioLabel(RadioLabel radioLabel) {
         getRadioLabel(radioLabel).click();
-        verifyShouldBeSelected(radioLabel);
+        verifySelectedRadio(radioLabel);
         return this;
     }
 
     @Step("Проверка, что радиокнопка {radioLabel} выбрана")
-    public void verifyShouldBeSelected(RadioLabel radioLabel) {
+    public void verifySelectedRadio(RadioLabel radioLabel) {
         assertTrue(getRadioLabel(radioLabel).isSelected(), "Радиокнопка не выбрана");
     }
 
     @Step("Проверка, что радиокнопка {radioLabel} не выбрана")
-    public BaseSteps verifyShouldNotBeSelected(RadioLabel radioLabel) {
+    public BaseSteps verifyUnselectedRadio(RadioLabel radioLabel) {
         assertFalse(getRadioLabel(radioLabel).isSelected(), "Радиокнопка выбрана");
         return this;
     }

@@ -33,7 +33,7 @@ public class CreateUsersTest extends BaseTest {
 
         usersPage.addNewUser(userTestDataEmpty);
         baseSteps
-                .verifyShouldNotBeSelected(MALE)
+                .verifyUnselectedRadio(MALE)
                 .selectRadioLabel(MALE)
                 .clickPushToApi()
                 .verifyTextStatus(status)
