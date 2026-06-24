@@ -17,7 +17,7 @@ import static io.qameta.allure.Allure.step;
 @Feature("Создание пользователя")
 public class CreateUsersTest extends BaseTest {
 
-    UserTestData userTestDataEmpty = UserTestDataFactory.getUserTestData();
+    UserTestData validUserData = UserTestDataFactory.getUserTestData();
 
     @BeforeMethod
     public void testData() {
@@ -31,7 +31,7 @@ public class CreateUsersTest extends BaseTest {
     void successCreateUser() {
         final String status = "Status: Successfully pushed, code: 201";
 
-        usersPage.addNewUser(userTestDataEmpty);
+        usersPage.addNewUser(validUserData);
         baseSteps
                 .verifyUnselectedRadio(MALE)
                 .selectRadioLabel(MALE)
@@ -64,7 +64,7 @@ public class CreateUsersTest extends BaseTest {
     @Test(testName = "Создание пользователя с несоответствующими данными",
             dataProvider = "Тестовые данные с некорректными значениями для пользователя",
             dataProviderClass = UsersPage.class)
-    void createCarInvalidData(UserTestData userTestData) {
+    void createUserInvalidData(UserTestData userTestData) {
         final String status = "Status: AxiosError: Request failed with status code 400";
 
         step("Несоответствие данных: \"%s\"".formatted(userTestData.getDescription()), () -> {
