@@ -32,6 +32,17 @@ public class HouseApiTest extends BaseTest {
             .lodgers(Collections.emptyList())
             .build();
 
+    @Test(testName = "Проверка создания дома с валидными параметрами")
+    void checkCreateHouse() {
+        HouseResponse houseResponse = houseAdapter.createApiHouse(house);
+        Integer idHouse = houseResponse.getId();
+
+        assertEquals(houseResponse.getFloorCount(), floorCount, "Количество этажей не совпадает");
+        assertEquals(houseResponse.getPrice(), price, "Цена не совпадает");
+
+        houseAdapter.deleteApiHouse(idHouse);
+    }
+
     @Test(testName = "Проверка редактирования дома валидными параметрами")
     void checkEditHouse() {
         int newFloorCount = faker.number().numberBetween(1, 50);
@@ -56,12 +67,9 @@ public class HouseApiTest extends BaseTest {
 
         HouseResponse updatedResponse = houseAdapter.putApiHouse(idHouse, updatedHouse);
 
-        assertEquals(updatedResponse.getFloorCount(), newFloorCount,
-                "Количество этажей не совпадает после обновления");
-        assertEquals(updatedResponse.getPrice(), newPrice,
-                "Цена не совпадает после обновления");
-        assertEquals(updatedResponse.getParkingPlaces().get(0).getPlacesCount(), newParkingCount,
-                "Количество парковочных мест не совпадает после обновления");
+        assertEquals(updatedResponse.getFloorCount(), newFloorCount, "Количество этажей не совпадает после обновления");
+        assertEquals(updatedResponse.getPrice(), newPrice, "Цена не совпадает после обновления");
+        assertEquals(updatedResponse.getParkingPlaces().get(0).getPlacesCount(), newParkingCount, "Количество парковочных мест не совпадает после обновления");
 
         houseAdapter.deleteApiHouse(idHouse);
     }
