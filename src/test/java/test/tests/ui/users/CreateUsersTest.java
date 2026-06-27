@@ -15,9 +15,10 @@ import static io.qameta.allure.Allure.step;
 
 @Epic("Пользователи")
 @Feature("Создание пользователя")
+@Owner("Lazarev G.A")
 public class CreateUsersTest extends BaseTest {
 
-    UserTestData validUserData = UserTestDataFactory.getUserTestData();
+    UserTestData validUserData = UserTestDataFactory.getUserTestDataUI();
 
     @BeforeMethod
     public void testData() {
@@ -31,7 +32,7 @@ public class CreateUsersTest extends BaseTest {
     void successCreateUser() {
         final String status = "Status: Successfully pushed, code: 201";
 
-        usersPage.addNewUser(validUserData);
+        usersPage.addNewUserUI(validUserData);
         baseSteps
                 .verifyUnselectedRadio(MALE)
                 .selectRadioLabel(MALE)
@@ -42,13 +43,13 @@ public class CreateUsersTest extends BaseTest {
 
     @Story("Создание пользователя с невалидными данными")
     @Test(testName = "Создание пользователя с пустым полем",
-            dataProvider = "Тестовые данные для негативных проверок создания пользователя",
+            dataProvider = "UI. Тестовые данные для негативных проверок создания пользователя",
             dataProviderClass = UsersPage.class)
     void unsuccessCreateUser(UserTestData userTestData) {
         final String status = "Status: Invalid request data";
 
         step("Проверка пустых полей: \"%s\"".formatted(userTestData.getDescription()), () -> {
-            usersPage.addNewUser(userTestData);
+            usersPage.addNewUserUI(userTestData);
             if (userTestData.getGender() != null) {
                 baseSteps.selectRadioLabel(userTestData.getGender());
             }
@@ -62,13 +63,13 @@ public class CreateUsersTest extends BaseTest {
     @Issue("")
     @Story("Создание пользователя с невалидными данными")
     @Test(testName = "Создание пользователя с несоответствующими данными",
-            dataProvider = "Тестовые данные с некорректными значениями для пользователя",
+            dataProvider = "UI. Тестовые данные с некорректными значениями для пользователя",
             dataProviderClass = UsersPage.class)
     void createUserInvalidData(UserTestData userTestData) {
         final String status = "Status: AxiosError: Request failed with status code 400";
 
         step("Несоответствие данных: \"%s\"".formatted(userTestData.getDescription()), () -> {
-            usersPage.addNewUser(userTestData);
+            usersPage.addNewUserUI(userTestData);
             baseSteps
                     .selectRadioLabel(userTestData.getGender())
                     .clickPushToApi()

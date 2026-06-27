@@ -3,6 +3,8 @@ package test.tests;
 import api.adapters.BaseAdapter;
 import api.adapters.CarAdapter;
 import api.adapters.HouseAdapter;
+import api.adapters.UserAdapter;
+import api.models.UserResponse;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
@@ -21,6 +23,7 @@ import test.pages.base.BasePage;
 import test.pages.base.BaseSteps;
 import test.pages.cars.CarsPage;
 import test.pages.users.UsersPage;
+import test.pages.users.UsersSteps;
 import utils.PropertyReader;
 import utils.TestListener;
 
@@ -42,9 +45,11 @@ public class BaseTest {
     protected AddMoneyPage addMoneyPage;
     protected CarAdapter carAdapter;
     protected HouseAdapter houseAdapter;
+    protected UserAdapter userAdapter;
     protected BaseAdapter baseAdapter;
     protected CarsPage carsPage;
     protected UsersPage usersPage;
+    protected UsersSteps usersSteps;
 
 
     /**
@@ -111,6 +116,8 @@ public class BaseTest {
         baseAdapter = new BaseAdapter();
         carsPage = new CarsPage();
         usersPage = new UsersPage();
+        userAdapter = new UserAdapter();
+        usersSteps = new UsersSteps();
     }
 
     @AfterMethod(alwaysRun = true)
