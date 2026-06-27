@@ -8,7 +8,6 @@ import io.restassured.response.Response;
 
 import java.util.List;
 
-import static api.adapters.BaseAdapter.getSpec;
 import static io.restassured.RestAssured.given;
 
 public class UserAdapter extends BaseAdapter {
@@ -71,7 +70,6 @@ public class UserAdapter extends BaseAdapter {
                 .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/userSchema.json"))
                 .extract()
                 .as(UserResponse.class);
-        return userAfter;
     }
 
     public List<UserResponse> getUsers() {
@@ -100,6 +98,22 @@ public class UserAdapter extends BaseAdapter {
                 .then()
                 .log().all()
                 .spec(code204);
+    }
+
+    public UserResponse postUserMoney(Integer id, Integer amount) {
+        return given()
+                .spec(getSpec())
+                .pathParam("id", id)
+                .pathParam("amount", amount)
+                .log().all()
+                .when()
+                .post("/user/{id}/money/{amount}")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/userSchema.json"))
+                .extract()
+                .as(UserResponse.class);
     }
 }
 
