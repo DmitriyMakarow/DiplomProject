@@ -1,12 +1,13 @@
-package test.tests;
+package test.tests.ui;
 
 import org.testng.annotations.Test;
+import test.tests.BaseTest;
 
-public class AddMoneyTest extends BaseTest{
+public class AddMoneyTest extends BaseTest {
     @Test(testName = "Добавление денег  существующему пользователю", description = "Проверка корректности зачисления " +
             "денежных средств на баланс существующего пользователя через интерфейс")
-        public void addMoneyPositiveTest() {
-    loginPage
+    public void addMoneyPositiveTest() {
+        loginPage
                 .authorization(user, password)
                 .verifySuccessAuthorization();
         addMoneyPage
