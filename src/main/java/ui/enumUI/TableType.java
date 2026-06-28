@@ -1,4 +1,4 @@
-package ui.enumUI;
+package enumUI;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
