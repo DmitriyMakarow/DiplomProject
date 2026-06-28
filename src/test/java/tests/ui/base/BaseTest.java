@@ -69,6 +69,9 @@ public class BaseTest {
         chromeOptions.addArguments("--start-maximized");
         chromeOptions.addArguments("--disable-notifications");
         chromeOptions.addArguments("--disable-infobars");
+        chromeOptions.addArguments("--no-sandbox");
+        chromeOptions.addArguments("--disable-dev-shm-usage");
+        chromeOptions.addArguments("--disable-gpu");
 
         HashMap<String, Object> prefs = new HashMap<>();
         prefs.put("credentials_enable_service", false);
@@ -84,6 +87,9 @@ public class BaseTest {
                 Configuration.browser = "firefox";
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
                 firefoxOptions.addArguments("-private");
+                firefoxOptions.addArguments("--no-sandbox");
+                firefoxOptions.addArguments("--disable-dev-shm-usage");
+                firefoxOptions.addArguments("--disable-gpu");
                 Configuration.browserCapabilities = firefoxOptions;
                 break;
             case "EDGE":
@@ -91,6 +97,9 @@ public class BaseTest {
                 EdgeOptions edgeOptions = new EdgeOptions();
                 edgeOptions.addArguments("-inprivate");
                 edgeOptions.addArguments("--disable-notifications");
+                edgeOptions.addArguments("--no-sandbox");
+                edgeOptions.addArguments("--disable-dev-shm-usage");
+                edgeOptions.addArguments("--disable-gpu");
                 Configuration.browserCapabilities = edgeOptions;
                 break;
             default:
