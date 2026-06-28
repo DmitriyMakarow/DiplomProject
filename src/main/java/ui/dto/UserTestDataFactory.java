@@ -1,5 +1,7 @@
 package ui.dto;
 
+import api.models.UserRequest;
+
 import static java.lang.String.valueOf;
 import static ui.pages.base.BasePage.faker;
 

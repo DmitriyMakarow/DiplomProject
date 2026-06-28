@@ -1,10 +1,9 @@
-package test.tests;
+package tests.ui.base;
 
 import api.adapters.BaseAdapter;
 import api.adapters.CarAdapter;
 import api.adapters.HouseAdapter;
 import api.adapters.UserAdapter;
-import api.models.UserResponse;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
@@ -23,6 +22,7 @@ import ui.pages.cars.CarsPage;
 import ui.pages.users.IssueALoanPage;
 import ui.pages.users.UsersPage;
 import ui.steps.BaseSteps;
+import ui.steps.UsersSteps;
 import utils.PropertyReader;
 import utils.TestListener;
 

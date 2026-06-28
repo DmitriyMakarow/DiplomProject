@@ -1,9 +1,9 @@
-package test.tests.api;
+package tests.api.users;
 
 import api.models.InvalidUserRequest;
 import api.models.UserRequest;
 import api.models.UserResponse;
-import dto.UserTestDataFactory;
+import ui.dto.UserTestDataFactory;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Issue;
@@ -12,15 +12,15 @@ import io.restassured.response.Response;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import test.pages.users.UsersPage;
-import test.tests.BaseTest;
+import tests.ui.base.BaseTest;
+import ui.pages.users.UsersPage;
 
 import static io.qameta.allure.Allure.step;
 
 @Epic("Пользователи. API")
 @Feature("Создание пользователя")
 @Owner("Lazarev G.A")
-public class CreateUserApiTest extends BaseTest {
+public class CreateUserApiTest extends BaseTest{
 
     private UserResponse userResponse;
     private UserRequest userRequest;

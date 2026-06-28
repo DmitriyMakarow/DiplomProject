@@ -21,7 +21,7 @@ import static ui.pages.base.BasePage.faker;
 @Epic("Пользователи")
 @Story("Запрос кредита")
 public class IssueALoanTest extends BaseTest {
-    UserTestData validUserData = UserTestDataFactory.getUserTestData();
+    UserTestData validUserData = UserTestDataFactory.getUserTestDataUI();
 
     private final String
             userIDValue = valueOf(faker.number().randomDigit()),
@@ -47,7 +47,7 @@ public class IssueALoanTest extends BaseTest {
         baseSteps
                 .showDropdown(USERS)
                 .openTableFromDropdown(USERS, CREATE_NEW_USER);
-        usersPage.addNewUser(validUserData);
+        usersPage.addNewUserUI(validUserData);
         baseSteps
                 .verifyUnselectedRadio(MALE)
                 .selectRadioLabel(MALE)
