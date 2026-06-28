@@ -5,75 +5,86 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Story;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import tests.ui.base.BaseTest;
-
-import java.math.BigDecimal;
+import ui.dto.UserTestData;
+import ui.dto.UserTestDataFactory;
+import ui.pages.users.IssueALoanPage;
 
 import static java.lang.String.valueOf;
 import static ui.enumUI.Dropdown.USERS;
+import static ui.enumUI.RadioLabel.MALE;
+import static ui.enumUI.TableType.CREATE_NEW_USER;
 import static ui.enumUI.TableType.ISSUE_A_LOAN;
 import static ui.pages.base.BasePage.faker;
 
 @Epic("Пользователи")
 @Story("Запрос кредита")
 public class IssueALoanTest extends BaseTest {
+    UserTestData validUserData = UserTestDataFactory.getUserTestData();
 
-    String userIDValue = valueOf(faker.number().randomDigit());
-    String loanSizeValue = valueOf(faker.number().randomDigit());
-    String id = "id_send";
-    String money = "money_send";
+    private final String
+            userIDValue = valueOf(faker.number().randomDigit()),
+            loanSizeValue = valueOf(faker.number().randomDigit());
 
-    @BeforeMethod
+    @BeforeMethod(onlyForGroups = {"noUser"})
     public void precondition() {
         loginPage
                 .authorization();
         baseSteps
                 .showDropdown(USERS)
                 .openTableFromDropdown(USERS, ISSUE_A_LOAN);
+        issueALoanPage.verifyOpenIssueALoanPage();
     }
 
-    @Test(testName = "Проверка запроса кредита с валидными данными")
+    @Test(testName = "Проверка запроса кредита с валидными данными", groups = {"needUser"})
     @Description("Проверка запроса кредита с валидными данными")
     @Owner("Makarov D.A.")
     public void checkRequestALoanWithPositiveData() {
         final String status = "Status: Successfully pushed, code: 200";
 
+        loginPage.authorization();
+        baseSteps
+                .showDropdown(USERS)
+                .openTableFromDropdown(USERS, CREATE_NEW_USER);
+        usersPage.addNewUser(validUserData);
+        baseSteps
+                .verifyUnselectedRadio(MALE)
+                .selectRadioLabel(MALE)
+                .clickPushToApi()
+                .verifyGetIdObject("New user ID:");
+        String idUser = baseSteps.getNewObjectId();
+        System.out.println("Получен ID пользователя: " + idUser);
+        baseSteps
+                .showDropdown(USERS)
+                .openTableFromDropdown(USERS, ISSUE_A_LOAN);
+        issueALoanPage.verifyOpenIssueALoanPage();
         issueALoanPage
-                .fillingFieldText("13538", "100000")
+                .fillingFieldText(idUser, "100000")
                 .clickRequestALoanbtn()
                 .verifySuccessfulMessage(status);
     }
 
-    @Test(testName = "Проверка ввода значений в поля с валидными данными")
+    @Test(testName = "Проверка ввода значений в поля с валидными данными",
+            groups = {"noUser"})
     @Description("Проверка ввода значений в поля и изменение значений с помощью степперов")
     @Owner("Makarov D.A.")
     public void checkingInputOfValuesIntoField() {
-        issueALoanPage
-                .verifyOpenIssueALoanPage()
-                .checkSteppers(id, userIDValue, money, loanSizeValue,
-                        new BigDecimal("1"), new BigDecimal("0.01"));
+        final String
+                id = "id_send",
+                money = "money_send";
+        issueALoanPage.fillingFieldText(userIDValue, loanSizeValue);
+        baseSteps
+                .stepperUp(id, 5, 5.0)
+                .stepperDown(id, 2, 2.0)
+                .stepperUp(money, 10, 0.10)
+                .stepperDown(money, 7, 0.07);
     }
 
-    @DataProvider(name = "Тестовые данные для негативных проверок получения кредита")
-    public Object[][] loanData() {
-        return new Object[][]{
-                {"", "", "Status: Incorrect input data"},
-                {"13538", "", "Status: Incorrect input data"},
-                {"", "10000", "Status: Incorrect input data"},
-                {"test", "test", "Status: Incorrect input data"},
-                {"test", "10000", "Status: Incorrect input data"},
-                {"13538", "test", "Status: Incorrect input data"},
-                {"-1", "-1", "Status: Incorrect input data"},
-                {"13538", "-1", "Status: Incorrect input data"},
-                {"-1", "10000", "Status: Incorrect input data"},
-                {"99999", "10000", "Status: AxiosError: Request failed with status code 404"}
-        };
-    }
-
-    @Test(dataProvider = "Тестовые данные для негативных проверок получения кредита",
-            testName = "Проверка запроса кредита с негативными данными")
+    @Test(testName = "Проверка запроса кредита с негативными данными",
+            groups = {"noUser"},
+            dataProvider = "Тестовые данные для негативных проверок получения кредита",
+            dataProviderClass = IssueALoanPage.class)
     @Description("Проверка запроса кредита с негативными данными")
     @Owner("Makarov D.A.")
     public void checkRequestALoanWithNegativeData(String userID, String amount, String errorMessage) {

@@ -1,5 +1,6 @@
 package ui.steps;
 
+import org.openqa.selenium.Keys;
 import ui.enumUI.Dropdown;
 import ui.enumUI.RadioLabel;
 import ui.enumUI.TableType;
@@ -9,6 +10,7 @@ import utils.SortUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.testng.Assert.*;
 import static ui.locators.BaseLocators.*;
@@ -33,6 +35,54 @@ public class BaseSteps extends BasePage {
     public BaseSteps selectRadioLabel(RadioLabel radioLabel) {
         getRadioLabel(radioLabel).click();
         verifySelectedRadio(radioLabel);
+        return this;
+    }
+
+    @Step("Увеличение значения в поле c id: \"{elementID}\" на {count} раз(а)")
+    public BaseSteps stepperUp(String elementID, int count, double expectedIncrease) {
+        double initialValue = Double.parseDouble(Objects.requireNonNull(getInputField(elementID)
+                .getValue()).replace(",", "."));
+
+        getInputField(elementID).hover();
+        for (int i = 0; i < count; i++) {
+            getInputField(elementID).sendKeys(Keys.ARROW_UP);
+        }
+
+        double currentValue = Double.parseDouble(Objects.requireNonNull(getInputField(elementID)
+                .getValue()).replace(",", "."));
+        double actualIncrease = currentValue - initialValue;
+
+        assertEquals(actualIncrease, expectedIncrease, 0.001,
+                """
+                Значение не увеличилось на %s
+                Ожидаемый результат: %s
+                Фактический результат: %s
+                """.formatted(expectedIncrease, expectedIncrease, actualIncrease));
+
+        return this;
+    }
+
+    @Step("Уменьшение значения в поле с id: \"{elementID}\" на {count} раз(а)")
+    public BaseSteps stepperDown(String elementID, int count, double expectedDecrease) {
+        double initialValue = Double.parseDouble(Objects.requireNonNull(getInputField(elementID)
+                .getValue()).replace(",", "."));
+
+        getInputField(elementID).hover();
+        for (int i = 0; i < count; i++) {
+            getInputField(elementID).sendKeys(Keys.ARROW_DOWN);
+        }
+
+        double currentValue = Double.parseDouble(Objects.requireNonNull(getInputField(elementID)
+                .getValue()).replace(",", "."));
+        double actualDecrease = initialValue - currentValue;
+
+        assertEquals(actualDecrease, expectedDecrease, 0.001,
+                """
+                Значение не уменьшилось на %s
+                Ожидаемый результат: %s
+                Фактический результат: %s
+                """.formatted(expectedDecrease, expectedDecrease, actualDecrease));
+
         return this;
     }
 
@@ -194,6 +244,12 @@ public class BaseSteps extends BasePage {
                         Ожидаемый результат: %s
                         Фактический результат: %s""".formatted(expectedStatus, btnStatus.getText()));
         return this;
+    }
+
+    @Step("Получение ID из текста нового объекта")
+    public String getNewObjectId() {
+        String fullText = btnNewIdObject.getText();
+        return fullText.replaceAll("\\D+", "");
     }
 
     @Step("Проверка получения id нового объекта")
