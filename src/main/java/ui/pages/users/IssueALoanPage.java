@@ -1,98 +1,122 @@
 package ui.pages.users;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.Keys;
-import org.testng.Assert;
 import ui.pages.base.BasePage;
 import ui.wrappers.Input;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selectors.withText;
-import static com.codeborne.selenide.Selenide.*;
+import java.math.BigDecimal;
+
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$x;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+import static ui.locators.BaseLocators.btnStatus;
+import static ui.locators.BaseLocators.getInputField;
 
 @Log4j2
 public class IssueALoanPage extends BasePage {
 
     private final String userID = "id_send";
-    private final String loanSize = "money_send";
-    private final String requestALoanBtn = "//button[contains(@class, 'tableButton btn btn-primary')]";
-    private final String message = "//button[contains(@class, 'status btn btn-secondary')]";
+    private final String loanSizeID = "money_send";
+    private final SelenideElement requestALoanBtn = $x("//button[contains(@Class, " +
+            "'tableButton btn btn-primary')]");
 
-    public IssueALoanPage openPage() {
-        log.info("Issue a loan page opening");
-        open("/update/Issue_A_Loan");
-        return this;
-    }
-
+    @Step("Open Issue a loan page verifying")
     public IssueALoanPage verifyOpenIssueALoanPage() {
         log.info("Open Issue a loan page verifying");
-        $x(requestALoanBtn).shouldBe(Condition.visible);
+        assertTrue(waitVisible(requestALoanBtn, 5), "Страница не загрузилась за отведенное время");
         return this;
     }
 
-    public IssueALoanPage fillingFieldNumbers(Integer userIDValue, Integer loanSizeValue) {
-        new Input(userID).fillFieldNumber(userIDValue);
-        new Input(loanSize).fillFieldNumber(loanSizeValue);
-        return this;
-    }
-
+    @Step("Заполнение полей 'User ID' значением '{userIDText}' и 'Размер кредита' значением '{loanSizeText}'")
     public IssueALoanPage fillingFieldText(String userIDText, String loanSizeText) {
         new Input(userID).fillField(userIDText);
-        new Input(loanSize).fillField(loanSizeText);
+        new Input(loanSizeID).fillField(loanSizeText);
         return this;
     }
 
+    @Step("Увеличение значения в поле c id: '{elementID}'")
     public IssueALoanPage stepperUp(String elementID) {
         log.info("Increase value in '{}'", elementID);
-        $(String.format("%s", elementID)).click();
-        $(String.format("%s", elementID)).sendKeys(Keys.ARROW_UP);
+        getInputField(elementID).click();
+        getInputField(elementID).sendKeys(Keys.ARROW_UP);
         return this;
     }
 
+    @Step("Уменьшение значения в поле с id: '{elementID}'")
     public IssueALoanPage stepperDown(String elementID) {
         log.info("Decreasing value in '{}'", elementID);
-        $(String.format("%s", elementID)).click();
-        $(String.format("%s", elementID)).sendKeys(Keys.ARROW_DOWN);
+        getInputField(elementID).click();
+        getInputField(elementID).sendKeys(Keys.ARROW_DOWN);
         return this;
     }
 
+    @Step("Нажатие на кнопку 'Запросить кредит'")
     public IssueALoanPage clickRequestALoanbtn() {
         log.info("Clicking request a loan button");
-        $x(requestALoanBtn).shouldBe(visible).click();
+        verifyOpenIssueALoanPage();
+        requestALoanBtn.click();
         return this;
     }
 
-    public IssueALoanPage verifySuccessfulMessage(String userID) {
+    @Step("Проверка сообщения о статусе запроса")
+    public IssueALoanPage verifySuccessfulMessage(String expectedStatus) {
         log.info("Waiting for and verifying successful message");
-        String expectedMessage = "Status: Successfully pushed, code: 200";
-        SelenideElement successMessage = $(withText(expectedMessage));
-        boolean isSuccessMessageVisible = super.waitVisible(successMessage, 120);
-        Assert.assertTrue(isSuccessMessageVisible,
-                "Ошибка: Сообщение '%s' не появилось за отведенное время.".formatted(expectedMessage));
+        assertTrue(waitVisible(btnStatus), "Кнопка статуса не отображается");
+        assertTrue(waitEqualsTextWithTimeout(expectedStatus, btnStatus, 120),
+                """
+                        Сообщение о статусе не соответствует
+                        Ожидаемый результат: %s
+                        Фактический результат: %s""".formatted(expectedStatus, btnStatus.getText()));
         return this;
     }
 
+    @Step("Проверка увеличения значения в поле {elementID} на {increment}")
+    private void checkStepperUp(String elementID, BigDecimal initialValue, BigDecimal increment) {
+        log.info("Initial value of '{}' is {}", elementID, initialValue);
+        BigDecimal expectedValue = initialValue.add(increment);
+        stepperUp(elementID);
+        assertInputValueIs(elementID, expectedValue);
+        log.info("Verified that after stepperUp the value became {}", expectedValue);
+    }
 
-    public IssueALoanPage verifyErrorMessage(String expectedErrorMessage) {
-        log.info("Waiting for and verifying error message");
-        $x(message).shouldHave(text(expectedErrorMessage));
+    @Step("Проверка уменьшения значения в поле {elementID} на {decrement}")
+    private void checkStepperDown(String elementID, BigDecimal initialValue, BigDecimal decrement) {
+        log.info("Initial value of '{}' is {}", elementID, initialValue);
+        BigDecimal expectedValue = initialValue.subtract(decrement);
+        stepperDown(elementID);
+        assertInputValueIs(elementID, expectedValue);
+        log.info("Verified that after stepperDown the value became {}", expectedValue);
+    }
+
+    @Step("Комплексная проверка параметров в полях User ID и Размер кредита")
+    public IssueALoanPage checkSteppers(
+            String userIDField,
+            String userIDValue,
+            String loanSizeField,
+            String loanSizeValue,
+            BigDecimal userIDIncrement,
+            BigDecimal loanSizeIncrement) {
+        log.info("Starting comprehensive check for UserID and LoanSize steppers");
+        fillingFieldText(userIDValue, loanSizeValue);
+        checkStepperUp(userIDField, new BigDecimal(userIDValue), userIDIncrement);
+        checkStepperDown(userIDField, new BigDecimal(userIDValue).add(userIDIncrement), userIDIncrement);
+        checkStepperUp(loanSizeField, new BigDecimal(loanSizeValue), loanSizeIncrement);
+        checkStepperDown(loanSizeField, new BigDecimal(loanSizeValue).add(loanSizeIncrement), loanSizeIncrement);
         return this;
     }
 
-    public IssueALoanPage checkSteppers(Integer userIDValue, Integer loanSizeValue, String userIDField,
-                                        String loanSizeField) {
-        fillingFieldNumbers(userIDValue, loanSizeValue);
-        stepperUp(userIDField);
-        stepperUp(loanSizeField);
-        $(userIDField).shouldHave(Condition.value(String.valueOf(userIDValue + 1)));
-        $(loanSizeField).shouldHave(Condition.value(String.valueOf(loanSizeValue + 0.01)));
-        stepperDown(userIDField);
-        stepperDown(loanSizeField);
-        $(userIDField).shouldHave(Condition.value(String.valueOf(userIDValue)));
-        $(loanSizeField).shouldHave(Condition.value(String.valueOf(loanSizeValue)));
-        return this;
+    @Step("Извлечение строки из UI, преобразование её в число и сравнение с ожидаемым числом.")
+    private void assertInputValueIs(String elementID, BigDecimal expectedValue) {
+        String actualValueAsString = $("#%s".formatted(elementID)).getValue();
+        BigDecimal actualValueAsNumber = new BigDecimal(actualValueAsString.isEmpty() ? "0" : actualValueAsString);
+        assertEquals(
+                Double.valueOf(actualValueAsNumber.doubleValue()),
+                Double.valueOf(expectedValue.doubleValue()),
+                "Значения в поле '" + elementID + "' не совпадают"
+        );
     }
 }

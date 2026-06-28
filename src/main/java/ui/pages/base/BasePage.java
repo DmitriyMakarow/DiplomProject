@@ -15,6 +15,17 @@ public class BasePage {
 
     public static Faker faker = new Faker();
 
+    public static int getColumnIndex(String columnName, List<String> headers) {
+        for (int i = 0; i < headers.size(); i++) {
+            String header = headers.get(i);
+            if (header.toLowerCase().contains(columnName.toLowerCase())) {
+                return i;
+            }
+        }
+        throw new IllegalArgumentException("Колонка \"%s\" не найдена. Доступные заголовки: %s"
+                .formatted(columnName, headers));
+    }
+
     /**
      * Ожидает, что элемент присутствует в DOM (существует). Таймаут: 10 секунд.
      */
@@ -160,14 +171,12 @@ public class BasePage {
         }
     }
 
-    public static int getColumnIndex(String columnName, List<String> headers) {
-        for (int i = 0; i < headers.size(); i++) {
-            String header = headers.get(i);
-            if (header.toLowerCase().contains(columnName.toLowerCase())) {
-                return i;
-            }
+    public boolean waitEqualsTextWithTimeout(String expectedText, SelenideElement selenideElement, int timeoutSeconds) {
+        try {
+            selenideElement.shouldHave(exactText(expectedText), Duration.ofSeconds(timeoutSeconds));
+            return true;
+        } catch (AssertionError e) {
+            return false;
         }
-        throw new IllegalArgumentException("Колонка \"%s\" не найдена. Доступные заголовки: %s"
-                .formatted(columnName, headers));
     }
 }

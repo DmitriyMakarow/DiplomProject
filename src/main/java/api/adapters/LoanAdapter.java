@@ -13,7 +13,7 @@ public class LoanAdapter extends BaseAdapter {
                 .config(config)
                 .log().all()
                 .when()
-                .post(String.format("/user/%s/loan/%s", id, amount))
+                .post("/user/%s/loan/%s".formatted(id, amount))
                 .then()
                 .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/loanSchema.json"))
                 .log().all()

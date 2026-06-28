@@ -3,7 +3,6 @@ package ui.dto;
 import static java.lang.String.valueOf;
 import static ui.pages.base.BasePage.faker;
 
-
 public class UserTestDataFactory {
 
     public static UserTestData getUserTestData() {

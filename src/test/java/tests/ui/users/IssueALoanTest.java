@@ -4,9 +4,14 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Story;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import tests.ui.base.BaseTest;
+
+import java.math.BigDecimal;
+
+import static java.lang.String.valueOf;
 import static ui.enumUI.Dropdown.USERS;
 import static ui.enumUI.TableType.ISSUE_A_LOAN;
 import static ui.pages.base.BasePage.faker;
@@ -15,38 +20,40 @@ import static ui.pages.base.BasePage.faker;
 @Story("Запрос кредита")
 public class IssueALoanTest extends BaseTest {
 
-    Integer userIDValue = faker.number().randomDigit();
-    Integer loanSizeValue = faker.number().randomDigit();
-    String userIDField = "#id_send";
-    String loanSizeField = "#money_send";
+    String userIDValue = valueOf(faker.number().randomDigit());
+    String loanSizeValue = valueOf(faker.number().randomDigit());
+    String id = "id_send";
+    String money = "money_send";
 
-    @Test(testName = "Проверка запроса кредита с валидными данными")
-    @Description("Проверка запроса кредита с валидными данными")
-    @Owner("Makarov D.A.")
-    public void checkRequestALoanWithPositiveData() {
+    @BeforeMethod
+    public void precondition() {
         loginPage
                 .authorization();
         baseSteps
                 .showDropdown(USERS)
                 .openTableFromDropdown(USERS, ISSUE_A_LOAN);
+    }
+
+    @Test(testName = "Проверка запроса кредита с валидными данными")
+    @Description("Проверка запроса кредита с валидными данными")
+    @Owner("Makarov D.A.")
+    public void checkRequestALoanWithPositiveData() {
+        final String status = "Status: Successfully pushed, code: 200";
+
         issueALoanPage
-                .fillingFieldNumbers(13538, 100000)
+                .fillingFieldText("13538", "100000")
                 .clickRequestALoanbtn()
-                .verifySuccessfulMessage("13538");
+                .verifySuccessfulMessage(status);
     }
 
     @Test(testName = "Проверка ввода значений в поля с валидными данными")
     @Description("Проверка ввода значений в поля и изменение значений с помощью степперов")
     @Owner("Makarov D.A.")
     public void checkingInputOfValuesIntoField() {
-        loginPage
-                .authorization();
-        baseSteps
-                .showDropdown(USERS)
-                .openTableFromDropdown(USERS, ISSUE_A_LOAN);
         issueALoanPage
                 .verifyOpenIssueALoanPage()
-                .checkSteppers(userIDValue, loanSizeValue, userIDField, loanSizeField);
+                .checkSteppers(id, userIDValue, money, loanSizeValue,
+                        new BigDecimal("1"), new BigDecimal("0.01"));
     }
 
     @DataProvider(name = "Тестовые данные для негативных проверок получения кредита")
@@ -70,15 +77,10 @@ public class IssueALoanTest extends BaseTest {
     @Description("Проверка запроса кредита с негативными данными")
     @Owner("Makarov D.A.")
     public void checkRequestALoanWithNegativeData(String userID, String amount, String errorMessage) {
-        loginPage
-                .authorization();
-        baseSteps
-                .showDropdown(USERS)
-                .openTableFromDropdown(USERS, ISSUE_A_LOAN);
         issueALoanPage
                 .verifyOpenIssueALoanPage()
                 .fillingFieldText(userID, amount)
                 .clickRequestALoanbtn();
-        issueALoanPage.verifyErrorMessage(errorMessage);
+        issueALoanPage.verifySuccessfulMessage(errorMessage);
     }
 }

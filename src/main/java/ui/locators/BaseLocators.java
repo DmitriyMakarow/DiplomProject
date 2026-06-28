@@ -57,4 +57,8 @@ public class BaseLocators {
     public static SelenideElement getRadioLabel(RadioLabel radioLabel) {
         return $x("//input[@value='%s']".formatted(radioLabel));
     }
+
+    public static SelenideElement getInputField(String input) {
+        return $x("//input[contains(@id, '%s')]".formatted(input));
+    }
 }
