@@ -3,6 +3,7 @@ package tests.ui.base;
 import api.adapters.BaseAdapter;
 import api.adapters.CarAdapter;
 import api.adapters.HouseAdapter;
+import api.adapters.UserAdapter;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
@@ -22,6 +23,7 @@ import ui.pages.cars.CarsPage;
 import ui.pages.users.IssueALoanPage;
 import ui.pages.users.UsersPage;
 import ui.steps.BaseSteps;
+import ui.steps.UsersSteps;
 import utils.PropertyReader;
 import utils.TestListener;
 
@@ -42,11 +44,13 @@ public class BaseTest {
     protected AddMoneyPage addMoneyPage;
     protected CarAdapter carAdapter;
     protected HouseAdapter houseAdapter;
+    protected UserAdapter userAdapter;
     protected BaseAdapter baseAdapter;
     protected CarsPage carsPage;
     protected UsersPage usersPage;
     protected IssueALoanPage issueALoanPage;
     protected AllPostPage allPostPage;
+    protected UsersSteps usersSteps;
 
     /**
      * Настройка браузера.
@@ -112,6 +116,8 @@ public class BaseTest {
         baseAdapter = new BaseAdapter();
         carsPage = new CarsPage();
         usersPage = new UsersPage();
+        userAdapter = new UserAdapter();
+        usersSteps = new UsersSteps();
         issueALoanPage = new IssueALoanPage();
         allPostPage = new AllPostPage();
     }
