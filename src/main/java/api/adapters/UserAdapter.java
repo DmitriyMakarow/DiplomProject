@@ -80,8 +80,6 @@ public class UserAdapter extends BaseAdapter {
     public List<UserResponse> getUsers() {
         return given()
                 .spec(getSpec())
-                .baseUri("http://82.142.167.37:4879")
-                .basePath("/user/6936")
                 .log().all()
                 .when()
                 .get("/users")
