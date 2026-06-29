@@ -4,9 +4,12 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import tests.ui.base.BaseTest;
-import ui.pages.allpost.AllPostPage;
+import ui.dto.UserTestData;
+import ui.dto.UserTestDataFactory;
+import ui.enumUI.RadioLabel;
 
 import static org.testng.Assert.assertNotNull;
 import static ui.pages.base.BasePage.faker;
@@ -15,9 +18,8 @@ import static ui.pages.base.BasePage.faker;
 @Feature("Тестирование всех операций на странице ALL POST")
 public class AllPostTest extends BaseTest {
 
-    private String userId;
-    private String houseId;
-    private String carId;
+    private static final String STATUS_201 = "Status: Successfully pushed, code: 201";
+    private static final String STATUS_200 = "Status: Successfully pushed, code: 200";
 
     @BeforeMethod
     public void setUp() {
@@ -25,102 +27,51 @@ public class AllPostTest extends BaseTest {
         allPostPage.openPage();
     }
 
+    @DataProvider(name = "settleEvictActions")
+    public static Object[][] getSettleEvictActions() {
+        return new Object[][]{
+                {"settle", RadioLabel.SETTLE},
+                {"evict", RadioLabel.EVICT}
+        };
+    }
+
+    @DataProvider(name = "buySellActions")
+    public static Object[][] getBuySellActions() {
+        return new Object[][]{
+                {"buy", RadioLabel.BUY},
+                {"sell", RadioLabel.SELL}
+        };
+    }
+
     @Test(testName = "Создание нового пользователя через ALL POST")
     @Description("Проверка создания нового пользователя с валидными данными")
     public void testCreateUser() {
-        String firstName = faker.name().firstName();
-        String lastName = faker.name().lastName();
-        int age = faker.number().numberBetween(18, 99);
-        String gender = faker.bool().bool() ? "MALE" : "FEMALE";
-        int money = faker.number().numberBetween(1000, 100000);
+        UserTestData userData = UserTestDataFactory.getUserTestDataUI();
 
-        allPostPage.createUser(firstName, lastName, age, gender, money)
-                .verifyCreateUserStatus("Status: Successfully pushed, code: 201");
+        allPostPage.fillCreateUserForm(userData);
+        baseSteps.selectRadioLabel(RadioLabel.MALE);
+        allPostPage.pushCreateUser()
+                .verifyCreateUserStatus(STATUS_201);
 
-        userId = allPostPage.getCreatedUserId();
+        String userId = allPostPage.getCreatedUserId();
         assertNotNull(userId, "ID созданного пользователя не получен");
     }
 
     @Test(testName = "Добавление денег пользователю через ALL POST")
     @Description("Проверка добавления денег существующему пользователю")
     public void testAddMoney() {
-        if (userId == null) {
-            testCreateUser();
-        }
-        int money = faker.number().numberBetween(100, 10000);
+        UserTestData userData = UserTestDataFactory.getUserTestDataUI();
+        allPostPage.fillCreateUserForm(userData);
+        baseSteps.selectRadioLabel(RadioLabel.MALE);
+        allPostPage.pushCreateUser().verifyCreateUserStatus(STATUS_201);
 
-        allPostPage.addMoney(userId, money)
-                .verifyAddMoneyStatus("Status: Successfully pushed, code: 200");
-    }
+        String userId = allPostPage.getCreatedUserId();
+        assertNotNull(userId, "ID созданного пользователя не получен");
 
-    @Test(testName = "Заселение пользователя в дом через ALL POST")
-    @Description("Проверка заселения пользователя в дом")
-    public void testSettleUser() {
-        if (userId == null) {
-            testCreateUser();
-        }
-        if (houseId == null) {
-            testCreateHouse();
-            houseId = allPostPage.getCreatedHouseId();
-        }
-
-        allPostPage.settleOrEvictUser(userId, houseId, "settle")
-                .verifySettleStatus("Status: Successfully pushed, code: 200");
-    }
-
-    @Test(testName = "Выселение пользователя из дома через ALL POST")
-    @Description("Проверка выселения пользователя из дома")
-    public void testEvictUser() {
-        if (userId == null) {
-            testCreateUser();
-        }
-        if (houseId == null) {
-            testCreateHouse();
-            houseId = allPostPage.getCreatedHouseId();
-        }
-
-        // Сначала заселяем
-        allPostPage.settleOrEvictUser(userId, houseId, "settle")
-                .verifySettleStatus("Status: Successfully pushed, code: 200");
-
-        // Теперь выселяем
-        allPostPage.settleOrEvictUser(userId, houseId, "evict")
-                .verifySettleStatus("Status: Successfully pushed, code: 200");
-    }
-
-    @Test(testName = "Покупка автомобиля пользователем через ALL POST")
-    @Description("Проверка покупки автомобиля пользователем")
-    public void testBuyCar() {
-        if (userId == null) {
-            testCreateUser();
-        }
-        if (carId == null) {
-            testCreateCar();
-            carId = allPostPage.getCreatedCarId();
-        }
-
-        allPostPage.buyOrSellCar(userId, carId, "buy")
-                .verifyCarStatus("Status: Successfully pushed, code: 200");
-    }
-
-    @Test(testName = "Продажа автомобиля пользователем через ALL POST")
-    @Description("Проверка продажи автомобиля пользователем")
-    public void testSellCar() {
-        if (userId == null) {
-            testCreateUser();
-        }
-        if (carId == null) {
-            testCreateCar();
-            carId = allPostPage.getCreatedCarId();
-        }
-
-        // Сначала покупаем
-        allPostPage.buyOrSellCar(userId, carId, "buy")
-                .verifyCarStatus("Status: Successfully pushed, code: 200");
-
-        // Теперь продаем
-        allPostPage.buyOrSellCar(userId, carId, "sell")
-                .verifyCarStatus("Status: Successfully pushed, code: 200");
+        String money = faker.number().digits(4);
+        allPostPage.fillAddMoneyForm(userId, money)
+                .pushAddMoney()
+                .verifyAddMoneyStatus(STATUS_200);
     }
 
     @Test(testName = "Создание нового автомобиля через ALL POST")
@@ -129,23 +80,95 @@ public class AllPostTest extends BaseTest {
         String engineType = "Electric";
         String mark = faker.vehicle().manufacturer();
         String model = faker.vehicle().model();
-        double price = faker.number().numberBetween(10000, 1000000);
+        String price = faker.number().digits(7);
 
-        allPostPage.createCar(engineType, mark, model, price)
-                .verifyCreateCarStatus("Status: Successfully pushed, code: 201");
+        allPostPage.fillCreateCarForm(engineType, mark, model, price)
+                .pushCreateCar()
+                .verifyCreateCarStatus(STATUS_201);
     }
 
     @Test(testName = "Создание нового дома через ALL POST")
     @Description("Проверка создания нового дома с валидными данными")
     public void testCreateHouse() {
-        int floors = faker.number().numberBetween(1, 50);
-        double price = faker.number().numberBetween(100000, 10000000);
-        int warmCovered = faker.number().numberBetween(0, 10);
-        int warmNotCovered = faker.number().numberBetween(0, 10);
-        int coldCovered = faker.number().numberBetween(0, 10);
-        int coldNotCovered = faker.number().numberBetween(0, 10);
+        String floors = String.valueOf(faker.number().numberBetween(1, 50));
+        String price = String.valueOf(faker.number().numberBetween(100000, 10000000));
+        String parkingFirst = String.valueOf(faker.number().numberBetween(0, 10));
+        String parkingSecond = String.valueOf(faker.number().numberBetween(0, 10));
+        String parkingThird = String.valueOf(faker.number().numberBetween(0, 10));
+        String parkingFourth = String.valueOf(faker.number().numberBetween(0, 10));
 
-        allPostPage.createHouse(floors, price, warmCovered, warmNotCovered, coldCovered, coldNotCovered)
-                .verifyCreateHouseStatus("Status: Successfully pushed, code: 201");
+        allPostPage.fillCreateHouseForm(floors, price, parkingFirst, parkingSecond, parkingThird, parkingFourth)
+                .pushCreateHouse()
+                .verifyCreateHouseStatus(STATUS_201);
+    }
+
+    @Test(dataProvider = "settleEvictActions",
+            testName = "Заселение/выселение через ALL POST")
+    @Description("Параметризованный тест: заселение и выселение пользователя в дом")
+    public void testSettleEvictUser(String actionName, RadioLabel action) {
+        UserTestData userData = UserTestDataFactory.getUserTestDataUI();
+        allPostPage.fillCreateUserForm(userData);
+        baseSteps.selectRadioLabel(RadioLabel.MALE);
+        allPostPage.pushCreateUser().verifyCreateUserStatus(STATUS_201);
+        String userId = allPostPage.getCreatedUserId();
+        assertNotNull(userId, "ID созданного пользователя не получен");
+
+        String floors = String.valueOf(faker.number().numberBetween(1, 10));
+        String price = String.valueOf(faker.number().numberBetween(100000, 1000000));
+        String parkingFirst = String.valueOf(faker.number().numberBetween(1, 5));
+        String parkingSecond = String.valueOf(faker.number().numberBetween(1, 5));
+        String parkingThird = String.valueOf(faker.number().numberBetween(1, 5));
+        String parkingFourth = String.valueOf(faker.number().numberBetween(1, 5));
+
+        allPostPage.fillCreateHouseForm(floors, price, parkingFirst, parkingSecond, parkingThird, parkingFourth)
+                .pushCreateHouse()
+                .verifyCreateHouseStatus(STATUS_201);
+        String houseId = allPostPage.getCreatedHouseId();
+        assertNotNull(houseId, "ID созданного дома не получен");
+
+        if (action == RadioLabel.EVICT) {
+            allPostPage.fillSettleEvictForm(userId, houseId);
+            baseSteps.selectRadioLabel(RadioLabel.SETTLE);
+            allPostPage.pushSettleEvict().verifySettleEvictStatus(STATUS_200);
+        }
+
+        allPostPage.fillSettleEvictForm(userId, houseId);
+        baseSteps.selectRadioLabel(action);
+        allPostPage.pushSettleEvict()
+                .verifySettleEvictStatus(STATUS_200);
+    }
+
+    @Test(dataProvider = "buySellActions",
+            testName = "Покупка/продажа автомобиля через ALL POST")
+    @Description("Параметризованный тест: покупка и продажа автомобиля")
+    public void testBuySellCar(String actionName, RadioLabel action) {
+        UserTestData userData = UserTestDataFactory.getUserTestDataUI();
+        allPostPage.fillCreateUserForm(userData);
+        baseSteps.selectRadioLabel(RadioLabel.MALE);
+        allPostPage.pushCreateUser().verifyCreateUserStatus(STATUS_201);
+        String userId = allPostPage.getCreatedUserId();
+        assertNotNull(userId, "ID созданного пользователя не получен");
+
+        String engineType = "Electric";
+        String mark = faker.vehicle().manufacturer();
+        String model = faker.vehicle().model();
+        String price = faker.number().digits(5);
+
+        allPostPage.fillCreateCarForm(engineType, mark, model, price)
+                .pushCreateCar()
+                .verifyCreateCarStatus(STATUS_201);
+        String carId = allPostPage.getCreatedCarId();
+        assertNotNull(carId, "ID созданного автомобиля не получен");
+
+        if (action == RadioLabel.SELL) {
+            allPostPage.fillBuySellCarForm(userId, carId);
+            baseSteps.selectRadioLabel(RadioLabel.BUY);
+            allPostPage.pushBuySellCar().verifyBuySellCarStatus(STATUS_200);
+        }
+
+        allPostPage.fillBuySellCarForm(userId, carId);
+        baseSteps.selectRadioLabel(action);
+        allPostPage.pushBuySellCar()
+                .verifyBuySellCarStatus(STATUS_200);
     }
 }
