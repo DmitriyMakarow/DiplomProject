@@ -14,6 +14,7 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
+import ui.pages.allpost.AllPostPage;
 import ui.pages.login.LoginPage;
 import ui.pages.users.AddMoneyPage;
 import ui.pages.base.BasePage;
@@ -45,6 +46,7 @@ public class BaseTest {
     protected CarsPage carsPage;
     protected UsersPage usersPage;
     protected IssueALoanPage issueALoanPage;
+    protected AllPostPage allPostPage;
 
     /**
      * Настройка браузера.
@@ -111,6 +113,7 @@ public class BaseTest {
         carsPage = new CarsPage();
         usersPage = new UsersPage();
         issueALoanPage = new IssueALoanPage();
+        allPostPage = new AllPostPage();
     }
 
     @AfterMethod(alwaysRun = true)

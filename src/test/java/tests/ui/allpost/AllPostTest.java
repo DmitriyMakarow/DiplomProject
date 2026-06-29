@@ -15,7 +15,6 @@ import static ui.pages.base.BasePage.faker;
 @Feature("Тестирование всех операций на странице ALL POST")
 public class AllPostTest extends BaseTest {
 
-    private AllPostPage allPostPage;
     private String userId;
     private String houseId;
     private String carId;
@@ -23,7 +22,6 @@ public class AllPostTest extends BaseTest {
     @BeforeMethod
     public void setUp() {
         loginPage.authorization();
-        allPostPage = new AllPostPage();
         allPostPage.openPage();
     }
 
