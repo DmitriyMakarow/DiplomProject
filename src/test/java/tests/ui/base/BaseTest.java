@@ -72,6 +72,9 @@ public class BaseTest {
         chromeOptions.addArguments("--no-sandbox");
         chromeOptions.addArguments("--disable-dev-shm-usage");
         chromeOptions.addArguments("--disable-gpu");
+        if (System.getProperty("headless", "true").equals("true")) {
+            chromeOptions.addArguments("--headless");
+        }
 
         HashMap<String, Object> prefs = new HashMap<>();
         prefs.put("credentials_enable_service", false);
@@ -90,6 +93,9 @@ public class BaseTest {
                 firefoxOptions.addArguments("--no-sandbox");
                 firefoxOptions.addArguments("--disable-dev-shm-usage");
                 firefoxOptions.addArguments("--disable-gpu");
+                if (System.getProperty("headless", "true").equals("true")) {
+                    firefoxOptions.addArguments("--headless");
+                }
                 Configuration.browserCapabilities = firefoxOptions;
                 break;
             case "EDGE":
@@ -100,6 +106,9 @@ public class BaseTest {
                 edgeOptions.addArguments("--no-sandbox");
                 edgeOptions.addArguments("--disable-dev-shm-usage");
                 edgeOptions.addArguments("--disable-gpu");
+                if (System.getProperty("headless", "true").equals("true")) {
+                    edgeOptions.addArguments("--headless");
+                }
                 Configuration.browserCapabilities = edgeOptions;
                 break;
             default:
