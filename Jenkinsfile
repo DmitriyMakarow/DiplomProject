@@ -2,52 +2,35 @@ pipeline {
     agent any
 
     tools {
-        maven 'maven 3.9.6' //
+        // Install the Maven version configured as "M3" and add it to the path.
+        maven "maven 3.9.6"
     }
 
-    environment {
-        BROWSER = params.BROWSER
-        HEADLESS_MODE = params.HEADLESS ? "true" : "false"
-    }
-
-    parameters {
-        choice(choices: ['chrome', 'firefox', 'edge'], name: 'BROWSER', description: 'Choose browser to run tests on')
-        string(name: 'USERNAME', defaultValue: '', description: 'Username for authentication')
-        password(name: 'PASSWORD', defaultValue: '', description: 'Password for authentication')
-        booleanParam(name: 'HEADLESS', defaultValue: true, description: 'Run browser in headless mode?')
+    parameters{
+        choice(choices: ['chrome', 'firefox', 'edge'], name: 'BROWSER')
     }
 
     stages {
-        stage('Checkout') {
+        stage('Run test') {
             steps {
-                git branch: 'main', url: 'https://github.com/DmitriyMakarow/DiplomProject.git'
+                // Get some code from a GitHub repository
+                git 'https://github.com/DmitriyMakarow/DiplomProject.git'
+
+                // Run Maven on a Unix agent.
+                sh "mvn clean test -Duser=$USER -Dpassword=$PASSWORD -DBrowser=${params.BROWSER}"
+
+                // To run Maven on a Windows agent, use
+                // bat "mvn -Dmaven.test.failure.ignore=true clean package"
             }
-        }
 
-        stage('Run Tests') {
-            steps {
-                script {
-                    def mvnCommand = """
-                        mvn clean test \
-                        -Duser=${params.USERNAME} \
-                        -Dpassword=${params.PASSWORD} \
-                        -Dbrowser=${env.BROWSER} \
-                        -Dheadless=${env.HEADLESS_MODE}
-                    """.stripIndent()
-
-                    sh mvnCommand
+            post {
+                // If Maven was able to run the tests, even if some of the test
+                // failed, record the test results and archive the jar file.
+                always {
+                    junit '**/target/surefire-reports/TEST-*.xml'
+                    allure includeProperties: false, jdk: '', resultPolicy: 'LEAVE_AS_IS', results: [[path: 'target/allure-results']]
                 }
             }
-        }
-    }
-
-    post {
-        always {
-            junit '**/target/surefire-reports/*.xml'
-            allure includeProperties: false,
-                 jdk: '',
-                 reportBuildPolicy: 'ALWAYS',
-                 results: [[path: 'target/allure-results']]
         }
     }
 }
