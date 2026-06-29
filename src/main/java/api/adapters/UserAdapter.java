@@ -72,6 +72,11 @@ public class UserAdapter extends BaseAdapter {
                 .as(UserResponse.class);
     }
 
+    public double getUserBalance(Integer userId) {
+        UserResponse userInfo = this.getUser(userId);
+        return userInfo.getMoney();
+    }
+
     public List<UserResponse> getUsers() {
         return given()
                 .spec(getSpec())
@@ -100,7 +105,7 @@ public class UserAdapter extends BaseAdapter {
                 .spec(code204);
     }
 
-    public UserResponse postUserMoney(Integer id, Integer amount) {
+    public UserResponse postUserMoney(Integer id, double amount) {
         return given()
                 .spec(getSpec())
                 .pathParam("id", id)
@@ -114,6 +119,20 @@ public class UserAdapter extends BaseAdapter {
                 .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/userSchema.json"))
                 .extract()
                 .as(UserResponse.class);
+    }
+
+    public Response negativePostUserMoney(Integer id, double amount) {
+        return given()
+                .spec(getSpec())
+                .pathParam("id", id)
+                .pathParam("amount", amount)
+                .log().all()
+                .when()
+                .post("/user/{id}/money/{amount}")
+                .then()
+                .log().all()
+                .extract()
+                .response();
     }
 }
 

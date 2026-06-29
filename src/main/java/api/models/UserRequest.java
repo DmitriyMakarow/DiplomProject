@@ -31,5 +31,5 @@ public class UserRequest {
 
     @SerializedName("amount")
     @Expose
-    private int amount;
+    private double amount;
 }
