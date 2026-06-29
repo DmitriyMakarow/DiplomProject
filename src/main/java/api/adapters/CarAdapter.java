@@ -2,6 +2,7 @@ package api.adapters;
 
 import api.models.CarRequest;
 import api.models.CarResponse;
+import api.models.UserResponse;
 import io.restassured.module.jsv.JsonSchemaValidator;
 
 import static io.restassured.RestAssured.given;
@@ -78,5 +79,37 @@ public class CarAdapter extends BaseAdapter {
                 .then()
                 .log().all()
                 .spec(code204);
+    }
+
+    public UserResponse successBuyApiCar(Integer userId, Integer carId) {
+        return given()
+                .spec(getSpec())
+                .pathParam("userId", userId)
+                .pathParam("carId", carId)
+                .log().all()
+                .when()
+                .post("/user/{userId}/buyCar/{carId}")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/userSchema.json"))
+                .extract()
+                .as(UserResponse.class);
+    }
+
+    public UserResponse buyNotEnoughMoneyApiCar(Integer userId, Integer carId) {
+        return given()
+                .spec(getSpec())
+                .pathParam("userId", userId)
+                .pathParam("carId", carId)
+                .log().all()
+                .when()
+                .post("/user/{userId}/buyCar/{carId}")
+                .then()
+                .log().all()
+                .statusCode(406)
+                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/userSchema.json"))
+                .extract()
+                .as(UserResponse.class);
     }
 }

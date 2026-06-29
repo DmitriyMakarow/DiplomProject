@@ -2,7 +2,9 @@ package api.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import lombok.Data;
 
+@Data
 public class CarResponse {
 
     @SerializedName("id")
@@ -24,8 +26,4 @@ public class CarResponse {
     @SerializedName("price")
     @Expose
     public double price;
-
-    public int getId() {
-        return id;
-    }
 }

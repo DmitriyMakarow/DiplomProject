@@ -1,8 +1,6 @@
 package api.adapters;
 
-import api.models.InvalidUserRequest;
-import api.models.UserRequest;
-import api.models.UserResponse;
+import api.models.*;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 
@@ -96,5 +94,32 @@ public class UserAdapter extends BaseAdapter {
                 .then()
                 .log().all()
                 .spec(code204);
+    }
+
+    public <T> List<T> getCarsByUser(Class<T> CarResponse, Integer id) {
+        return given()
+                .spec(getSpec())
+                .pathParam("userId", id)
+                .log().all()
+                .when()
+                .get("/user/{userId}/cars")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/listCarsSchema.json"))
+                .extract()
+                .jsonPath().getList("$", CarResponse);
+    }
+
+    public void getEmptyListCarsByUser(Integer id) {
+         given()
+                .spec(getSpec())
+                .pathParam("userId", id)
+                .log().all()
+                .when()
+                .get("/user/{userId}/cars")
+                .then()
+                .log().all()
+                .statusCode(204);
     }
 }
