@@ -56,6 +56,7 @@ public class BaseTest {
     @BeforeMethod(alwaysRun = true)
     @Description("Настройка браузера")
     public void setUp(@Optional("CHROME") String browser, ITestContext context) {
+        Configuration.browser = null;
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
         Configuration.screenshots = true;

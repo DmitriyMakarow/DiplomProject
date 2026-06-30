@@ -17,7 +17,7 @@
         </classes>
     </test>
 
-    <test name="Edge">
+    <test name="Firefox">
         <classes>
             <class name="tests.ui.login.LoginTest"/>
             <class name="tests.ui.houses.CreateHouseTest"/>
