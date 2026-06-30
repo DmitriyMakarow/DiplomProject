@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.config.HttpClientConfig;
+import io.restassured.config.RestAssuredConfig;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
@@ -21,6 +23,13 @@ public class BaseAdapter {
             .excludeFieldsWithoutExposeAnnotation()
             .setPrettyPrinting()
             .create();
+
+    public static RestAssuredConfig config = RestAssuredConfig.config()
+            .httpClient(HttpClientConfig.httpClientConfig()
+                    //время ожидания подключения
+                    .setParam("http.connection.timeout", 60000)
+                    //время ожидания ответа
+                    .setParam("http.socket.timeout", 120000));
 
     public static RequestSpecification getSpec() {
         LoginRequest loginRequest = LoginRequest.builder()
