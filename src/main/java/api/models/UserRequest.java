@@ -28,4 +28,8 @@ public class UserRequest {
     @SerializedName("money")
     @Expose
     private double money;
+
+    @SerializedName("amount")
+    @Expose
+    private double amount;
 }
