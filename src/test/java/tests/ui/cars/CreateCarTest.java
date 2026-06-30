@@ -4,6 +4,7 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Issue;
 import io.qameta.allure.Story;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import ui.dto.CarTestData;
@@ -20,15 +21,19 @@ import static ui.pages.base.BasePage.faker;
 @Feature("Создание автомобиля")
 public class CreateCarTest extends BaseTest {
 
+    @BeforeMethod
+    void openPageCreateCar() {
+        loginPage.authorization();
+        baseSteps
+                .showDropdown(CARS)
+                .openTableFromDropdown(CARS, CREATE_NEW_CARS);
+    }
+
     @Test(testName = "Создание автомобиля с валидными данными")
     void successCreateCar() {
         CarTestData validCar = CarTestDataFactory.validCarTestDataUI();
         final String status = "Status: Successfully pushed, code: 201";
 
-        loginPage.authorization();
-        baseSteps
-                .showDropdown(CARS)
-                .openTableFromDropdown(CARS, CREATE_NEW_CARS);
         carsPage.addNewCarUI(validCar);
         baseSteps
                 .clickPushToApi()
@@ -43,10 +48,6 @@ public class CreateCarTest extends BaseTest {
     void unsuccessCreateCar(CarTestData carTestData) {
         final String status = "Status: Invalid request data";
 
-        loginPage.authorization();
-        baseSteps
-                .showDropdown(CARS)
-                .openTableFromDropdown(CARS, CREATE_NEW_CARS);
         carsPage.addNewCarUI(carTestData);
         baseSteps
                 .clickPushToApi()
@@ -61,10 +62,6 @@ public class CreateCarTest extends BaseTest {
         CarTestData invalidCar = CarTestDataFactory.invalidCarTestDataUI();
         final String status = "Status: AxiosError: Request failed with status code 400";
 
-        loginPage.authorization();
-        baseSteps
-                .showDropdown(CARS)
-                .openTableFromDropdown(CARS, CREATE_NEW_CARS);
         carsPage.addNewCarUI(invalidCar);
         baseSteps
                 .clickPushToApi()
