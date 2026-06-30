@@ -21,7 +21,7 @@
         <classes>
             <class name="tests.ui.login.LoginTest"/>
             <class name="tests.ui.houses.CreateHouseTest"/>
-            <parameter name="browser" value="edge"/>
+            <parameter name="browser" value="firefox"/>
         </classes>
     </test>
 </suite>
