@@ -15,21 +15,15 @@ import ui.dto.CarTestDataFactory;
 import ui.dto.UserTestDataFactory;
 import ui.wrappers.Input;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
-import static org.testng.Assert.assertEquals;
 import static ui.enumUI.Dropdown.CARS;
 import static ui.enumUI.RadioLabel.BUY;
 import static ui.enumUI.RadioLabel.SELL;
 import static ui.enumUI.TableType.BUY_OR_SELL_CAR;
-import static ui.enumUI.TableType.CREATE_NEW_CARS;
 
 @Epic("Автомобили")
 @Feature("Покупка/продажа автомобиля")
 public class BuyOrSellCarTest extends BaseTest {
 
-    private CarResponse carResponse;
     private UserResponse userResponse;
     private UserRequest userRequest;
     String userId, carId;
@@ -41,18 +35,17 @@ public class BuyOrSellCarTest extends BaseTest {
                 .showDropdown(CARS)
                 .openTableFromDropdown(CARS, BUY_OR_SELL_CAR);
         CarRequest carRequest = CarTestDataFactory.validCarTestDataAPI();
-        carResponse = carAdapter.createApiCar(carRequest);
+        CarResponse carResponse = carAdapter.createApiCar(carRequest);
         carId = String.valueOf(carResponse.getId());
     }
 
     @Test(testName = "Успешная покупка автомобиля")
     @Description("Проверка покупки автомобиля при наличии достаточной суммы у пользователя")
     void successBuyCar() {
-        final String status = "Status: Successfully pushed, code: 200";
-
         userRequest = UserTestDataFactory.userMuchMoneyTestDataApi();
         userResponse = userAdapter.createUser(userRequest);
         userId = String.valueOf(userResponse.getId());
+        final String status = "Status: Successfully pushed, code: 200";
 
         new Input("id_send").fillField(userId);
         new Input("car_send").fillField(carId);
@@ -65,7 +58,10 @@ public class BuyOrSellCarTest extends BaseTest {
     @Test(testName = "Ошибка при покупке автомобиля")
     @Description("Проверка покупки автомобиля при недостаточной сумме у пользователя")
     void buyNoEnoughMoneyCar() {
-        final String status = "Status: Successfully pushed, code: 406";
+        userRequest = UserTestDataFactory.putUserTestDataApi();
+        userResponse = userAdapter.createUser(userRequest);
+        userId = String.valueOf(userResponse.getId());
+        final String status = "Status: AxiosError: Request failed with status code 406";
 
         userRequest = UserTestDataFactory.putUserTestDataApi();
         userResponse = userAdapter.createUser(userRequest);
@@ -79,10 +75,12 @@ public class BuyOrSellCarTest extends BaseTest {
                 .verifyTextStatus(status);
     }
 
-    @Issue("Сумма продажи не начисляется на счет пользователя")
     @Test(testName = "Успешная продажа автомобиля")
     @Description("Проверка продажи автомобиля из собственности пользователя")
     void successSellCar() {
+        userRequest = UserTestDataFactory.userMuchMoneyTestDataApi();
+        userResponse = userAdapter.createUser(userRequest);
+        userId = String.valueOf(userResponse.getId());
         final String status = "Status: Successfully pushed, code: 200";
 
         userRequest = UserTestDataFactory.userMuchMoneyTestDataApi();
@@ -102,11 +100,10 @@ public class BuyOrSellCarTest extends BaseTest {
     @Test(testName = "Ошибка при продаже автомобиля")
     @Description("Проверка продажи автомобиля не находящегося в собственности пользователя")
     void sellNoHaveCar() {
-        final String status = "Status: Successfully pushed, code: 406";
-
         userRequest = UserTestDataFactory.userMuchMoneyTestDataApi();
         userResponse = userAdapter.createUser(userRequest);
         userId = String.valueOf(userResponse.getId());
+        final String status = "Status: Successfully pushed, code: 406";
 
         new Input("id_send").fillField(userId);
         new Input("car_send").fillField(carId);
