@@ -1,30 +1,30 @@
-package test.tests.api;
+package tests.api.users;
 
 import api.models.UserRequest;
 import api.models.UserResponse;
-import dto.UserTestDataFactory;
+import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.restassured.response.Response;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import test.tests.BaseTest;
+import tests.ui.base.BaseTest;
+import ui.dto.UserTestDataFactory;
 
 import static org.testng.Assert.assertEquals;
+import static ui.pages.base.BasePage.faker;
 
 @Epic("Начисление денег пользователю. API")
 @Feature("Начисление денег пользователю")
 public class AddMoneyApiTest extends BaseTest {
 
-    private UserResponse userResponse;
-    private UserRequest userRequest;
     private Integer userId;
 
     @BeforeMethod
     public void createUserApi() {
-        userRequest = UserTestDataFactory.postUserTestDataApi();
-        userResponse = userAdapter.createUser(userRequest);
+        UserRequest userRequest = UserTestDataFactory.postUserTestDataApi();
+        UserResponse userResponse = userAdapter.createUser(userRequest);
         userId = userResponse.getId();
     }
 
@@ -35,8 +35,8 @@ public class AddMoneyApiTest extends BaseTest {
         }
     }
 
-    @Test(testName = "Успешное перечисление денег пользователю",
-            description = "Проверка успешного перечисления денег пользователю")
+    @Test(testName = "Успешное перечисление денег пользователю")
+    @Description("Проверка успешного перечисления денег пользователю")
     public void checkAddMoney(){
         double initialBalance = userAdapter.getUserBalance(userId);
         final double amount = faker.number().numberBetween(1, 100);
@@ -46,8 +46,8 @@ public class AddMoneyApiTest extends BaseTest {
                 "Баланс пользователя не увеличился на сумму начисления.");
     }
 
-    @Test(testName = "Успешное перечисление нулевой суммы",
-            description = "Проверка перечисления нулевой суммы")
+    @Test(testName = "Успешное перечисление нулевой суммы")
+    @Description("Проверка перечисления нулевой суммы")
     public void checkAddMoneyEmptyAmount() {
         double initialBalance = userAdapter.getUserBalance(userId);
         final double amount = 0;
@@ -57,8 +57,8 @@ public class AddMoneyApiTest extends BaseTest {
                 "Баланс пользователя изменился.");
     }
 
-    @Test(testName = "Успешное перечисление максимальной суммы",
-            description = "Проверка перечисления максимальной суммы")
+    @Test(testName = "Успешное перечисление максимальной суммы")
+    @Description("Проверка перечисления максимальной суммы")
     public void checkAddMoneyMaxAmount() {
         double initialBalance = userAdapter.getUserBalance(userId);
         final double amount = 999999999999999.99;
@@ -68,8 +68,8 @@ public class AddMoneyApiTest extends BaseTest {
                 "Баланс пользователя изменился.");
     }
 
-    @Test(testName = "Успешное перечисление дробной суммы",
-            description = "Проверка перечисления дробной суммы")
+    @Test(testName = "Успешное перечисление дробной суммы")
+    @Description("Проверка перечисления дробной суммы")
     public void checkAddMoneyFractionalAmount() {
         double initialBalance = userAdapter.getUserBalance(userId);
         final double amount = 0.1;
@@ -81,8 +81,8 @@ public class AddMoneyApiTest extends BaseTest {
                 "Баланс пользователя изменился не корректно");
     }
 
-    @Test(testName = "Негативный тест. Перечисление денег несуществующему пользователю",
-            description = "Проверка перечисления денег несуществующему пользователю")
+    @Test(testName = "Негативный тест. Перечисление денег несуществующему пользователю")
+    @Description("Проверка перечисления денег несуществующему пользователю")
     public void checkAddMoneyEmptyUser() {
         int nonExistentUserId = 0;
         final double amount = faker.number().numberBetween(1, 100);
@@ -90,8 +90,8 @@ public class AddMoneyApiTest extends BaseTest {
         usersSteps.validateStatusCode(response, 404);
     }
 
-    @Test(testName = "Негативный тест. Снятие деньги через эндпоинт начисления",
-            description = "Проверка снятия деньги через эндпоинт начисления")
+    @Test(testName = "Негативный тест. Снятие деньги через эндпоинт начисления")
+    @Description("Проверка снятия деньги через эндпоинт начисления")
     public void checkAddMoneyNegativeAmount() {
         final double amount = -100;
         Response response = userAdapter.negativePostUserMoney(userId, amount);
