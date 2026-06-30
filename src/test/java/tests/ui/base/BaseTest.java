@@ -64,7 +64,6 @@ public class BaseTest {
         Configuration.baseUrl = baseUrl;
         Configuration.timeout = 10000;
         Configuration.clickViaJs = true;
-        //Configuration.headless = false;
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--start-maximized");
         chromeOptions.addArguments("--disable-notifications");
