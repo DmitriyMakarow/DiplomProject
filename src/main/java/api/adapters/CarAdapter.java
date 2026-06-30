@@ -112,4 +112,36 @@ public class CarAdapter extends BaseAdapter {
                 .extract()
                 .as(UserResponse.class);
     }
+
+    public UserResponse successSellApiCar(Integer userId, Integer carId) {
+        return given()
+                .spec(getSpec())
+                .pathParam("userId", userId)
+                .pathParam("carId", carId)
+                .log().all()
+                .when()
+                .post("/user/{userId}/sellCar/{carId}")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/userSchema.json"))
+                .extract()
+                .as(UserResponse.class);
+    }
+
+    public UserResponse sellNoHaveApiCar(Integer userId, Integer carId) {
+        return given()
+                .spec(getSpec())
+                .pathParam("userId", userId)
+                .pathParam("carId", carId)
+                .log().all()
+                .when()
+                .post("/user/{userId}/sellCar/{carId}")
+                .then()
+                .log().all()
+                .statusCode(406)
+                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/userSchema.json"))
+                .extract()
+                .as(UserResponse.class);
+    }
 }
