@@ -5,9 +5,8 @@ import com.codeborne.selenide.SelenideElement;
 import org.testng.annotations.DataProvider;
 import ui.pages.base.BasePage;
 
-import java.time.Duration;
-
 import static com.codeborne.selenide.Selenide.$x;
+import static org.testng.Assert.assertTrue;
 
 public class HousesPage extends BasePage {
 
@@ -30,11 +29,11 @@ public class HousesPage extends BasePage {
     }
 
     public void waitForTableVisible() {
-        table.shouldBe(Condition.visible, Duration.ofSeconds(10));
+        assertTrue(waitVisible(table), "Таблица не отобразилась");
     }
 
     public void verifyStatusOk() {
-        statusButton.shouldBe(Condition.visible, Duration.ofSeconds(10));
+        assertTrue(waitVisible(statusButton), "Статус 200 не отображён");
     }
 
     public void verifyHouseIdInTable(Integer houseId) {
