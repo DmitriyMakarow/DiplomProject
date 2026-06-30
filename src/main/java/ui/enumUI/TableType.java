@@ -15,7 +15,8 @@ public enum TableType {
     CREATE_NEW_USER("Create new", List.of("ID", "First", "Last", "Age", "Sex", "Money")),
     CREATE_NEW_HOUSES("Create new", List.of("ID", "Floors", "Price")),
     READ_ALL_HOUSES("Read all", List.of("ID", "Floor Count", "Price")),
-    ISSUE_A_LOAN("Issue a loan", List.of("User ID", "Размер кредита"));
+    ISSUE_A_LOAN("Issue a loan", List.of("User ID", "Размер кредита")),
+    BUY_OR_SELL_CAR("Buy or sell car", List.of("User ID", "Car Id"));
 
     private final String tableName;
     private final List<String> columns;

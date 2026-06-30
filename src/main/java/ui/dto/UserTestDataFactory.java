@@ -35,4 +35,14 @@ public class UserTestDataFactory {
                 .money(faker.number().randomDouble(2, 100, 100000))
                 .build();
     }
+
+    public static UserRequest userMuchMoneyTestDataApi() {
+        return UserRequest.builder()
+                .firstName(faker.name().firstName())
+                .secondName(faker.name().lastName())
+                .age(faker.number().numberBetween(18L, 99L))
+                .sex("FEMALE")
+                .money(faker.number().randomDouble(2, 1000000, 1500000))
+                .build();
+    }
 }
