@@ -7,7 +7,7 @@ import ui.wrappers.Input;
 
 public class CarsPage extends BasePage {
 
-    @DataProvider(name = "Тестовые данные для негативных проверок создания автомобиля")
+    @DataProvider(name = "Тестовые данные для негативных проверок создания автомобиля с пустыми полями")
     public Object[][] carData() {
         return new Object[][] {
                 {CarTestData.builder()
@@ -33,14 +33,44 @@ public class CarsPage extends BasePage {
                         .mark(faker.vehicle().manufacturer())
                         .model(faker.vehicle().model())
                         .price("")
+                        .build()},
+                {CarTestData.builder()
+                        .engineType("")
+                        .mark("")
+                        .model("")
+                        .price("")
+                        .build()}
+        };
+    }
+
+    @DataProvider(name = "Тестовые данные для проверок создания автомобиля с цифровым значением для строкового поля")
+    public Object[][] carDataWithNumbers() {
+        return new Object[][]{
+                {CarTestData.builder()
+                        .engineType(faker.number().digits(5))
+                        .mark(faker.vehicle().manufacturer())
+                        .model(faker.vehicle().model())
+                        .price(faker.number().digits(7))
+                        .build()},
+                {CarTestData.builder()
+                        .engineType("Diesel")
+                        .mark(faker.number().digits(5))
+                        .model(faker.vehicle().model())
+                        .price(faker.number().digits(7))
+                        .build()},
+                {CarTestData.builder()
+                        .engineType("Hydrogenic")
+                        .mark(faker.vehicle().manufacturer())
+                        .model(faker.number().digits(5))
+                        .price(faker.number().digits(7))
                         .build()}
         };
     }
 
     public void addNewCarUI(CarTestData carTestData) {
-        new Input("engine_type").fillField(carTestData.getEngineType());
-        new Input("mark").fillField(carTestData.getMark());
-        new Input("model").fillField(carTestData.getModel());
-        new Input("price").fillField(carTestData.getPrice());
+        new Input("car_engine_type_send").fillField(carTestData.getEngineType());
+        new Input("car_mark_send").fillField(carTestData.getMark());
+        new Input("car_model_send").fillField(carTestData.getModel());
+        new Input("car_price_send").fillField(carTestData.getPrice());
     }
 }
