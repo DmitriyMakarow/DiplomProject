@@ -4,67 +4,53 @@ import api.models.CarRequest;
 import api.models.CarResponse;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import lombok.extern.log4j.Log4j2;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import tests.ui.base.BaseTest;
+import ui.dto.CarTestDataFactory;
 
 import static org.testng.Assert.assertEquals;
-import static ui.pages.base.BasePage.faker;
 
+@Log4j2
 @Epic("Автомобили. API")
 @Feature("Создание автомобиля")
 public class CarApiTest extends BaseTest {
 
-    private final Integer id = faker.number().numberBetween(1, Integer.MAX_VALUE);
-    private final String
-            engineType = "Electric",
-            mark = faker.vehicle().manufacturer(),
-            model = faker.vehicle().model();
-    private final double price = faker.number().numberBetween(1, 1000000);
+    private CarResponse carResponse;
+    private CarRequest carRequest;
+    private Integer idCar;
 
-    CarRequest car = CarRequest.builder()
-            .id(id)
-            .engineType(engineType)
-            .mark(mark)
-            .model(model)
-            .price(price)
-            .build();
+    @BeforeMethod
+    public void createCarApi() {
+        carRequest = CarTestDataFactory.validCarTestDataAPI();
+        carResponse = carAdapter.createApiCar(carRequest);
+        idCar = carResponse.getId();
+    }
+
+    @AfterMethod
+    void deleteCar() {
+        carAdapter.deleteApiCar(idCar);
+    }
 
     @Test(testName = "Проверка создания автомобиля с валидными параметрами")
     void checkCreateCar() {
-        CarResponse carResponse = carAdapter.createApiCar(car);
-        Integer idCar = carResponse.id;
-        assertEquals(carResponse.engineType, engineType);
-        assertEquals(carResponse.model, model);
-        assertEquals(carResponse.mark, mark);
-        assertEquals(carResponse.price, price);
-        carAdapter.deleteApiCar(idCar);
+        assertEquals(carResponse.getEngineType(), carRequest.getEngineType(), "Тип двигателя не соответствует");
+        assertEquals(carResponse.getModel(), carResponse.getModel(), "Модель не соответствует");
+        assertEquals(carResponse.getMark(), carResponse.getMark(), "Марка не соответствует");
+        assertEquals(carResponse.getPrice(), carResponse.getPrice());
     }
 
     @Test(testName = "Проверка редактирования автомобиля валидными параметрами")
     void checkEditCar() {
-        String newEngineType = "Gasoline",
-                newMark = faker.vehicle().manufacturer(),
-                newModel = faker.vehicle().model();
-        double newPrice = faker.number().numberBetween(1, 1000000);
+        CarRequest carNewRequest = CarTestDataFactory.validCarTestDataAPI();
+        CarResponse carNewResponse = carAdapter.putApiCar(idCar, carNewRequest);
 
-        CarResponse carResponse = carAdapter.createApiCar(car);
-        Integer idCar = carResponse.id;
-
-        CarRequest newCar = CarRequest.builder()
-                .id(idCar)
-                .engineType(newEngineType)
-                .mark(newMark)
-                .model(newModel)
-                .price(newPrice)
-                .build();
-
-        CarResponse newCarResponse = carAdapter.putApiCar(idCar, newCar);
-
-        assertEquals(newCarResponse.engineType, newEngineType);
-        assertEquals(newCarResponse.model, newModel);
-        assertEquals(newCarResponse.mark, newMark);
-        assertEquals(newCarResponse.price, newPrice);
-
-        carAdapter.deleteApiCar(idCar);
+        assertEquals(carNewResponse.getId(), carResponse.getId(), "Изменился ID машины");
+        assertEquals(carNewResponse.getEngineType(), carNewRequest.getEngineType(), "Тип двигателя не соответствует");
+        assertEquals(carNewResponse.getModel(), carNewRequest.getModel(), "Модель не соответствует");
+        assertEquals(carNewResponse.getMark(), carNewRequest.getMark(), "Марка не соответствует");
+        assertEquals(carNewResponse.getPrice(), carNewRequest.getPrice());
     }
 }
