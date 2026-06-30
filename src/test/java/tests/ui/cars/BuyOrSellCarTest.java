@@ -24,7 +24,7 @@ public class BuyOrSellCarTest extends BaseTest {
 
     private UserResponse userResponse;
     private UserRequest userRequest;
-    String userId, carId;
+    Integer userId, carId;
 
     @BeforeMethod
     void createDataCar() {
@@ -33,21 +33,21 @@ public class BuyOrSellCarTest extends BaseTest {
                 .showDropdown(CARS)
                 .openTableFromDropdown(CARS, BUY_OR_SELL_CAR);
         CarRequest carRequest = CarTestDataFactory.validCarTestDataAPI();
-        CarResponse carResponse = carAdapter.createApiCar(carRequest);
-        carId = String.valueOf(carResponse.getId());
+        CarResponse carResponse = carAdapter.createCar(carRequest, 201, CarResponse.class);
+        carId = carResponse.getId();
     }
 
     @BeforeMethod(onlyForGroups = {"haveMoneyUser"})
     void createDataValidUser() {
         userRequest = UserTestDataFactory.userMuchMoneyTestDataApi();
         userResponse = userAdapter.createUser(userRequest);
-        userId = String.valueOf(userResponse.getId());
+        userId = userResponse.getId();
     }
 
     @AfterMethod(onlyForGroups = {"deleteData"})
     void deleteTestData() {
-        carAdapter.deleteApiCar(Integer.valueOf(carId));
-        userAdapter.deleteUser(Integer.valueOf(userId));
+        carAdapter.deleteApiCar(carId);
+        userAdapter.deleteUser(userId);
     }
 
     @Owner("Кадырмятова А.В.")
@@ -57,8 +57,8 @@ public class BuyOrSellCarTest extends BaseTest {
     void successBuyCar() {
         final String status = "Status: Successfully pushed, code: 200";
 
-        new Input("id_send").fillField(userId);
-        new Input("car_send").fillField(carId);
+        new Input("id_send").fillField(String.valueOf(userId));
+        new Input("car_send").fillField(String.valueOf(carId));
         baseSteps.selectRadioLabel(BUY);
         baseSteps
                 .clickPushToApi()
@@ -72,11 +72,11 @@ public class BuyOrSellCarTest extends BaseTest {
     void buyNoEnoughMoneyCar() {
         userRequest = UserTestDataFactory.putUserTestDataApi();
         userResponse = userAdapter.createUser(userRequest);
-        userId = String.valueOf(userResponse.getId());
+        userId = userResponse.getId();
         final String status = "Status: AxiosError: Request failed with status code 406";
 
-        new Input("id_send").fillField(userId);
-        new Input("car_send").fillField(carId);
+        new Input("id_send").fillField(String.valueOf(userId));
+        new Input("car_send").fillField(String.valueOf(carId));
         baseSteps.selectRadioLabel(BUY);
         baseSteps
                 .clickPushToApi()
@@ -90,16 +90,16 @@ public class BuyOrSellCarTest extends BaseTest {
     void successSellCar() {
         userRequest = UserTestDataFactory.userMuchMoneyTestDataApi();
         userResponse = userAdapter.createUser(userRequest);
-        userId = String.valueOf(userResponse.getId());
+        userId = userResponse.getId();
         final String status = "Status: Successfully pushed, code: 200";
 
         userRequest = UserTestDataFactory.userMuchMoneyTestDataApi();
         userResponse = userAdapter.createUser(userRequest);
-        userId = String.valueOf(userResponse.getId());
-        carAdapter.successBuyApiCar(Integer.valueOf(userId), Integer.valueOf(carId));
+        userId = userResponse.getId();
+        carAdapter.buyCar(userId, carId, 200, UserResponse.class);
 
-        new Input("id_send").fillField(userId);
-        new Input("car_send").fillField(carId);
+        new Input("id_send").fillField(String.valueOf(userId));
+        new Input("car_send").fillField(String.valueOf(carId));
         baseSteps.selectRadioLabel(SELL);
         baseSteps
                 .clickPushToApi()
@@ -114,11 +114,11 @@ public class BuyOrSellCarTest extends BaseTest {
     void sellNoHaveCar() {
         userRequest = UserTestDataFactory.userMuchMoneyTestDataApi();
         userResponse = userAdapter.createUser(userRequest);
-        userId = String.valueOf(userResponse.getId());
+        userId = userResponse.getId();
         final String status = "Status: Successfully pushed, code: 406";
 
-        new Input("id_send").fillField(userId);
-        new Input("car_send").fillField(carId);
+        new Input("id_send").fillField(String.valueOf(userId));
+        new Input("car_send").fillField(String.valueOf(carId));
         baseSteps.selectRadioLabel(SELL);
         baseSteps
                 .clickPushToApi()

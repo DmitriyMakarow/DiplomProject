@@ -33,7 +33,7 @@ public class BuyCarApiTest extends BaseTest {
     @BeforeMethod
     public void createCarApi() {
         CarRequest carRequest = CarTestDataFactory.validCarTestDataAPI();
-        carResponse = carAdapter.createApiCar(carRequest);
+        carResponse = carAdapter.createCar(carRequest, 201, CarResponse.class);
         carId = carResponse.getId();
     }
 
@@ -45,7 +45,7 @@ public class BuyCarApiTest extends BaseTest {
         userId = userResponse.getId();
 
         double startMoney = userResponse.getMoney();
-        UserResponse userAfterBuyResponse = carAdapter.successBuyApiCar(userId, carId);
+        UserResponse userAfterBuyResponse = carAdapter.buyCar(userId, carId, 200, UserResponse.class);
         List<CarResponse> carList = userAdapter.getCarsByUser(CarResponse.class, userId);
 
         assertTrue(carList.stream().anyMatch(car -> car.getId() == carId),
@@ -65,7 +65,7 @@ public class BuyCarApiTest extends BaseTest {
         userId = userResponse.getId();
 
         double startMoney = userResponse.getMoney();
-        UserResponse userAfterBuyResponse = carAdapter.buyNotEnoughMoneyApiCar(userId, carId);
+        UserResponse userAfterBuyResponse = carAdapter.buyCar(userId, carId, 406, UserResponse.class);
         userAdapter.getEmptyListCarsByUser(userId);
 
         assertEquals(userAfterBuyResponse.getMoney(), startMoney, "Сумма денег у пользователя изменилась!");

@@ -4,6 +4,7 @@ import api.models.cars.CarRequest;
 import api.models.cars.CarResponse;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Owner;
 import lombok.extern.log4j.Log4j2;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -20,21 +21,23 @@ public class CarApiTest extends BaseTest {
 
     private CarResponse carResponse;
     private CarRequest carRequest;
-    private Integer idCar;
+    private Integer idCar, idInvalidCar;
 
-    @BeforeMethod
-    public void createCarApi() {
+    @BeforeMethod(onlyForGroups = {"validCar"})
+    public void createDataValidCar() {
         carRequest = CarTestDataFactory.validCarTestDataAPI();
-        carResponse = carAdapter.createApiCar(carRequest);
+        carResponse = carAdapter.createCar(carRequest, 201, CarResponse.class);
         idCar = carResponse.getId();
     }
 
-    @AfterMethod
+    @AfterMethod(onlyForGroups = {"deleteData"})
     void deleteCar() {
         carAdapter.deleteApiCar(idCar);
     }
 
-    @Test(testName = "Проверка создания автомобиля с валидными параметрами")
+    @Owner("Кадырмятова А.В.")
+    @Test(testName = "Проверка создания автомобиля с валидными параметрами",
+    groups = {"validCar", "deleteData"})
     void checkCreateCar() {
         assertEquals(carResponse.getEngineType(), carRequest.getEngineType(), "Тип двигателя не соответствует");
         assertEquals(carResponse.getModel(), carResponse.getModel(), "Модель не соответствует");
@@ -42,15 +45,41 @@ public class CarApiTest extends BaseTest {
         assertEquals(carResponse.getPrice(), carResponse.getPrice());
     }
 
-    @Test(testName = "Проверка редактирования автомобиля валидными параметрами")
+    @Owner("Кадырмятова А.В.")
+    @Test(testName = "Проверка создания автомобиля с невалидными параметрами",
+            groups = {"invalidCar"})
+    void createInvalidCar() {
+        CarRequest invalidCarRequest = CarTestDataFactory.emptyCarTestDataUI();
+        carAdapter.createCar(invalidCarRequest, 400, null);
+    }
+
+    @Owner("Кадырмятова А.В.")
+    @Test(testName = "Проверка редактирования автомобиля валидными параметрами",
+            groups = {"validCar", "deleteData"})
     void checkEditCar() {
         CarRequest carNewRequest = CarTestDataFactory.validCarTestDataAPI();
-        CarResponse carNewResponse = carAdapter.putApiCar(idCar, carNewRequest);
+        CarResponse carNewResponse = carAdapter.putCar(idCar, carNewRequest, 202, CarResponse.class);
 
         assertEquals(carNewResponse.getId(), carResponse.getId(), "Изменился ID машины");
         assertEquals(carNewResponse.getEngineType(), carNewRequest.getEngineType(), "Тип двигателя не соответствует");
         assertEquals(carNewResponse.getModel(), carNewRequest.getModel(), "Модель не соответствует");
         assertEquals(carNewResponse.getMark(), carNewRequest.getMark(), "Марка не соответствует");
         assertEquals(carNewResponse.getPrice(), carNewRequest.getPrice());
+    }
+
+    @Owner("Кадырмятова А.В.")
+    @Test(testName = "Проверка редактирования автомобиля невалидными параметрами",
+            groups = {"validCar", "deleteData"})
+    void checkEditInvalidCar() {
+        CarRequest carNewRequest = CarTestDataFactory.emptyCarTestDataUI();
+        carAdapter.putCar(idCar, carNewRequest, 400, null);
+    }
+
+    @Owner("Кадырмятова А.В.")
+    @Test(testName = "Проверка удаления автомобиля",
+            groups = {"validCar"})
+    void checkDeleteCar() {
+        carAdapter.deleteApiCar(idCar);
+        carAdapter.getCar(idCar, 204, null);
     }
 }

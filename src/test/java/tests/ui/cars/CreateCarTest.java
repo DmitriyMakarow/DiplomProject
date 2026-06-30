@@ -1,5 +1,6 @@
 package tests.ui.cars;
 
+import api.models.cars.CarResponse;
 import io.qameta.allure.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -37,7 +38,7 @@ public class CreateCarTest extends BaseTest {
                 .verifyGetIdObject("New car ID:");
 
         Integer carId = Integer.valueOf(baseSteps.getNewObjectId());
-        carAdapter.getCar(carId);
+        carAdapter.getCar(carId, 200, CarResponse.class);
         carAdapter.deleteApiCar(carId);
     }
 

@@ -15,12 +15,12 @@ public class CarTestDataFactory {
                 .build();
     }
 
-    public static CarTestData invalidCarTestDataUI() {
-        return CarTestData.builder()
-                .engineType("PHEV")
-                .mark("Porsche")
-                .model("911")
-                .price(faker.number().digits(7))
+    public static CarRequest emptyCarTestDataUI() {
+        return CarRequest.builder()
+                .engineType("")
+                .mark("")
+                .model("")
+                .price(0)
                 .build();
     }
 
