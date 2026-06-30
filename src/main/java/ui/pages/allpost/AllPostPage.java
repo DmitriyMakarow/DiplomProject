@@ -7,7 +7,6 @@ import ui.dto.UserTestData;
 import ui.pages.base.BasePage;
 import ui.wrappers.Input;
 
-import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Selenide.open;
 import static org.testng.Assert.assertTrue;
 import static ui.locators.AllPostLocators.getBtnNewId;
@@ -25,7 +24,9 @@ public class AllPostPage extends BasePage {
 
     @Step("Отправка запроса формы {formIndex}")
     public AllPostPage pushToApi(int formIndex) {
-        getBtnPushToApi(formIndex).shouldBe(enabled).click();
+        assertTrue(waitAppear(getBtnPushToApi(formIndex)),
+                "Кнопка PUSH TO API формы " + formIndex + " не появилась");
+        getBtnPushToApi(formIndex).click();
         return this;
     }
 
@@ -72,7 +73,7 @@ public class AllPostPage extends BasePage {
         return this;
     }
 
-    // Покупка/продажа автомобиля
+    // Покупка/продажа авто
     @Step("Заполнение формы покупки/продажи автомобиля")
     public AllPostPage fillBuySellCarForm(String userId, String carId) {
         new Input("id_send").fillField(userId, 4);
