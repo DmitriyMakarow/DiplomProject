@@ -7,6 +7,7 @@ import api.models.users.UserResponse;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Owner;
 import lombok.extern.log4j.Log4j2;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -37,6 +38,7 @@ public class BuyCarApiTest extends BaseTest {
         carId = carResponse.getId();
     }
 
+    @Owner("Кадырмятова А.В.")
     @Test(testName = "Успешная покупка автомобиля")
     @Description("Проверка покупки автомобиля при наличии достаточной суммы у пользователя")
     void successBuyCar() {
@@ -57,6 +59,7 @@ public class BuyCarApiTest extends BaseTest {
                 "Сумма денег у пользователя уменьшилась не на стоимость автомобиля");
     }
 
+    @Owner("Кадырмятова А.В.")
     @Test(testName = "Ошибка при покупке автомобиля")
     @Description("Проверка покупки автомобиля при недостаточной сумме у пользователя")
     void buyNoEnoughMoneyCar() {
