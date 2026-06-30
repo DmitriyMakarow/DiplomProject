@@ -29,7 +29,7 @@ public class BuyCarApiTest extends BaseTest {
 
     @BeforeMethod
     public void createCarApi() {
-        CarRequest carRequest = CarTestDataFactory.validCarTestDataUI();
+        CarRequest carRequest = CarTestDataFactory.validCarTestDataAPI();
         carResponse = carAdapter.createApiCar(carRequest);
         carId = carResponse.getId();
     }
