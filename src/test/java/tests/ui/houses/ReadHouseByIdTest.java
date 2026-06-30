@@ -1,29 +1,32 @@
-package test.tests.ui.houses;
+package tests.ui.houses;
 
 import api.models.HouseRequest;
 import api.models.HouseResponse;
 import io.qameta.allure.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import test.tests.BaseTest;
+import tests.ui.base.BaseTest;
+import ui.pages.houses.HousesPage;
 
 import java.util.Collections;
 
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$x;
-import static enumUI.Dropdown.HOUSES;
+import static ui.enumUI.Dropdown.HOUSES;
+import static ui.pages.base.BasePage.faker;
 
 @Epic("Дома")
 @Feature("Чтение дома по ID")
-@Owner("Твоя фамилия и инициалы")
+@Owner("khvadina a.")
 public class ReadHouseByIdTest extends BaseTest {
 
+    private HousesPage housesPage;
+
     @BeforeMethod
-    public void testData() {
+    public void openPageReadHouseById() {
         loginPage
                 .authorization(user, password)
                 .verifySuccessAuthorization();
         baseSteps.showDropdown(HOUSES);
+        housesPage = new HousesPage();
     }
 
     @Test(testName = "Проверка чтения дома по ID")
@@ -50,21 +53,12 @@ public class ReadHouseByIdTest extends BaseTest {
         HouseResponse createdHouse = houseAdapter.createApiHouse(houseRequest);
         Integer houseId = createdHouse.getId();
 
-        $x("//a[text()='Read one by ID']").click();
-
-        $x("//input[@id='house_input']").setValue(String.valueOf(houseId));
-
-        $x("//button[text()='Read']").click();
-
-        $x("//table").shouldBe(visible, java.time.Duration.ofSeconds(10));
-
-        $x("//button[contains(text(), 'Status: 200')]").shouldBe(
-                visible,
-                java.time.Duration.ofSeconds(10)
-        );
-
-        $x("//table//td[contains(text(), '" + houseId + "')]")
-                .shouldBe(visible);
+        housesPage.clickReadOneById();
+        housesPage.enterHouseId(String.valueOf(houseId));
+        housesPage.clickReadButton();
+        housesPage.waitForTableVisible();
+        housesPage.verifyStatusOk();
+        housesPage.verifyHouseIdInTable(houseId);
 
         houseAdapter.deleteApiHouse(houseId);
     }

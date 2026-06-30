@@ -1,20 +1,20 @@
-package test.tests.ui.houses;
+package tests.ui.houses;
 
 import io.qameta.allure.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import test.tests.BaseTest;
+import tests.ui.base.BaseTest;
 
-import static enumUI.Dropdown.HOUSES;
-import static enumUI.TableType.READ_ALL_HOUSES;
+import static ui.enumUI.Dropdown.HOUSES;
+import static ui.enumUI.TableType.READ_ALL_HOUSES;
 
 @Epic("Дома")
 @Feature("Чтение всех домов")
-@Owner("Твоя фамилия и инициалы")
+@Owner("khvadina a.")
 public class ReadAllHousesTest extends BaseTest {
 
     @BeforeMethod
-    public void testData() {
+    public void openPageAllHouses() {
         loginPage
                 .authorization(user, password)
                 .verifySuccessAuthorization();
