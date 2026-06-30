@@ -15,6 +15,15 @@ public class CarTestDataFactory {
                 .build();
     }
 
+    public static CarTestData invalidCarTestDataUI() {
+        return CarTestData.builder()
+                .engineType("PHEV")
+                .mark("Porsche")
+                .model("911")
+                .price(faker.number().digits(7))
+                .build();
+    }
+
     public static CarRequest validCarTestDataAPI() {
         return CarRequest.builder()
                 .engineType("Electric")

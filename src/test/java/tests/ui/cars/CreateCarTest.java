@@ -20,21 +20,16 @@ import static ui.pages.base.BasePage.faker;
 @Feature("Создание автомобиля")
 public class CreateCarTest extends BaseTest {
 
-    CarTestData validCarData = CarTestDataFactory.validCarTestDataUI();
-    private final String
-            mark = faker.vehicle().manufacturer(),
-            model = faker.vehicle().model(),
-            price = faker.number().digits(7);
-
     @Test(testName = "Создание автомобиля с валидными данными")
-    void successCreateCar(CarTestData validCarData) {
+    void successCreateCar() {
+        CarTestData validCar = CarTestDataFactory.validCarTestDataUI();
         final String status = "Status: Successfully pushed, code: 201";
 
         loginPage.authorization();
         baseSteps
                 .showDropdown(CARS)
                 .openTableFromDropdown(CARS, CREATE_NEW_CARS);
-        carsPage.addNewCarUI(validCarData);
+        carsPage.addNewCarUI(validCar);
         baseSteps
                 .clickPushToApi()
                 .verifyTextStatus(status)
@@ -45,17 +40,14 @@ public class CreateCarTest extends BaseTest {
     @Test(testName = "Создание автомобиля с пустым полем ",
             dataProvider = "Тестовые данные для негативных проверок создания автомобиля",
             dataProviderClass = CarsPage.class)
-    void unsuccessCreateCar(String engineType, String mark, String model, String price) {
+    void unsuccessCreateCar(CarTestData carTestData) {
         final String status = "Status: Invalid request data";
 
         loginPage.authorization();
         baseSteps
                 .showDropdown(CARS)
                 .openTableFromDropdown(CARS, CREATE_NEW_CARS);
-        new Input("engine_type").fillField(engineType);
-        new Input("mark").fillField(mark);
-        new Input("model").fillField(model);
-        new Input("price").fillField(price);
+        carsPage.addNewCarUI(carTestData);
         baseSteps
                 .clickPushToApi()
                 .verifyTextStatus(status)
@@ -66,16 +58,14 @@ public class CreateCarTest extends BaseTest {
     @Story("Создание автомобиля с невалидными данными")
     @Test(testName = "Создание автомобиля с несоответствующими данными")
     void createCarInvalidData() {
+        CarTestData invalidCar = CarTestDataFactory.invalidCarTestDataUI();
         final String status = "Status: AxiosError: Request failed with status code 400";
 
         loginPage.authorization();
         baseSteps
                 .showDropdown(CARS)
                 .openTableFromDropdown(CARS, CREATE_NEW_CARS);
-        new Input("engine_type").fillField("PHEV");
-        new Input("mark").fillField("Porsche");
-        new Input("model").fillField("911");
-        new Input("price").fillField(price);
+        carsPage.addNewCarUI(invalidCar);
         baseSteps
                 .clickPushToApi()
                 .verifyTextStatus(status)
