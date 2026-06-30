@@ -1,4 +1,4 @@
-package ui.dto;
+package ui.dto.cars;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

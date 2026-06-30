@@ -5,7 +5,7 @@
         parallel="tests">
 
     <listeners>
-        <listener class-name="utils.TestListener"/>
+        <listener class-name="utils.listeners.TestListener"/>
         <listener class-name="utils.AnnotationTransformer"></listener>
     </listeners>
 

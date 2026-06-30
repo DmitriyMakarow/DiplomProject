@@ -1,6 +1,8 @@
 package api.adapters;
 
-import api.models.*;
+import api.models.users.InvalidUserRequest;
+import api.models.users.UserRequest;
+import api.models.users.UserResponse;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 

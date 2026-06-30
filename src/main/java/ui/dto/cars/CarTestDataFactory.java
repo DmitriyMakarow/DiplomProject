@@ -1,6 +1,6 @@
-package ui.dto;
+package ui.dto.cars;
 
-import api.models.CarRequest;
+import api.models.cars.CarRequest;
 
 import static ui.pages.base.BasePage.faker;
 

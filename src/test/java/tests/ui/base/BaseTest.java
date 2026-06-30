@@ -25,7 +25,7 @@ import ui.pages.users.UsersPage;
 import ui.steps.BaseSteps;
 import ui.steps.UsersSteps;
 import utils.PropertyReader;
-import utils.TestListener;
+import utils.listeners.TestListener;
 
 import java.util.HashMap;
 

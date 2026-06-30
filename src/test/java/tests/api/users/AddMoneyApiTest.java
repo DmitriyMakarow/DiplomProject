@@ -1,7 +1,7 @@
 package tests.api.users;
 
-import api.models.UserRequest;
-import api.models.UserResponse;
+import api.models.users.UserRequest;
+import api.models.users.UserResponse;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -10,7 +10,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import tests.ui.base.BaseTest;
-import ui.dto.UserTestDataFactory;
+import ui.dto.users.UserTestDataFactory;
 
 import static org.testng.Assert.assertEquals;
 import static ui.pages.base.BasePage.faker;

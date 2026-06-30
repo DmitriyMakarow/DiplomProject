@@ -1,9 +1,9 @@
 package tests.ui.cars;
 
-import api.models.CarRequest;
-import api.models.CarResponse;
-import api.models.UserRequest;
-import api.models.UserResponse;
+import api.models.cars.CarRequest;
+import api.models.cars.CarResponse;
+import api.models.users.UserRequest;
+import api.models.users.UserResponse;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -11,8 +11,8 @@ import io.qameta.allure.Issue;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import tests.ui.base.BaseTest;
-import ui.dto.CarTestDataFactory;
-import ui.dto.UserTestDataFactory;
+import ui.dto.cars.CarTestDataFactory;
+import ui.dto.users.UserTestDataFactory;
 import ui.wrappers.Input;
 
 import static ui.enumUI.Dropdown.CARS;

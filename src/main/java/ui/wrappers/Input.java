@@ -8,15 +8,9 @@ import static com.codeborne.selenide.Selenide.$x;
 @Log4j2
 public class Input {
     String label;
-    int formIndex;
 
     public Input(String label) {
         this.label = label;
-    }
-
-    public Input(int formIndex, String label) {
-        this.label = label;
-        this.formIndex = formIndex;
     }
 
     @Step("Заполнение поля {label} значением {text}")

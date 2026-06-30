@@ -1,7 +1,7 @@
 package tests.ui.houses;
 
-import api.models.HouseRequest;
-import api.models.HouseResponse;
+import api.models.houses.HouseRequest;
+import api.models.houses.HouseResponse;
 import io.qameta.allure.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

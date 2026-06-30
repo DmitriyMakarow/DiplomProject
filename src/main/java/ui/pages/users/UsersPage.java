@@ -1,7 +1,7 @@
 package ui.pages.users;
 
-import ui.dto.UserTestData;
-import api.models.InvalidUserRequest;
+import ui.dto.users.UserTestData;
+import api.models.users.InvalidUserRequest;
 import org.testng.annotations.DataProvider;
 import ui.pages.base.BasePage;
 import ui.wrappers.Input;

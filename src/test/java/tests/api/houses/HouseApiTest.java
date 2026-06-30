@@ -1,7 +1,7 @@
 package tests.api.houses;
 
-import api.models.HouseRequest;
-import api.models.HouseResponse;
+import api.models.houses.HouseRequest;
+import api.models.houses.HouseResponse;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.testng.annotations.AfterMethod;

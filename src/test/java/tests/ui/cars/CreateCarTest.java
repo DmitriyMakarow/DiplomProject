@@ -7,15 +7,13 @@ import io.qameta.allure.Story;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import ui.dto.CarTestData;
-import ui.dto.CarTestDataFactory;
+import ui.dto.cars.CarTestData;
+import ui.dto.cars.CarTestDataFactory;
 import ui.pages.cars.CarsPage;
 import tests.ui.base.BaseTest;
-import ui.wrappers.Input;
 
 import static ui.enumUI.Dropdown.CARS;
 import static ui.enumUI.TableType.CREATE_NEW_CARS;
-import static ui.pages.base.BasePage.faker;
 
 @Epic("Автомобили")
 @Feature("Создание автомобиля")

@@ -1,7 +1,7 @@
 package ui.pages.cars;
 
 import org.testng.annotations.DataProvider;
-import ui.dto.CarTestData;
+import ui.dto.cars.CarTestData;
 import ui.pages.base.BasePage;
 import ui.wrappers.Input;
 

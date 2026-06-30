@@ -1,7 +1,7 @@
 package tests.api.cars;
 
-import api.models.CarRequest;
-import api.models.CarResponse;
+import api.models.cars.CarRequest;
+import api.models.cars.CarResponse;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import lombok.extern.log4j.Log4j2;
@@ -9,7 +9,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import tests.ui.base.BaseTest;
-import ui.dto.CarTestDataFactory;
+import ui.dto.cars.CarTestDataFactory;
 
 import static org.testng.Assert.assertEquals;
 

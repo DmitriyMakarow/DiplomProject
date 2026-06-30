@@ -1,6 +1,6 @@
-package ui.dto;
+package ui.dto.users;
 
-import api.models.UserRequest;
+import api.models.users.UserRequest;
 
 import static java.lang.String.valueOf;
 import static ui.pages.base.BasePage.faker;

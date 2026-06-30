@@ -1,4 +1,4 @@
-package ui.dto;
+package ui.dto.users;
 
 import ui.enumUI.RadioLabel;
 import lombok.AllArgsConstructor;

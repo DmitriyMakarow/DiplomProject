@@ -2,8 +2,8 @@ package ui.pages.allpost;
 
 import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
-import ui.dto.CarTestData;
-import ui.dto.UserTestData;
+import ui.dto.cars.CarTestData;
+import ui.dto.users.UserTestData;
 import ui.pages.base.BasePage;
 import ui.wrappers.Input;
 

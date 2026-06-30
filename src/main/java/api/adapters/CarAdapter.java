@@ -1,8 +1,8 @@
 package api.adapters;
 
-import api.models.CarRequest;
-import api.models.CarResponse;
-import api.models.UserResponse;
+import api.models.cars.CarRequest;
+import api.models.cars.CarResponse;
+import api.models.users.UserResponse;
 import io.restassured.module.jsv.JsonSchemaValidator;
 
 import static io.restassured.RestAssured.given;

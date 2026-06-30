@@ -7,10 +7,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import tests.ui.base.BaseTest;
-import ui.dto.CarTestData;
-import ui.dto.CarTestDataFactory;
-import ui.dto.UserTestData;
-import ui.dto.UserTestDataFactory;
+import ui.dto.cars.CarTestData;
+import ui.dto.cars.CarTestDataFactory;
+import ui.dto.users.UserTestData;
+import ui.dto.users.UserTestDataFactory;
 import ui.enumUI.RadioLabel;
 
 import static org.testng.Assert.assertNotNull;

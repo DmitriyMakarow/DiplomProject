@@ -1,33 +1,35 @@
-package api.models;
+package api.models.users;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class UserResponse {
-
-    @SerializedName("id")
-    @Expose
-    public int id;
+@Builder
+public class UserRequest {
 
     @SerializedName("firstName")
     @Expose
-    public String firstName;
+    private String firstName;
 
     @SerializedName("secondName")
     @Expose
-    public String secondName;
+    private String secondName;
 
     @SerializedName("age")
     @Expose
-    public long age;
+    private long age;
 
     @SerializedName("sex")
     @Expose
-    public String sex;
+    private String sex;
 
     @SerializedName("money")
     @Expose
-    public double money;
+    private double money;
+
+    @SerializedName("amount")
+    @Expose
+    private double amount;
 }

@@ -1,7 +1,7 @@
 package api.adapters;
 
-import api.models.HouseRequest;
-import api.models.HouseResponse;
+import api.models.houses.HouseRequest;
+import api.models.houses.HouseResponse;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.module.jsv.JsonSchemaValidator;
 

@@ -1,6 +1,9 @@
 package tests.api.cars;
 
-import api.models.*;
+import api.models.cars.CarRequest;
+import api.models.cars.CarResponse;
+import api.models.users.UserRequest;
+import api.models.users.UserResponse;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -8,8 +11,8 @@ import lombok.extern.log4j.Log4j2;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import tests.ui.base.BaseTest;
-import ui.dto.CarTestDataFactory;
-import ui.dto.UserTestDataFactory;
+import ui.dto.cars.CarTestDataFactory;
+import ui.dto.users.UserTestDataFactory;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
