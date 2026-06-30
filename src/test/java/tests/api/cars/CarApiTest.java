@@ -24,7 +24,7 @@ public class CarApiTest extends BaseTest {
 
     @BeforeMethod
     public void createCarApi() {
-        carRequest = CarTestDataFactory.validCarTestDataUI();
+        carRequest = CarTestDataFactory.validCarTestDataAPI();
         carResponse = carAdapter.createApiCar(carRequest);
         idCar = carResponse.getId();
     }
@@ -44,7 +44,7 @@ public class CarApiTest extends BaseTest {
 
     @Test(testName = "Проверка редактирования автомобиля валидными параметрами")
     void checkEditCar() {
-        CarRequest carNewRequest = CarTestDataFactory.validCarTestDataUI();
+        CarRequest carNewRequest = CarTestDataFactory.validCarTestDataAPI();
         CarResponse carNewResponse = carAdapter.putApiCar(idCar, carNewRequest);
 
         assertEquals(carNewResponse.getId(), carResponse.getId(), "Изменился ID машины");
