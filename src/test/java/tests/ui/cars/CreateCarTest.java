@@ -6,6 +6,8 @@ import io.qameta.allure.Issue;
 import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 
+import ui.dto.CarTestData;
+import ui.dto.CarTestDataFactory;
 import ui.pages.cars.CarsPage;
 import tests.ui.base.BaseTest;
 import ui.wrappers.Input;
@@ -18,23 +20,21 @@ import static ui.pages.base.BasePage.faker;
 @Feature("Создание автомобиля")
 public class CreateCarTest extends BaseTest {
 
+    CarTestData validCarData = CarTestDataFactory.validCarTestDataUI();
     private final String
             mark = faker.vehicle().manufacturer(),
             model = faker.vehicle().model(),
             price = faker.number().digits(7);
 
     @Test(testName = "Создание автомобиля с валидными данными")
-    void successCreateCar() {
+    void successCreateCar(CarTestData validCarData) {
         final String status = "Status: Successfully pushed, code: 201";
 
         loginPage.authorization();
         baseSteps
                 .showDropdown(CARS)
                 .openTableFromDropdown(CARS, CREATE_NEW_CARS);
-        new Input("engine_type").fillField("Electric");
-        new Input("mark").fillField(mark);
-        new Input("model").fillField(model);
-        new Input("price").fillField(price);
+        carsPage.addNewCarUI(validCarData);
         baseSteps
                 .clickPushToApi()
                 .verifyTextStatus(status)
