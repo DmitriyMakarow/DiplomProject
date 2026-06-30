@@ -18,7 +18,6 @@ import ui.dto.UserTestDataFactory;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.List;
 
 import static org.testng.Assert.*;
 
@@ -64,7 +63,8 @@ public class SellCarApiTest extends BaseTest {
                         Сумма денег у пользователя не увеличилась на стоимость автомобиля
                         Ожидаемая сумма: %s
                         Фактическиая сумма: %s
-                        Стоимость проданного автомобиля: %s""".formatted(roundedMoneyAfterSell, userAfterSellResponse.getMoney(), carResponse.getPrice()));
+                        Стоимость проданного автомобиля: %s"""
+                        .formatted(roundedMoneyAfterSell, userAfterSellResponse.getMoney(), carResponse.getPrice()));
     }
 
     @Issue("Запрос на продажу выполняется успешно")
