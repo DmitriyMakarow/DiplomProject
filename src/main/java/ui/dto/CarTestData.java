@@ -11,5 +11,5 @@ public class CarTestData {
     private String engineType;
     private String mark;
     private String model;
-    private double price;
+    private String price;
 }

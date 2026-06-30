@@ -11,7 +11,7 @@ public class CarTestDataFactory {
                 .engineType("Gasoline")
                 .mark(faker.vehicle().manufacturer())
                 .model(faker.vehicle().model())
-                .price(faker.number().randomDouble(2, 300000, 600000))
+                .price(faker.number().digits(7))
                 .build();
     }
 
