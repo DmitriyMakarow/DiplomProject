@@ -13,7 +13,7 @@
         <classes>
             <class name="tests.ui.users.AddMoneyTest"/>
             <class name="tests.ui.users.ReadAllUsersTest"/>
-            <parameter name="browser" value="chrome"/>
+            <parameter name="browser" value="CHROME"/>
         </classes>
     </test>
 
@@ -21,7 +21,7 @@
         <classes>
             <class name="tests.ui.login.LoginTest"/>
             <class name="tests.ui.houses.CreateHouseTest"/>
-            <parameter name="browser" value="firefox"/>
+            <parameter name="browser" value="FIREFOX"/>
         </classes>
     </test>
 </suite>
