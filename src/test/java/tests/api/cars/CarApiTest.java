@@ -14,9 +14,10 @@ import ui.dto.cars.CarTestDataFactory;
 
 import java.sql.ResultSet;
 
+import static data.CarDao.*;
 import static io.qameta.allure.Allure.step;
 import static org.testng.Assert.assertEquals;
-import static tests.db.DBConnection.getSelectCarByID;
+import static org.testng.Assert.assertTrue;
 
 @Log4j2
 @Epic("Автомобили. API")
@@ -50,9 +51,9 @@ public class CarApiTest extends BaseTest {
 
         step("Проверка записи по созданному авто в БД", () -> {
             connection.connect();
-            ResultSet result = connection.select(getSelectCarByID(String.valueOf(idCar)));
+            ResultSet result = carDao.select(getSelectCarByID(String.valueOf(idCar)));
             while (result.next()) {
-                connection.verifyAttributesCar(carResponse, result);
+                carDao.verifyAttributesCar(carResponse, result);
             }
         });
     }
@@ -63,6 +64,11 @@ public class CarApiTest extends BaseTest {
     void createInvalidCar() {
         CarRequest invalidCarRequest = CarTestDataFactory.emptyCarTestDataUI();
         carAdapter.createCar(invalidCarRequest, 400, null);
+
+        step("Проверка отсутствия записи по созданному авто в БД", () -> {
+            connection.connect();
+            assertTrue(carDao.emptySelect(getSelectCarByModel(invalidCarRequest)));
+        });
     }
 
     @Owner("Кадырмятова А.В.")
@@ -77,6 +83,14 @@ public class CarApiTest extends BaseTest {
         assertEquals(carNewResponse.getModel(), carNewRequest.getModel(), "Модель не соответствует");
         assertEquals(carNewResponse.getMark(), carNewRequest.getMark(), "Марка не соответствует");
         assertEquals(carNewResponse.getPrice(), carNewRequest.getPrice());
+
+        step("Проверка записи по измененному авто в БД", () -> {
+            connection.connect();
+            ResultSet result = carDao.select(getSelectCarByID(String.valueOf(idCar)));
+            while (result.next()) {
+                carDao.verifyAttributesCar(carNewResponse, result);
+            }
+        });
     }
 
     @Owner("Кадырмятова А.В.")
@@ -85,6 +99,14 @@ public class CarApiTest extends BaseTest {
     void checkEditInvalidCar() {
         CarRequest carNewRequest = CarTestDataFactory.emptyCarTestDataUI();
         carAdapter.putCar(idCar, carNewRequest, 400, null);
+
+        step("Проверка сохранения изначальной записи по авто в БД", () -> {
+            connection.connect();
+            ResultSet result = carDao.select(getSelectCarByID(String.valueOf(idCar)));
+            while (result.next()) {
+                carDao.verifyAttributesCar(carResponse, result);
+            }
+        });
     }
 
     @Owner("Кадырмятова А.В.")
@@ -93,5 +115,10 @@ public class CarApiTest extends BaseTest {
     void checkDeleteCar() {
         carAdapter.deleteApiCar(idCar);
         carAdapter.getCar(idCar, 204, null);
+
+        step("Проверка отсутствия записи по удаленному авто в БД", () -> {
+            connection.connect();
+            assertTrue(carDao.emptySelect(getSelectCarByModel(carRequest)));
+        });
     }
 }

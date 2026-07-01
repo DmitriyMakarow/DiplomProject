@@ -1,5 +1,7 @@
 package data;
 
+import api.models.cars.CarRequest;
+import api.models.cars.CarResponse;
 import tests.db.DBConnection;
 import ui.dto.cars.CarTestData;
 
@@ -20,10 +22,22 @@ public class CarDao extends DBConnection {
                 "where car.id = %s").formatted(carId);
     }
 
+    public static String getSelectCarByModel(CarRequest car) {
+        return "SELECT * FROM public.car WHERE car.mark = '%s' and car.model = '%s'"
+                .formatted(car.getMark(), car.getModel());
+    }
+
     public void verifyAttributesCar(CarTestData car, ResultSet result) throws SQLException {
         assertEquals(car.getMark(), result.getString("mark"));
         assertEquals(car.getModel(), result.getString("model"));
         assertEquals(Integer.valueOf(car.getPrice()), result.getInt("price"));
+        assertEquals(car.getEngineType(), result.getString("type_name"));
+    }
+
+    public void verifyAttributesCar(CarResponse car, ResultSet result) throws SQLException {
+        assertEquals(car.getMark(), result.getString("mark"));
+        assertEquals(car.getModel(), result.getString("model"));
+        assertEquals(Integer.valueOf((int) car.getPrice()), result.getInt("price"));
         assertEquals(car.getEngineType(), result.getString("type_name"));
     }
 }

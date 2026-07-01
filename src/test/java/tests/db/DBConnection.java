@@ -30,6 +30,13 @@ public class DBConnection extends BaseTest {
         }
     }
 
+    public boolean emptySelect(String query) throws SQLException {
+        try (ResultSet rs = select(query)) {
+            log.info("Найдены записи в БД!");
+            return !rs.next();
+        }
+    }
+
     public void close() {
         try {
             if (result != null) {
