@@ -11,17 +11,31 @@
 
     <test name="Chrome">
         <classes>
-            <class name="tests.ui.users.AddMoneyTest"/>
+            <class name="tests.ui.login.LoginTest"/>
             <class name="tests.ui.users.ReadAllUsersTest"/>
+            <class name="tests.ui.users.CreateUsersTest"/>
+            <class name="tests.ui.users.AddMoneyTest"/>
+            <class name="tests.ui.users.IssueALoanTest"/>
             <parameter name="browser" value="CHROME"/>
         </classes>
     </test>
 
     <test name="Firefox">
         <classes>
-            <class name="tests.ui.login.LoginTest"/>
+            <class name="tests.ui.houses.ReadAllHousesTest"/>
+            <class name="tests.ui.houses.ReadHouseByIdTest"/>
             <class name="tests.ui.houses.CreateHouseTest"/>
             <parameter name="browser" value="FIREFOX"/>
+        </classes>
+    </test>
+
+    <test name="Edge">
+        <classes>
+            <class name="tests.ui.cars.ReadAllCarsTest"/>
+            <class name="tests.ui.cars.CreateCarTest"/>
+            <class name="tests.ui.cars.BuyOrSellCarTest"/>
+            <class name="tests.ui.allpost.AllPostTest"/>
+            <parameter name="browser" value="EDGE"/>
         </classes>
     </test>
 </suite>
