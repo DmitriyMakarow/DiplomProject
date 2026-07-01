@@ -22,7 +22,7 @@ import static org.testng.Assert.assertTrue;
 @Log4j2
 @Epic("Автомобили. API")
 @Feature("Создание автомобиля")
-public class CarApiTest extends BaseTest {
+class CarApiTest extends BaseTest {
 
     private CarResponse carResponse;
     private CarRequest carRequest;

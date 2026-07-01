@@ -13,13 +13,15 @@ import tests.ui.base.BaseTest;
 import java.sql.ResultSet;
 
 import static data.CarDao.getSelectCarByID;
+import static data.CarDao.getSelectCarByModel;
 import static io.qameta.allure.Allure.step;
+import static org.testng.Assert.assertTrue;
 import static ui.enumUI.Dropdown.CARS;
 import static ui.enumUI.TableType.CREATE_NEW_CARS;
 
 @Epic("Автомобили")
 @Feature("Создание автомобиля")
-public class CreateCarTest extends BaseTest {
+class CreateCarTest extends BaseTest {
 
     @BeforeMethod
     void openPageCreateCar() {
@@ -70,6 +72,11 @@ public class CreateCarTest extends BaseTest {
                 .clickPushToApi()
                 .verifyTextStatus(status)
                 .verifyNoIdObject();
+
+        step("Проверка отсутствия записи по созданному авто в БД", () -> {
+            connection.connect();
+            assertTrue(carDao.emptySelect(getSelectCarByModel(carTestData)));
+        });
     }
 
     @Owner("Кадырмятова А.В.")
@@ -85,5 +92,10 @@ public class CreateCarTest extends BaseTest {
                 .clickPushToApi()
                 .verifyTextStatus(status)
                 .verifyNoIdObject();
+
+        step("Проверка отсутствия записи по созданному авто в БД", () -> {
+            connection.connect();
+            assertTrue(carDao.emptySelect(getSelectCarByModel(carTestData)));
+        });
     }
 }

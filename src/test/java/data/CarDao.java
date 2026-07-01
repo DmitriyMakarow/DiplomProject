@@ -27,6 +27,11 @@ public class CarDao extends DBConnection {
                 .formatted(car.getMark(), car.getModel());
     }
 
+    public static String getSelectCarByModel(CarTestData car) {
+        return "SELECT * FROM public.car WHERE car.mark = '%s' and car.model = '%s'"
+                .formatted(car.getMark(), car.getModel());
+    }
+
     public void verifyAttributesCar(CarTestData car, ResultSet result) throws SQLException {
         assertEquals(car.getMark(), result.getString("mark"));
         assertEquals(car.getModel(), result.getString("model"));
