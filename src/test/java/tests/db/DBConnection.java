@@ -1,12 +1,12 @@
 package tests.db;
 
+import lombok.extern.log4j.Log4j2;
+import tests.ui.base.BaseTest;
+
 import java.sql.*;
 
-public class DBConnection {
-
-    private final String URL = "jdbc:postgresql://82.142.167.37:4832/pflb_trainingcenter";
-    private final String USER = "pflb-at-read";
-    private final String PASSWORD = "PflbQaTraining2354";
+@Log4j2
+public class DBConnection extends BaseTest {
 
     private Connection connection; // класс нужен для того, чтобы подключаться к БД
     private Statement statement;// класс нужен для того, чтобы в БД отправлять запрос
@@ -14,9 +14,9 @@ public class DBConnection {
 
     public void connect() {
         try {
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            connection = DriverManager.getConnection(urlDB, userDB, passwordDB);
             statement = connection.createStatement();
-            System.out.println("Соединение с БД выполнено");
+            log.info("Соединение с БД выполнено");
         } catch (SQLException e) {
             throw new RuntimeException("Соединение не выполнено", e);
         }
@@ -30,6 +30,14 @@ public class DBConnection {
         }
     }
 
+    public static String getSelectAll(String nameTable) {
+        return "SELECT * FROM public.%s".formatted(nameTable);
+    }
+
+    public static String getSelectByID(String nameTable, String id) {
+        return "SELECT * FROM public.%s WHERE (id = %s)".formatted(nameTable, id);
+    }
+
     public void close() {
         try {
             if (resultSet!= null) {
@@ -41,7 +49,7 @@ public class DBConnection {
             if (connection!= null) {
                 connection.close();
             }
-            System.out.println("Подключение к БД закрыто");
+            log.info("Подключение к БД закрыто");
         } catch (SQLException e) {
             throw new RuntimeException("Ошибка при закрытии соединения", e);
         }

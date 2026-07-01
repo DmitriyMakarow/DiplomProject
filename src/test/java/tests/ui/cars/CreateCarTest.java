@@ -10,6 +10,11 @@ import ui.pages.cars.CarsPage;
 import tests.ui.base.BaseTest;
 import ui.wrappers.Input;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import static org.testng.Assert.assertEquals;
+import static tests.db.DBConnection.getSelectByID;
 import static ui.enumUI.Dropdown.CARS;
 import static ui.enumUI.TableType.CREATE_NEW_CARS;
 import static ui.pages.base.BasePage.faker;
@@ -24,7 +29,7 @@ public class CreateCarTest extends BaseTest {
             price = faker.number().digits(7);
 
     @Test(testName = "Создание автомобиля с валидными данными")
-    void successCreateCar() {
+    void successCreateCar() throws SQLException {
         final String status = "Status: Successfully pushed, code: 201";
 
         loginPage.authorization();
@@ -39,6 +44,14 @@ public class CreateCarTest extends BaseTest {
                 .clickPushToApi()
                 .verifyTextStatus(status)
                 .verifyGetIdObject("New car ID:");
+        String carId = baseSteps.getNewObjectId();
+
+        connection.connect();
+        ResultSet result = connection.select(getSelectByID("car", carId));
+        assertEquals(result.getString("mark"), mark);
+        assertEquals(result.getString("model"), model);
+        assertEquals(result.getInt("price"), price);
+        //assertEquals(result.getString("mark"), mark);
     }
 
     @Story("Создание автомобиля с невалидными данными")

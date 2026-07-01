@@ -15,6 +15,7 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
+import tests.db.DBConnection;
 import ui.pages.allpost.AllPostPage;
 import ui.pages.login.LoginPage;
 import ui.pages.users.AddMoneyPage;
@@ -34,10 +35,16 @@ import static com.codeborne.selenide.Selenide.open;
 @Listeners({AllureTestNg.class, TestListener.class})
 public class BaseTest {
 
-    protected final String baseUrl = "http://82.142.167.37:4881/#";
-    protected final String user = System.getProperty("user", PropertyReader.getProperty("user"));
-    protected final String password = System.getProperty("password", PropertyReader.getProperty("password"));
+    protected final String
+            baseUrl = "http://82.142.167.37:4881/#",
+            user = System.getProperty("user", PropertyReader.getProperty("user")),
+            password = System.getProperty("password", PropertyReader.getProperty("password")),
 
+            urlDB = "jdbc:postgresql://82.142.167.37:4832/pflb_trainingcenter",
+            userDB = System.getProperty("userDB", PropertyReader.getProperty("userDB")),
+            passwordDB = System.getProperty("passwordDB", PropertyReader.getProperty("passwordDB"));
+
+    protected DBConnection connection;
     protected BasePage basePage;
     protected BaseSteps baseSteps;
     protected LoginPage loginPage;
@@ -107,6 +114,7 @@ public class BaseTest {
 
         context.setAttribute("driver", WebDriverRunner.getWebDriver());
 
+        connection = new DBConnection();
         basePage = new BasePage();
         baseSteps = new BaseSteps();
         loginPage = new LoginPage();
