@@ -63,14 +63,15 @@ public class BaseTest {
     @Description("Настройка браузера")
     public void setUp(@Optional("CHROME") String browser, ITestContext context) {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
-
+        String headlessProp = System.getProperty("selenide.headless", "false");
+        Configuration.headless = Boolean.parseBoolean(headlessProp);
         Configuration.screenshots = true;
         Configuration.reportsFolder = "build/reports/tests";
         Configuration.savePageSource = true;
         Configuration.baseUrl = baseUrl;
         Configuration.timeout = 10000;
         Configuration.clickViaJs = true;
-        Configuration.headless = false;
+        //Configuration.headless = false;
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--start-maximized");
         chromeOptions.addArguments("--disable-notifications");
@@ -78,9 +79,10 @@ public class BaseTest {
         chromeOptions.addArguments("--no-sandbox");
         chromeOptions.addArguments("--disable-dev-shm-usage");
         chromeOptions.addArguments("--disable-gpu");
-        if (System.getProperty("headless", "true").equals("true")) {
+        /*if (System.getProperty("headless", "true").equals("true")) {
             chromeOptions.addArguments("--headless");
         }
+         */
 
         HashMap<String, Object> prefs = new HashMap<>();
         prefs.put("credentials_enable_service", false);
@@ -99,9 +101,10 @@ public class BaseTest {
                 firefoxOptions.addArguments("--no-sandbox");
                 firefoxOptions.addArguments("--disable-dev-shm-usage");
                 firefoxOptions.addArguments("--disable-gpu");
-                if (System.getProperty("headless", "true").equals("true")) {
+                /*if (System.getProperty("headless", "true").equals("true")) {
                     firefoxOptions.addArguments("--headless");
                 }
+                 */
                 Configuration.browserCapabilities = firefoxOptions;
                 break;
             case "EDGE":
@@ -112,9 +115,10 @@ public class BaseTest {
                 edgeOptions.addArguments("--no-sandbox");
                 edgeOptions.addArguments("--disable-dev-shm-usage");
                 edgeOptions.addArguments("--disable-gpu");
-                if (System.getProperty("headless", "true").equals("true")) {
+                /*if (System.getProperty("headless", "true").equals("true")) {
                     edgeOptions.addArguments("--headless");
                 }
+                 */
                 Configuration.browserCapabilities = edgeOptions;
                 break;
             default:
