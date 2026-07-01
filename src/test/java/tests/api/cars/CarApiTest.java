@@ -45,9 +45,9 @@ public class CarApiTest extends BaseTest {
     groups = {"validCar", "deleteData"})
     void checkCreateCar() {
         assertEquals(carResponse.getEngineType(), carRequest.getEngineType(), "Тип двигателя не соответствует");
-        assertEquals(carResponse.getModel(), carResponse.getModel(), "Модель не соответствует");
-        assertEquals(carResponse.getMark(), carResponse.getMark(), "Марка не соответствует");
-        assertEquals(carResponse.getPrice(), carResponse.getPrice());
+        assertEquals(carResponse.getModel(), carRequest.getModel(), "Модель не соответствует");
+        assertEquals(carResponse.getMark(), carRequest.getMark(), "Марка не соответствует");
+        assertEquals(carResponse.getPrice(), carRequest.getPrice());
 
         step("Проверка записи по созданному авто в БД", () -> {
             connection.connect();
