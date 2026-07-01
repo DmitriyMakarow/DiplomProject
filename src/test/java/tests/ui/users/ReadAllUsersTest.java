@@ -20,10 +20,7 @@ public class ReadAllUsersTest extends BaseTest {
 
     @BeforeMethod
     public void testData() {
-        loginPage
-                .authorization(user, password)
-                .verifySuccessAuthorization();
-        baseSteps.showDropdown(USERS);
+        loginPage.authorization();
     }
 
     @DataProvider(name = "columns")

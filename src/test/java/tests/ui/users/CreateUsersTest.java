@@ -23,9 +23,7 @@ public class CreateUsersTest extends BaseTest {
     @BeforeMethod
     public void testData() {
         loginPage.authorization();
-        baseSteps
-                .showDropdown(USERS)
-                .openTableFromDropdown(USERS, CREATE_NEW_USER);
+        baseSteps.openTableFromDropdown(USERS, CREATE_NEW_USER);
     }
 
     @Test(testName = "Создание пользователя с валидными данными")

@@ -15,10 +15,7 @@ public class ReadAllHousesTest extends BaseTest {
 
     @BeforeMethod
     public void openPageAllHouses() {
-        loginPage
-                .authorization(user, password)
-                .verifySuccessAuthorization();
-        baseSteps.showDropdown(HOUSES);
+        loginPage.authorization();
     }
 
     @Test(testName = "Проверка отображения таблицы домов")

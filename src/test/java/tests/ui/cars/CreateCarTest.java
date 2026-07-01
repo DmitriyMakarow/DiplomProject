@@ -20,9 +20,7 @@ public class CreateCarTest extends BaseTest {
     @BeforeMethod
     void openPageCreateCar() {
         loginPage.authorization();
-        baseSteps
-                .showDropdown(CARS)
-                .openTableFromDropdown(CARS, CREATE_NEW_CARS);
+        baseSteps.openTableFromDropdown(CARS, CREATE_NEW_CARS);
     }
 
     @Owner("Кадырмятова А.В.")

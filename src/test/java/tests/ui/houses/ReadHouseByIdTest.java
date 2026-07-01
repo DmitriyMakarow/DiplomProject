@@ -22,9 +22,7 @@ public class ReadHouseByIdTest extends BaseTest {
 
     @BeforeMethod
     public void openPageReadHouseById() {
-        loginPage
-                .authorization(user, password)
-                .verifySuccessAuthorization();
+        loginPage.authorization();
         baseSteps.showDropdown(HOUSES);
         housesPage = new HousesPage();
     }

@@ -18,10 +18,7 @@ public class ReadAllCarsTest extends BaseTest {
 
     @BeforeMethod
     public void testData() {
-        loginPage
-                .authorization(user, password)
-                .verifySuccessAuthorization();
-        baseSteps.showDropdown(CARS);
+        loginPage.authorization();
     }
 
     @DataProvider(name = "columns")
