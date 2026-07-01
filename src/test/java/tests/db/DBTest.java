@@ -15,7 +15,7 @@ public class DBTest extends BaseTest {
     @Test
     public void checkSelect() throws SQLException {
         connection.connect();
-        ResultSet result = connection.select("select * from public.person where id=13132");
+        ResultSet result = connection.select("SELECT * FROM public.person WHERE (id = 13132)");
         while (result.next()) {
             System.out.print(result.getInt("id") + " ");
             System.out.print(result.getInt("age") + " ");

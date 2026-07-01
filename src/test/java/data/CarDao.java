@@ -17,9 +17,10 @@ public class CarDao extends DBConnection {
     }
 
     public static String getSelectCarByID(String carId) {
-        return ("select * from public.car left join public.engine_type " +
-                "on car.engine_type_id = engine_type.id " +
-                "where car.id = %s").formatted(carId);
+        return """
+                select * from public.car left join public.engine_type
+                on car.engine_type_id = engine_type.id
+                where car.id = %s""".formatted(carId);
     }
 
     public static String getSelectCarByModel(CarRequest car) {

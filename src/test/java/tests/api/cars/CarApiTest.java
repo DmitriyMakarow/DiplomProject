@@ -47,7 +47,7 @@ public class CarApiTest extends BaseTest {
         assertEquals(carResponse.getEngineType(), carRequest.getEngineType(), "Тип двигателя не соответствует");
         assertEquals(carResponse.getModel(), carRequest.getModel(), "Модель не соответствует");
         assertEquals(carResponse.getMark(), carRequest.getMark(), "Марка не соответствует");
-        assertEquals(carResponse.getPrice(), carRequest.getPrice());
+        assertEquals(carResponse.getPrice(), carRequest.getPrice(), "Цена не соответствует");
 
         step("Проверка записи по созданному авто в БД", () -> {
             connection.connect();
@@ -82,7 +82,7 @@ public class CarApiTest extends BaseTest {
         assertEquals(carNewResponse.getEngineType(), carNewRequest.getEngineType(), "Тип двигателя не соответствует");
         assertEquals(carNewResponse.getModel(), carNewRequest.getModel(), "Модель не соответствует");
         assertEquals(carNewResponse.getMark(), carNewRequest.getMark(), "Марка не соответствует");
-        assertEquals(carNewResponse.getPrice(), carNewRequest.getPrice());
+        assertEquals(carNewResponse.getPrice(), carNewRequest.getPrice(), "Цена не соответствует");
 
         step("Проверка записи по измененному авто в БД", () -> {
             connection.connect();
