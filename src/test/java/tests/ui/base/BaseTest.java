@@ -7,6 +7,7 @@ import api.adapters.UserAdapter;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
+import data.CarDao;
 import io.qameta.allure.Description;
 import io.qameta.allure.selenide.AllureSelenide;
 import io.qameta.allure.testng.AllureTestNg;
@@ -45,6 +46,7 @@ public class BaseTest {
             passwordDB = System.getProperty("passwordDB", PropertyReader.getProperty("passwordDB"));
 
     protected DBConnection connection;
+    protected CarDao carDao;
     protected BasePage basePage;
     protected BaseSteps baseSteps;
     protected LoginPage loginPage;
@@ -52,7 +54,6 @@ public class BaseTest {
     protected CarAdapter carAdapter;
     protected HouseAdapter houseAdapter;
     protected UserAdapter userAdapter;
-    protected BaseAdapter baseAdapter;
     protected CarsPage carsPage;
     protected UsersPage usersPage;
     protected IssueALoanPage issueALoanPage;
@@ -132,13 +133,13 @@ public class BaseTest {
         context.setAttribute("driver", WebDriverRunner.getWebDriver());
 
         connection = new DBConnection();
+        carDao = new CarDao();
         basePage = new BasePage();
         baseSteps = new BaseSteps();
         loginPage = new LoginPage();
         addMoneyPage = new AddMoneyPage();
         carAdapter = new CarAdapter();
         houseAdapter = new HouseAdapter();
-        baseAdapter = new BaseAdapter();
         carsPage = new CarsPage();
         usersPage = new UsersPage();
         userAdapter = new UserAdapter();
