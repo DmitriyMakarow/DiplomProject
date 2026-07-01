@@ -12,8 +12,8 @@ import tests.ui.base.BaseTest;
 
 import java.sql.ResultSet;
 
+import static data.CarDao.getSelectCarByID;
 import static io.qameta.allure.Allure.step;
-import static tests.db.DBConnection.getSelectCarByID;
 import static ui.enumUI.Dropdown.CARS;
 import static ui.enumUI.TableType.CREATE_NEW_CARS;
 
@@ -47,9 +47,9 @@ public class CreateCarTest extends BaseTest {
 
         step("Проверка записи по созданному авто в БД", () -> {
             connection.connect();
-            ResultSet result = connection.select(getSelectCarByID(idCar));
+            ResultSet result = carDao.select(getSelectCarByID(idCar));
             while (result.next()) {
-                connection.verifyAttributesCar(validCar, result);
+                carDao.verifyAttributesCar(validCar, result);
             }
         });
 
