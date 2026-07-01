@@ -1,5 +1,6 @@
 package tests.db;
 
+import api.models.cars.CarResponse;
 import lombok.extern.log4j.Log4j2;
 import tests.ui.base.BaseTest;
 import ui.dto.cars.CarTestData;
@@ -47,6 +48,13 @@ public class DBConnection extends BaseTest {
         assertEquals(car.getMark(), result.getString("mark"));
         assertEquals(car.getModel(), result.getString("model"));
         assertEquals(Integer.valueOf(car.getPrice()), result.getInt("price"));
+        assertEquals(car.getEngineType(), result.getString("type_name"));
+    }
+
+    public void verifyAttributesCar(CarResponse car, ResultSet result) throws SQLException {
+        assertEquals(car.getMark(), result.getString("mark"));
+        assertEquals(car.getModel(), result.getString("model"));
+        assertEquals(Integer.valueOf((int) car.getPrice()), result.getInt("price"));
         assertEquals(car.getEngineType(), result.getString("type_name"));
     }
 

@@ -12,7 +12,11 @@ import org.testng.annotations.Test;
 import tests.ui.base.BaseTest;
 import ui.dto.cars.CarTestDataFactory;
 
+import java.sql.ResultSet;
+
+import static io.qameta.allure.Allure.step;
 import static org.testng.Assert.assertEquals;
+import static tests.db.DBConnection.getSelectCarByID;
 
 @Log4j2
 @Epic("Автомобили. API")
@@ -43,6 +47,14 @@ public class CarApiTest extends BaseTest {
         assertEquals(carResponse.getModel(), carResponse.getModel(), "Модель не соответствует");
         assertEquals(carResponse.getMark(), carResponse.getMark(), "Марка не соответствует");
         assertEquals(carResponse.getPrice(), carResponse.getPrice());
+
+        step("Проверка записи по созданному авто в БД", () -> {
+            connection.connect();
+            ResultSet result = connection.select(getSelectCarByID(String.valueOf(idCar)));
+            while (result.next()) {
+                connection.verifyAttributesCar(carResponse, result);
+            }
+        });
     }
 
     @Owner("Кадырмятова А.В.")
