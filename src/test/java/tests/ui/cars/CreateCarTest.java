@@ -15,7 +15,7 @@ import java.sql.SQLException;
 
 import static io.qameta.allure.Allure.step;
 import static org.testng.Assert.assertEquals;
-import static tests.db.DBConnection.getSelectByID;
+import static tests.db.DBConnection.getSelectCarByID;
 import static ui.enumUI.Dropdown.CARS;
 import static ui.enumUI.TableType.CREATE_NEW_CARS;
 
@@ -49,12 +49,12 @@ public class CreateCarTest extends BaseTest {
 
         step("Проверка записи по созданному авто в БД", () -> {
             connection.connect();
-            ResultSet result = connection.select(getSelectByID("car", idCar));
+            ResultSet result = connection.select(getSelectCarByID(idCar));
             while (result.next()) {
                 assertEquals(validCar.getMark(), result.getString("mark"));
                 assertEquals(validCar.getModel(), result.getString("model"));
                 assertEquals(Integer.valueOf(validCar.getPrice()), result.getInt("price"));
-                //TODO: добавить проверку типа двигателя, нужен join
+                assertEquals(validCar.getEngineType(), result.getString("type_name"));
             }
         });
 

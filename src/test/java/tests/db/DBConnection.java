@@ -34,8 +34,10 @@ public class DBConnection extends BaseTest {
         return "SELECT * FROM public.%s".formatted(nameTable);
     }
 
-    public static String getSelectByID(String nameTable, String id) {
-        return "SELECT * FROM public.%s WHERE (id = %s)".formatted(nameTable, id);
+    public static String getSelectCarByID(String carId) {
+        return ("select * from public.car left join public.engine_type " +
+                "on car.engine_type_id = engine_type.id " +
+                "where car.id = %s").formatted(carId);
     }
 
     public void close() {

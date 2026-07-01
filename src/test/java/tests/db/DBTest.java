@@ -6,7 +6,6 @@ import tests.ui.base.BaseTest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static tests.db.DBConnection.getSelectByID;
 
 public class DBTest extends BaseTest {
 
@@ -16,7 +15,7 @@ public class DBTest extends BaseTest {
     @Test
     public void checkSelect() throws SQLException {
         connection.connect();
-        ResultSet result = connection.select(getSelectByID("person", "13132"));
+        ResultSet result = connection.select("select * from public.person where id=13132");
         while (result.next()) {
             System.out.print(result.getInt("id") + " ");
             System.out.print(result.getInt("age") + " ");
