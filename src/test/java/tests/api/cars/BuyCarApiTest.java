@@ -7,6 +7,7 @@ import api.models.users.UserResponse;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Owner;
 import lombok.extern.log4j.Log4j2;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -33,10 +34,11 @@ public class BuyCarApiTest extends BaseTest {
     @BeforeMethod
     public void createCarApi() {
         CarRequest carRequest = CarTestDataFactory.validCarTestDataAPI();
-        carResponse = carAdapter.createApiCar(carRequest);
+        carResponse = carAdapter.createCar(carRequest, 201, CarResponse.class);
         carId = carResponse.getId();
     }
 
+    @Owner("Кадырмятова А.В.")
     @Test(testName = "Успешная покупка автомобиля")
     @Description("Проверка покупки автомобиля при наличии достаточной суммы у пользователя")
     void successBuyCar() {
@@ -45,7 +47,7 @@ public class BuyCarApiTest extends BaseTest {
         userId = userResponse.getId();
 
         double startMoney = userResponse.getMoney();
-        UserResponse userAfterBuyResponse = carAdapter.successBuyApiCar(userId, carId);
+        UserResponse userAfterBuyResponse = carAdapter.buyCar(userId, carId, 200, UserResponse.class);
         List<CarResponse> carList = userAdapter.getCarsByUser(CarResponse.class, userId);
 
         assertTrue(carList.stream().anyMatch(car -> car.getId() == carId),
@@ -57,6 +59,7 @@ public class BuyCarApiTest extends BaseTest {
                 "Сумма денег у пользователя уменьшилась не на стоимость автомобиля");
     }
 
+    @Owner("Кадырмятова А.В.")
     @Test(testName = "Ошибка при покупке автомобиля")
     @Description("Проверка покупки автомобиля при недостаточной сумме у пользователя")
     void buyNoEnoughMoneyCar() {
@@ -65,7 +68,7 @@ public class BuyCarApiTest extends BaseTest {
         userId = userResponse.getId();
 
         double startMoney = userResponse.getMoney();
-        UserResponse userAfterBuyResponse = carAdapter.buyNotEnoughMoneyApiCar(userId, carId);
+        UserResponse userAfterBuyResponse = carAdapter.buyCar(userId, carId, 406, UserResponse.class);
         userAdapter.getEmptyListCarsByUser(userId);
 
         assertEquals(userAfterBuyResponse.getMoney(), startMoney, "Сумма денег у пользователя изменилась!");
