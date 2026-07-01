@@ -1,7 +1,7 @@
 package ui.steps;
 
-import api.models.UserRequest;
-import api.models.UserResponse;
+import api.models.users.UserRequest;
+import api.models.users.UserResponse;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import ui.pages.base.BasePage;

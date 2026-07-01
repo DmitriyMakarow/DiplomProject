@@ -1,11 +1,12 @@
 package tests.ui.users;
 
+import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 import tests.ui.base.BaseTest;
 
 public class AddMoneyTest extends BaseTest {
-    @Test(testName = "Добавление денег  существующему пользователю", description = "Проверка корректности зачисления " +
-            "денежных средств на баланс существующего пользователя через интерфейс")
+    @Test(testName = "Добавление денег  существующему пользователю")
+    @Description("Проверка корректности зачисления денежных средств на баланс существующего пользователя через интерфейс")
         public void addMoneyPositiveTest() {
     loginPage
                 .authorization(user, password)
@@ -16,8 +17,8 @@ public class AddMoneyTest extends BaseTest {
                 .validationAddMoneyToUser();
     }
 
-    @Test(testName = "Снятие денег (ошибочно) у пользователя через сервис добавление денег", description = "Проверка " +
-            "невозможности списания денежных средств через эндпоинт добавления денег")
+    @Test(testName = "Снятие денег (ошибочно) у пользователя через сервис добавление денег")
+    @Description("Проверка невозможности списания денежных средств через эндпоинт добавления денег")
     public void takeOffMoneyNegativeTest() {
         loginPage
                 .authorization(user, password)
@@ -28,8 +29,8 @@ public class AddMoneyTest extends BaseTest {
                 .validationNotAddMoneyToUser("Status: Incorrect input data");
     }
 
-    @Test(testName = "Добавление денег  несуществующему пользователю", description = "Проверка реакции системы при " +
-            "попытке добавить деньги пользователю с несуществующим ID")
+    @Test(testName = "Добавление денег  несуществующему пользователю")
+    @Description("Проверка реакции системы при попытке добавить деньги пользователю с несуществующим ID")
     public void addMoneyToNonExistentNegativeTest() {
         loginPage
                 .authorization(user, password)

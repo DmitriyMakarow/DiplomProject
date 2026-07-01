@@ -99,6 +99,13 @@ public class BaseSteps extends BasePage {
 
     @Step("Ожидание загрузки таблицы {tableName}")
     public void waitForPageLoader(TableType tableName) {
+        // добавила этот кусок потому что для домов мы не проверяем колонки, таблица отличается от машин и юзеров,
+        // имеет сложную структуру с вложенными подтаблицами (Parking Places, Lodgers)
+        if (tableName == TableType.READ_ALL_HOUSES) {
+            assertTrue(waitVisible(entryTable.first()), "Таблица домов не загрузилась");
+            return;
+        }
+
         List<String> columns = tableName.getColumns();
         columns.forEach(column -> assertTrue(waitVisible(getColumnName(column)),
                 "Колонки с именем: \"%s\" не существует".formatted(column)));

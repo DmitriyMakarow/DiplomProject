@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite
+        name="PFLB_TEAM2"
+        parallel="tests">
+
+    <listeners>
+        <listener class-name="utils.listeners.TestListener"/>
+        <listener class-name="utils.AnnotationTransformer"></listener>
+    </listeners>
+
+    <test name="Chrome">
+        <classes>
+            <class name="tests.ui.users.AddMoneyTest"/>
+            <class name="tests.ui.users.ReadAllUsersTest"/>
+            <parameter name="browser" value="CHROME"/>
+        </classes>
+    </test>
+
+    <test name="Firefox">
+        <classes>
+            <class name="tests.ui.login.LoginTest"/>
+            <class name="tests.ui.houses.CreateHouseTest"/>
+            <parameter name="browser" value="FIREFOX"/>
+        </classes>
+    </test>
+</suite>

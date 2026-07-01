@@ -1,14 +1,14 @@
 package tests.ui.cars;
 
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Issue;
-import io.qameta.allure.Story;
+import api.models.cars.CarResponse;
+import io.qameta.allure.*;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import ui.dto.cars.CarTestData;
+import ui.dto.cars.CarTestDataFactory;
 import ui.pages.cars.CarsPage;
 import tests.ui.base.BaseTest;
-import ui.wrappers.Input;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,33 +17,36 @@ import static org.testng.Assert.assertEquals;
 import static tests.db.DBConnection.getSelectByID;
 import static ui.enumUI.Dropdown.CARS;
 import static ui.enumUI.TableType.CREATE_NEW_CARS;
-import static ui.pages.base.BasePage.faker;
 
 @Epic("Автомобили")
 @Feature("Создание автомобиля")
 public class CreateCarTest extends BaseTest {
 
-    private final String
-            mark = faker.vehicle().manufacturer(),
-            model = faker.vehicle().model(),
-            price = faker.number().digits(7);
-
-    @Test(testName = "Создание автомобиля с валидными данными")
-    void successCreateCar() throws SQLException {
-        final String status = "Status: Successfully pushed, code: 201";
-
+    @BeforeMethod
+    void openPageCreateCar() {
         loginPage.authorization();
         baseSteps
                 .showDropdown(CARS)
                 .openTableFromDropdown(CARS, CREATE_NEW_CARS);
-        new Input("engine_type").fillField("Electric");
-        new Input("mark").fillField(mark);
-        new Input("model").fillField(model);
-        new Input("price").fillField(price);
+    }
+
+    @Owner("Кадырмятова А.В.")
+    @Test(testName = "Создание автомобиля с валидными данными")
+    void successCreateCar() {
+        CarTestData validCar = CarTestDataFactory.validCarTestDataUI();
+        final String status = "Status: Successfully pushed, code: 201";
+
+        carsPage.addNewCarUI(validCar);
         baseSteps
                 .clickPushToApi()
                 .verifyTextStatus(status)
                 .verifyGetIdObject("New car ID:");
+
+        Integer carId = Integer.valueOf(baseSteps.getNewObjectId());
+        carAdapter.getCar(carId, 200, CarResponse.class);
+
+
+        carAdapter.deleteApiCar(carId);
         String carId = baseSteps.getNewObjectId();
 
         connection.connect();
@@ -54,41 +57,30 @@ public class CreateCarTest extends BaseTest {
         //assertEquals(result.getString("mark"), mark);
     }
 
+    @Owner("Кадырмятова А.В.")
     @Story("Создание автомобиля с невалидными данными")
     @Test(testName = "Создание автомобиля с пустым полем ",
-            dataProvider = "Тестовые данные для негативных проверок создания автомобиля",
+            dataProvider = "Тестовые данные для негативных проверок создания автомобиля с пустыми полями",
             dataProviderClass = CarsPage.class)
-    void unsuccessCreateCar(String engineType, String mark, String model, String price) {
+    void unsuccessCreateCar(CarTestData carTestData) {
         final String status = "Status: Invalid request data";
 
-        loginPage.authorization();
-        baseSteps
-                .showDropdown(CARS)
-                .openTableFromDropdown(CARS, CREATE_NEW_CARS);
-        new Input("engine_type").fillField(engineType);
-        new Input("mark").fillField(mark);
-        new Input("model").fillField(model);
-        new Input("price").fillField(price);
+        carsPage.addNewCarUI(carTestData);
         baseSteps
                 .clickPushToApi()
                 .verifyTextStatus(status)
                 .verifyNoIdObject();
     }
 
-    @Issue("")
+    @Owner("Кадырмятова А.В.")
     @Story("Создание автомобиля с невалидными данными")
-    @Test(testName = "Создание автомобиля с несоответствующими данными")
-    void createCarInvalidData() {
+    @Test(testName = "Создание автомобиля с числом в строковом поле",
+            dataProvider = "Тестовые данные для проверок создания автомобиля с цифровым значением для строкового поля",
+            dataProviderClass = CarsPage.class)
+    void createCarWithNumbers(CarTestData carTestData) {
         final String status = "Status: AxiosError: Request failed with status code 400";
 
-        loginPage.authorization();
-        baseSteps
-                .showDropdown(CARS)
-                .openTableFromDropdown(CARS, CREATE_NEW_CARS);
-        new Input("engine_type").fillField("PHEV");
-        new Input("mark").fillField("Porsche");
-        new Input("model").fillField("911");
-        new Input("price").fillField(price);
+        carsPage.addNewCarUI(carTestData);
         baseSteps
                 .clickPushToApi()
                 .verifyTextStatus(status)

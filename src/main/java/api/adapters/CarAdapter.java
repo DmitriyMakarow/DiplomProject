@@ -1,15 +1,16 @@
 package api.adapters;
 
-import api.models.CarRequest;
-import api.models.CarResponse;
+import api.models.cars.CarRequest;
+import api.models.cars.CarResponse;
+import api.models.users.UserResponse;
 import io.restassured.module.jsv.JsonSchemaValidator;
 
 import static io.restassured.RestAssured.given;
 
 public class CarAdapter extends BaseAdapter {
 
-    public CarResponse getCar(Integer id) {
-        return given()
+    public <T> T getCar(Integer id, int status, Class<T> clazz) {
+        var resp = given()
                 .spec(getSpec())
                 .pathParam("id", id)
                 .log().all()
@@ -17,10 +18,14 @@ public class CarAdapter extends BaseAdapter {
                 .get("/car/{id}")
                 .then()
                 .log().all()
-                .statusCode(200)
-                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/carSchema.json"))
-                .extract()
-                .as(CarResponse.class);
+                .statusCode(status);
+
+        if (clazz != null) {
+            resp.body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/carSchema.json"));
+            return resp.extract().as(clazz);
+        }
+
+        return null;
     }
 
     public CarResponse getCars() {
@@ -31,14 +36,14 @@ public class CarAdapter extends BaseAdapter {
                 .get("/cars")
                 .then()
                 .log().all()
-                .statusCode(200)
+                .spec(code200)
                 .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/listCarsSchema.json"))
                 .extract()
                 .as(CarResponse.class);
     }
 
-    public CarResponse createApiCar(CarRequest carRequest) {
-        return given()
+    public <T> T createCar(CarRequest carRequest, int status, Class<T> clazz) {
+        var resp = given()
                 .spec(getSpec())
                 .body(gson.toJson(carRequest))
                 .log().all()
@@ -46,14 +51,18 @@ public class CarAdapter extends BaseAdapter {
                 .post("/car")
                 .then()
                 .log().all()
-                .statusCode(201)
-                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/carSchema.json"))
-                .extract()
-                .as(CarResponse.class);
+                .statusCode(status);
+
+        if (clazz != null) {
+            resp.body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/carSchema.json"));
+            return resp.extract().as(clazz);
+        }
+
+        return null;
     }
 
-    public CarResponse putApiCar(Integer id, CarRequest carRequest) {
-        return given()
+    public <T> T putCar(Integer id, CarRequest carRequest, int status, Class<T> clazz) {
+        var resp = given()
                 .spec(getSpec())
                 .body(gson.toJson(carRequest))
                 .pathParam("id", id)
@@ -62,10 +71,14 @@ public class CarAdapter extends BaseAdapter {
                 .put("/car/{id}")
                 .then()
                 .log().all()
-                .statusCode(202)
-                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/carSchema.json"))
-                .extract()
-                .as(CarResponse.class);
+                .statusCode(status);
+
+        if (clazz != null) {
+            resp.body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/carSchema.json"));
+            return resp.extract().as(clazz);
+        }
+
+        return null;
     }
 
     public void deleteApiCar(Integer id) {
@@ -78,5 +91,45 @@ public class CarAdapter extends BaseAdapter {
                 .then()
                 .log().all()
                 .spec(code204);
+    }
+
+    public <T> T buyCar(Integer userId, Integer carId, int status, Class<T> clazz) {
+        var resp = given()
+                .spec(getSpec())
+                .pathParam("userId", userId)
+                .pathParam("carId", carId)
+                .log().all()
+                .when()
+                .post("/user/{userId}/buyCar/{carId}")
+                .then()
+                .log().all()
+                .statusCode(status);
+
+        if (clazz != null) {
+            resp.body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/userSchema.json"));
+            return resp.extract().as(clazz);
+        }
+
+        return null;
+    }
+
+    public <T> T sellCar(Integer userId, Integer carId, int status, Class<T> clazz) {
+        var resp = given()
+                .spec(getSpec())
+                .pathParam("userId", userId)
+                .pathParam("carId", carId)
+                .log().all()
+                .when()
+                .post("/user/{userId}/sellCar/{carId}")
+                .then()
+                .log().all()
+                .statusCode(status);
+
+        if (clazz != null) {
+            resp.body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/userSchema.json"));
+            return resp.extract().as(clazz);
+        }
+
+        return null;
     }
 }

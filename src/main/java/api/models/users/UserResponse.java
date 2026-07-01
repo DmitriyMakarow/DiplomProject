@@ -1,32 +1,33 @@
-package api.models;
+package api.models.users;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
-public class InvalidUserRequest {
+public class UserResponse {
+
+    @SerializedName("id")
+    @Expose
+    public int id;
+
     @SerializedName("firstName")
     @Expose
-    private Object firstName;
+    public String firstName;
 
     @SerializedName("secondName")
     @Expose
-    private Object secondName;
+    public String secondName;
 
     @SerializedName("age")
     @Expose
-    private Object age;
+    public long age;
 
     @SerializedName("sex")
     @Expose
-    private Object sex;
+    public String sex;
 
     @SerializedName("money")
     @Expose
-    private Object money;
-
-    private String description;
+    public double money;
 }

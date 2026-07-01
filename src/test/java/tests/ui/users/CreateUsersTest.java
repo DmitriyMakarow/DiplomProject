@@ -1,7 +1,7 @@
 package tests.ui.users;
 
-import ui.dto.UserTestData;
-import ui.dto.UserTestDataFactory;
+import ui.dto.users.UserTestData;
+import ui.dto.users.UserTestDataFactory;
 import io.qameta.allure.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

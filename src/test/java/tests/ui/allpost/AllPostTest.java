@@ -7,8 +7,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import tests.ui.base.BaseTest;
-import ui.dto.UserTestData;
-import ui.dto.UserTestDataFactory;
+import ui.dto.cars.CarTestData;
+import ui.dto.cars.CarTestDataFactory;
+import ui.dto.users.UserTestData;
+import ui.dto.users.UserTestDataFactory;
 import ui.enumUI.RadioLabel;
 
 import static org.testng.Assert.assertNotNull;
@@ -50,10 +52,10 @@ public class AllPostTest extends BaseTest {
 
         allPostPage.fillCreateUserForm(userData);
         baseSteps.selectRadioLabel(RadioLabel.MALE);
-        allPostPage.pushCreateUser()
-                .verifyCreateUserStatus(STATUS_201);
+        allPostPage.pushToApi(1)
+                .verifyStatus(1, STATUS_201);
 
-        String userId = allPostPage.getCreatedUserId();
+        String userId = allPostPage.getCreatedObjectId(1);
         assertNotNull(userId, "ID созданного пользователя не получен");
     }
 
@@ -63,28 +65,25 @@ public class AllPostTest extends BaseTest {
         UserTestData userData = UserTestDataFactory.getUserTestDataUI();
         allPostPage.fillCreateUserForm(userData);
         baseSteps.selectRadioLabel(RadioLabel.MALE);
-        allPostPage.pushCreateUser().verifyCreateUserStatus(STATUS_201);
+        allPostPage.pushToApi(1).verifyStatus(1, STATUS_201);
 
-        String userId = allPostPage.getCreatedUserId();
+        String userId = allPostPage.getCreatedObjectId(1);
         assertNotNull(userId, "ID созданного пользователя не получен");
 
         String money = faker.number().digits(4);
         allPostPage.fillAddMoneyForm(userId, money)
-                .pushAddMoney()
-                .verifyAddMoneyStatus(STATUS_200);
+                .pushToApi(2)
+                .verifyStatus(2, STATUS_200);
     }
 
     @Test(testName = "Создание нового автомобиля через ALL POST")
     @Description("Проверка создания нового автомобиля с валидными данными")
     public void testCreateCar() {
-        String engineType = "Electric";
-        String mark = faker.vehicle().manufacturer();
-        String model = faker.vehicle().model();
-        String price = faker.number().digits(7);
+        CarTestData carData = CarTestDataFactory.validCarTestDataUI();
 
-        allPostPage.fillCreateCarForm(engineType, mark, model, price)
-                .pushCreateCar()
-                .verifyCreateCarStatus(STATUS_201);
+        allPostPage.fillCreateCarForm(carData)
+                .pushToApi(5)
+                .verifyStatus(5, STATUS_201);
     }
 
     @Test(testName = "Создание нового дома через ALL POST")
@@ -98,19 +97,19 @@ public class AllPostTest extends BaseTest {
         String parkingFourth = String.valueOf(faker.number().numberBetween(0, 10));
 
         allPostPage.fillCreateHouseForm(floors, price, parkingFirst, parkingSecond, parkingThird, parkingFourth)
-                .pushCreateHouse()
-                .verifyCreateHouseStatus(STATUS_201);
+                .pushToApi(6)
+                .verifyStatus(6, STATUS_201);
     }
 
     @Test(dataProvider = "settleEvictActions",
-            testName = "Заселение/выселение через ALL POST")
+            testName = "Заселение/выселение пользователя в/из дом(а) через ALL POST")
     @Description("Параметризованный тест: заселение и выселение пользователя в дом")
     public void testSettleEvictUser(String actionName, RadioLabel action) {
         UserTestData userData = UserTestDataFactory.getUserTestDataUI();
         allPostPage.fillCreateUserForm(userData);
         baseSteps.selectRadioLabel(RadioLabel.MALE);
-        allPostPage.pushCreateUser().verifyCreateUserStatus(STATUS_201);
-        String userId = allPostPage.getCreatedUserId();
+        allPostPage.pushToApi(1).verifyStatus(1, STATUS_201);
+        String userId = allPostPage.getCreatedObjectId(1);
         assertNotNull(userId, "ID созданного пользователя не получен");
 
         String floors = String.valueOf(faker.number().numberBetween(1, 10));
@@ -121,54 +120,50 @@ public class AllPostTest extends BaseTest {
         String parkingFourth = String.valueOf(faker.number().numberBetween(1, 5));
 
         allPostPage.fillCreateHouseForm(floors, price, parkingFirst, parkingSecond, parkingThird, parkingFourth)
-                .pushCreateHouse()
-                .verifyCreateHouseStatus(STATUS_201);
-        String houseId = allPostPage.getCreatedHouseId();
+                .pushToApi(6)
+                .verifyStatus(6, STATUS_201);
+        String houseId = allPostPage.getCreatedObjectId(6);
         assertNotNull(houseId, "ID созданного дома не получен");
 
         if (action == RadioLabel.EVICT) {
             allPostPage.fillSettleEvictForm(userId, houseId);
             baseSteps.selectRadioLabel(RadioLabel.SETTLE);
-            allPostPage.pushSettleEvict().verifySettleEvictStatus(STATUS_200);
+            allPostPage.pushToApi(3).verifyStatus(3, STATUS_200);
         }
 
         allPostPage.fillSettleEvictForm(userId, houseId);
         baseSteps.selectRadioLabel(action);
-        allPostPage.pushSettleEvict()
-                .verifySettleEvictStatus(STATUS_200);
+        allPostPage.pushToApi(3)
+                .verifyStatus(3, STATUS_200);
     }
 
     @Test(dataProvider = "buySellActions",
-            testName = "Покупка/продажа автомобиля через ALL POST")
+            testName = "Покупка/продажа автомобиля пользователем через ALL POST")
     @Description("Параметризованный тест: покупка и продажа автомобиля")
     public void testBuySellCar(String actionName, RadioLabel action) {
         UserTestData userData = UserTestDataFactory.getUserTestDataUI();
         allPostPage.fillCreateUserForm(userData);
         baseSteps.selectRadioLabel(RadioLabel.MALE);
-        allPostPage.pushCreateUser().verifyCreateUserStatus(STATUS_201);
-        String userId = allPostPage.getCreatedUserId();
+        allPostPage.pushToApi(1).verifyStatus(1, STATUS_201);
+        String userId = allPostPage.getCreatedObjectId(1);
         assertNotNull(userId, "ID созданного пользователя не получен");
 
-        String engineType = "Electric";
-        String mark = faker.vehicle().manufacturer();
-        String model = faker.vehicle().model();
-        String price = faker.number().digits(5);
-
-        allPostPage.fillCreateCarForm(engineType, mark, model, price)
-                .pushCreateCar()
-                .verifyCreateCarStatus(STATUS_201);
-        String carId = allPostPage.getCreatedCarId();
+        CarTestData carData = CarTestDataFactory.validCarTestDataUI();
+        allPostPage.fillCreateCarForm(carData)
+                .pushToApi(5)
+                .verifyStatus(5, STATUS_201);
+        String carId = allPostPage.getCreatedObjectId(5);
         assertNotNull(carId, "ID созданного автомобиля не получен");
 
         if (action == RadioLabel.SELL) {
             allPostPage.fillBuySellCarForm(userId, carId);
             baseSteps.selectRadioLabel(RadioLabel.BUY);
-            allPostPage.pushBuySellCar().verifyBuySellCarStatus(STATUS_200);
+            allPostPage.pushToApi(4).verifyStatus(4, STATUS_200);
         }
 
         allPostPage.fillBuySellCarForm(userId, carId);
         baseSteps.selectRadioLabel(action);
-        allPostPage.pushBuySellCar()
-                .verifyBuySellCarStatus(STATUS_200);
+        allPostPage.pushToApi(4)
+                .verifyStatus(4, STATUS_200);
     }
 }

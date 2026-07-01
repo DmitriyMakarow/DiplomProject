@@ -26,7 +26,7 @@ import ui.pages.users.UsersPage;
 import ui.steps.BaseSteps;
 import ui.steps.UsersSteps;
 import utils.PropertyReader;
-import utils.TestListener;
+import utils.listeners.TestListener;
 
 import java.util.HashMap;
 
@@ -77,11 +77,16 @@ public class BaseTest {
         Configuration.baseUrl = baseUrl;
         Configuration.timeout = 10000;
         Configuration.clickViaJs = true;
-        Configuration.headless = false;
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--start-maximized");
         chromeOptions.addArguments("--disable-notifications");
         chromeOptions.addArguments("--disable-infobars");
+        chromeOptions.addArguments("--no-sandbox");
+        chromeOptions.addArguments("--disable-dev-shm-usage");
+        chromeOptions.addArguments("--disable-gpu");
+        if (System.getProperty("headless", "true").equals("true")) {
+            chromeOptions.addArguments("--headless");
+        }
 
         HashMap<String, Object> prefs = new HashMap<>();
         prefs.put("credentials_enable_service", false);
@@ -97,6 +102,12 @@ public class BaseTest {
                 Configuration.browser = "firefox";
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
                 firefoxOptions.addArguments("-private");
+                firefoxOptions.addArguments("--no-sandbox");
+                firefoxOptions.addArguments("--disable-dev-shm-usage");
+                firefoxOptions.addArguments("--disable-gpu");
+                if (System.getProperty("headless", "true").equals("true")) {
+                    firefoxOptions.addArguments("--headless");
+                }
                 Configuration.browserCapabilities = firefoxOptions;
                 break;
             case "EDGE":
@@ -104,6 +115,12 @@ public class BaseTest {
                 EdgeOptions edgeOptions = new EdgeOptions();
                 edgeOptions.addArguments("-inprivate");
                 edgeOptions.addArguments("--disable-notifications");
+                edgeOptions.addArguments("--no-sandbox");
+                edgeOptions.addArguments("--disable-dev-shm-usage");
+                edgeOptions.addArguments("--disable-gpu");
+                if (System.getProperty("headless", "true").equals("true")) {
+                    edgeOptions.addArguments("--headless");
+                }
                 Configuration.browserCapabilities = edgeOptions;
                 break;
             default:

@@ -2,11 +2,11 @@ package ui.pages.allpost;
 
 import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
-import ui.dto.UserTestData;
+import ui.dto.cars.CarTestData;
+import ui.dto.users.UserTestData;
 import ui.pages.base.BasePage;
 import ui.wrappers.Input;
 
-import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Selenide.open;
 import static org.testng.Assert.assertTrue;
 import static ui.locators.AllPostLocators.getBtnNewId;
@@ -22,142 +22,76 @@ public class AllPostPage extends BasePage {
         return this;
     }
 
-    // Создание нового пользователя
+    @Step("Отправка запроса формы {formIndex}")
+    public AllPostPage pushToApi(int formIndex) {
+        assertTrue(waitAppear(getBtnPushToApi(formIndex)),
+                "Кнопка PUSH TO API формы " + formIndex + " не появилась");
+        getBtnPushToApi(formIndex).click();
+        return this;
+    }
+
+    @Step("Проверка статуса формы {formIndex}")
+    public AllPostPage verifyStatus(int formIndex, String expectedStatus) {
+        String actualStatus = getBtnStatus(formIndex).getText();
+        log.info("Form {} Status - Expected: {}, Actual: {}", formIndex, expectedStatus, actualStatus);
+        assertTrue(waitEqualsTextWithTimeout(expectedStatus, getBtnStatus(formIndex), 30),
+                "Статус запроса не соответствует ожидаемому. Ожидалось: " + expectedStatus + ", Получено: " + actualStatus);
+        return this;
+    }
+
+    @Step("Получение ID созданного объекта из формы {formIndex}")
+    public String getCreatedObjectId(int formIndex) {
+        String fullText = getBtnNewId(formIndex).getText();
+        String objectId = fullText.replaceAll("\\D+", "");
+        log.info("Created Object ID from form {}: {}", formIndex, objectId);
+        return objectId;
+    }
+
+    // Создание пользователя
     @Step("Заполнение формы создания пользователя")
     public AllPostPage fillCreateUserForm(UserTestData userData) {
         new Input("first_name_send").fillField(userData.getFirstName());
         new Input("last_name_send").fillField(userData.getLastName());
         new Input("age_send").fillField(userData.getAge());
-        new Input(1, "money_send").fillField(userData.getMoney());
+        new Input("money_send").fillField(userData.getMoney(), 1);
         return this;
     }
 
-    @Step("Отправка запроса на создание пользователя")
-    public AllPostPage pushCreateUser() {
-        getBtnPushToApi(1).shouldBe(enabled).click();
-        return this;
-    }
-
-    @Step("Проверка статуса создания пользователя")
-    public AllPostPage verifyCreateUserStatus(String expectedStatus) {
-        String actualStatus = getBtnStatus(1).getText();
-        log.info("Create User Status - Expected: {}, Actual: {}", expectedStatus, actualStatus);
-        assertTrue(waitEqualsTextWithTimeout(expectedStatus, getBtnStatus(1), 30),
-                "Статус создания пользователя не соответствует ожидаемому. Ожидалось: " + expectedStatus + ", Получено: " + actualStatus);
-        return this;
-    }
-
-    @Step("Получение ID созданного пользователя")
-    public String getCreatedUserId() {
-        String fullText = getBtnNewId(1).getText();
-        String userId = fullText.replaceAll("\\D+", "");
-        log.info("Created User ID: {}", userId);
-        return userId;
-    }
-
-    // Добавление денег пользователю
+    // Добавление денег
     @Step("Заполнение формы добавления денег")
     public AllPostPage fillAddMoneyForm(String userId, String money) {
-        new Input(2, "id_send").fillField(userId);
-        new Input(2, "money_send").fillField(money);
+        new Input("id_send").fillField(userId, 2);
+        new Input("money_send").fillField(money, 2);
         return this;
     }
 
-    @Step("Отправка запроса на добавление денег")
-    public AllPostPage pushAddMoney() {
-        getBtnPushToApi(2).shouldBe(enabled).click();
-        return this;
-    }
-
-    @Step("Проверка статуса добавления денег")
-    public AllPostPage verifyAddMoneyStatus(String expectedStatus) {
-        String actualStatus = getBtnStatus(2).getText();
-        log.info("Add Money Status - Expected: {}, Actual: {}", expectedStatus, actualStatus);
-        assertTrue(waitEqualsTextWithTimeout(expectedStatus, getBtnStatus(2), 30),
-                "Статус добавления денег не соответствует ожидаемому. Ожидалось: " + expectedStatus + ", Получено: " + actualStatus);
-        return this;
-    }
-
-    // Заселение/выселение из дома
+    // Заселение/выселение
     @Step("Заполнение формы заселения/выселения")
     public AllPostPage fillSettleEvictForm(String userId, String houseId) {
-        new Input(3, "id_send").fillField(userId);
+        new Input("id_send").fillField(userId, 3);
         new Input("house_send").fillField(houseId);
         return this;
     }
 
-    @Step("Отправка запроса на заселение/выселение")
-    public AllPostPage pushSettleEvict() {
-        getBtnPushToApi(3).shouldBe(enabled).click();
-        return this;
-    }
-
-    @Step("Проверка статуса заселения/выселения")
-    public AllPostPage verifySettleEvictStatus(String expectedStatus) {
-        String actualStatus = getBtnStatus(3).getText();
-        log.info("Settle/Evict Status - Expected: {}, Actual: {}", expectedStatus, actualStatus);
-        assertTrue(waitEqualsTextWithTimeout(expectedStatus, getBtnStatus(3), 30),
-                "Статус заселения/выселения не соответствует ожидаемому. Ожидалось: " + expectedStatus + ", Получено: " + actualStatus);
-        return this;
-    }
-
-    // Покупка/продажа автомобиля
+    // Покупка/продажа авто
     @Step("Заполнение формы покупки/продажи автомобиля")
     public AllPostPage fillBuySellCarForm(String userId, String carId) {
-        new Input(4, "id_send").fillField(userId);
+        new Input("id_send").fillField(userId, 4);
         new Input("car_send").fillField(carId);
         return this;
     }
 
-    @Step("Отправка запроса на покупку/продажу автомобиля")
-    public AllPostPage pushBuySellCar() {
-        getBtnPushToApi(4).shouldBe(enabled).click();
-        return this;
-    }
-
-    @Step("Проверка статуса покупки/продажи автомобиля")
-    public AllPostPage verifyBuySellCarStatus(String expectedStatus) {
-        String actualStatus = getBtnStatus(4).getText();
-        log.info("Buy/Sell Car Status - Expected: {}, Actual: {}", expectedStatus, actualStatus);
-        assertTrue(waitEqualsTextWithTimeout(expectedStatus, getBtnStatus(4), 30),
-                "Статус покупки/продажи автомобиля не соответствует ожидаемому. Ожидалось: " + expectedStatus + ", Получено: " + actualStatus);
-        return this;
-    }
-
-    // Создание нового автомобиля
+    // Создание автомобиля
     @Step("Заполнение формы создания автомобиля")
-    public AllPostPage fillCreateCarForm(String engineType, String mark, String model, String price) {
-        new Input("car_engine_type_send").fillField(engineType);
-        new Input("car_mark_send").fillField(mark);
-        new Input("car_model_send").fillField(model);
-        new Input("car_price_send").fillField(price);
+    public AllPostPage fillCreateCarForm(CarTestData carData) {
+        new Input("car_engine_type_send").fillField(carData.getEngineType());
+        new Input("car_mark_send").fillField(carData.getMark());
+        new Input("car_model_send").fillField(carData.getModel());
+        new Input("car_price_send").fillField(carData.getPrice());
         return this;
     }
 
-    @Step("Отправка запроса на создание автомобиля")
-    public AllPostPage pushCreateCar() {
-        getBtnPushToApi(5).shouldBe(enabled).click();
-        return this;
-    }
-
-    @Step("Проверка статуса создания автомобиля")
-    public AllPostPage verifyCreateCarStatus(String expectedStatus) {
-        String actualStatus = getBtnStatus(5).getText();
-        log.info("Create Car Status - Expected: {}, Actual: {}", expectedStatus, actualStatus);
-        assertTrue(waitEqualsTextWithTimeout(expectedStatus, getBtnStatus(5), 30),
-                "Статус создания автомобиля не соответствует ожидаемому. Ожидалось: " + expectedStatus + ", Получено: " + actualStatus);
-        return this;
-    }
-
-    @Step("Получение ID созданного автомобиля")
-    public String getCreatedCarId() {
-        String fullText = getBtnNewId(5).getText();
-        String carId = fullText.replaceAll("\\D+", "");
-        log.info("Created Car ID: {}", carId);
-        return carId;
-    }
-
-    // Создание нового дома
+    // Создание дома
     @Step("Заполнение формы создания дома")
     public AllPostPage fillCreateHouseForm(String floors, String price, String parkingFirst,
                                            String parkingSecond, String parkingThird, String parkingFourth) {
@@ -168,28 +102,5 @@ public class AllPostPage extends BasePage {
         new Input("parking_third_send").fillField(parkingThird);
         new Input("parking_fourth_send").fillField(parkingFourth);
         return this;
-    }
-
-    @Step("Отправка запроса на создание дома")
-    public AllPostPage pushCreateHouse() {
-        getBtnPushToApi(6).shouldBe(enabled).click();
-        return this;
-    }
-
-    @Step("Проверка статуса создания дома")
-    public AllPostPage verifyCreateHouseStatus(String expectedStatus) {
-        String actualStatus = getBtnStatus(6).getText();
-        log.info("Create House Status - Expected: {}, Actual: {}", expectedStatus, actualStatus);
-        assertTrue(waitEqualsTextWithTimeout(expectedStatus, getBtnStatus(6), 30),
-                "Статус создания дома не соответствует ожидаемому. Ожидалось: " + expectedStatus + ", Получено: " + actualStatus);
-        return this;
-    }
-
-    @Step("Получение ID созданного дома")
-    public String getCreatedHouseId() {
-        String fullText = getBtnNewId(6).getText();
-        String houseId = fullText.replaceAll("\\D+", "");
-        log.info("Created House ID: {}", houseId);
-        return houseId;
     }
 }

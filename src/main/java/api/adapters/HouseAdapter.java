@@ -1,8 +1,11 @@
 package api.adapters;
 
-import api.models.HouseRequest;
-import api.models.HouseResponse;
+import api.models.houses.HouseRequest;
+import api.models.houses.HouseResponse;
+import io.restassured.common.mapper.TypeRef;
 import io.restassured.module.jsv.JsonSchemaValidator;
+
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 
@@ -23,7 +26,7 @@ public class HouseAdapter extends BaseAdapter {
                 .as(HouseResponse.class);
     }
 
-    public HouseResponse getHouses() {
+    public List<HouseResponse> getHouses() {
         return given()
                 .spec(getSpec())
                 .log().all()
@@ -33,7 +36,7 @@ public class HouseAdapter extends BaseAdapter {
                 .log().all()
                 .statusCode(200)
                 .extract()
-                .as(HouseResponse.class);
+                .as(new TypeRef<List<HouseResponse>>() {});
     }
 
     public HouseResponse createApiHouse(HouseRequest houseRequest) {

@@ -1,9 +1,9 @@
 package tests.api.users;
 
-import api.models.InvalidUserRequest;
-import api.models.UserRequest;
-import api.models.UserResponse;
-import ui.dto.UserTestDataFactory;
+import api.models.users.InvalidUserRequest;
+import api.models.users.UserRequest;
+import api.models.users.UserResponse;
+import ui.dto.users.UserTestDataFactory;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Issue;

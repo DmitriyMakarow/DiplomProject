@@ -1,6 +1,6 @@
-package ui.dto;
+package ui.dto.users;
 
-import api.models.UserRequest;
+import api.models.users.UserRequest;
 
 import static java.lang.String.valueOf;
 import static ui.pages.base.BasePage.faker;
@@ -33,6 +33,16 @@ public class UserTestDataFactory {
                 .age(faker.number().numberBetween(18L, 99L))
                 .sex("FEMALE")
                 .money(faker.number().randomDouble(2, 100, 100000))
+                .build();
+    }
+
+    public static UserRequest userMuchMoneyTestDataApi() {
+        return UserRequest.builder()
+                .firstName(faker.name().firstName())
+                .secondName(faker.name().lastName())
+                .age(faker.number().numberBetween(18L, 99L))
+                .sex("FEMALE")
+                .money(faker.number().randomDouble(2, 1000000, 1500000))
                 .build();
     }
 }
