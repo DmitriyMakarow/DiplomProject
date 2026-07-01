@@ -152,5 +152,6 @@ public class BaseTest {
     public void tearDown(ITestContext ctx) {
         com.codeborne.selenide.Selenide.closeWebDriver();
         ctx.removeAttribute("driver");
+        connection.close();
     }
 }

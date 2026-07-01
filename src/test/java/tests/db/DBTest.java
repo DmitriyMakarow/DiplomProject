@@ -15,10 +15,8 @@ public class DBTest extends BaseTest {
      */
     @Test
     public void checkSelect() throws SQLException {
-
         connection.connect();
         ResultSet result = connection.select(getSelectByID("person", "13132"));
-        //цикл используется для запросов с множеством строк
         while (result.next()) {
             System.out.print(result.getInt("id") + " ");
             System.out.print(result.getInt("age") + " ");
@@ -29,6 +27,5 @@ public class DBTest extends BaseTest {
             System.out.print(result.getInt("house_id") + " ");
             System.out.println();
         }
-        connection.close();
     }
 }

@@ -13,6 +13,7 @@ import tests.ui.base.BaseTest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static io.qameta.allure.Allure.step;
 import static org.testng.Assert.assertEquals;
 import static tests.db.DBConnection.getSelectByID;
 import static ui.enumUI.Dropdown.CARS;
@@ -32,7 +33,7 @@ public class CreateCarTest extends BaseTest {
 
     @Owner("Кадырмятова А.В.")
     @Test(testName = "Создание автомобиля с валидными данными")
-    void successCreateCar() {
+    void successCreateCar() throws SQLException {
         CarTestData validCar = CarTestDataFactory.validCarTestDataUI();
         final String status = "Status: Successfully pushed, code: 201";
 
@@ -41,20 +42,24 @@ public class CreateCarTest extends BaseTest {
                 .clickPushToApi()
                 .verifyTextStatus(status)
                 .verifyGetIdObject("New car ID:");
+        String idCar = baseSteps.getNewObjectId();
+        Integer carId = Integer.valueOf(idCar);
 
-        Integer carId = Integer.valueOf(baseSteps.getNewObjectId());
-        carAdapter.getCar(carId, 200, CarResponse.class);
+        step("Проверка получения созданного авто по ID", () -> carAdapter.getCar(carId, 200, CarResponse.class));
 
+        step("Проверка записи по созданному авто в БД", () -> {
+            connection.connect();
+            ResultSet result = connection.select(getSelectByID("car", idCar));
+            while (result.next()) {
+                assertEquals(validCar.getMark(), result.getString("mark"));
+                assertEquals(validCar.getModel(), result.getString("model"));
+                assertEquals(Integer.valueOf(validCar.getPrice()), result.getInt("price"));
+                //TODO: добавить проверку типа двигателя, нужен join
+            }
+        });
 
-        carAdapter.deleteApiCar(carId);
-        String carId = baseSteps.getNewObjectId();
-
-        connection.connect();
-        ResultSet result = connection.select(getSelectByID("car", carId));
-        assertEquals(result.getString("mark"), mark);
-        assertEquals(result.getString("model"), model);
-        assertEquals(result.getInt("price"), price);
-        //assertEquals(result.getString("mark"), mark);
+        step("Удаление тестовых данных", () ->
+                carAdapter.deleteApiCar(carId));
     }
 
     @Owner("Кадырмятова А.В.")
