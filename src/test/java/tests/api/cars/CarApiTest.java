@@ -22,11 +22,11 @@ import static org.testng.Assert.assertTrue;
 @Log4j2
 @Epic("Автомобили. API")
 @Feature("Создание автомобиля")
-class CarApiTest extends BaseTest {
+public class CarApiTest extends BaseTest {
 
     private CarResponse carResponse;
     private CarRequest carRequest;
-    private Integer idCar, idInvalidCar;
+    private Integer idCar;
 
     @BeforeMethod(onlyForGroups = {"validCar"})
     public void createDataValidCar() {

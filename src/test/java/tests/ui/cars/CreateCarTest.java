@@ -21,7 +21,7 @@ import static ui.enumUI.TableType.CREATE_NEW_CARS;
 
 @Epic("Автомобили")
 @Feature("Создание автомобиля")
-class CreateCarTest extends BaseTest {
+public class CreateCarTest extends BaseTest {
 
     @BeforeMethod
     void openPageCreateCar() {
