@@ -29,7 +29,8 @@ public class ReadHouseByIdTest extends BaseTest {
         housesPage = new HousesPage();
     }
 
-    @Test(testName = "Проверка чтения дома по ID")
+    @Test(testName = "Проверка чтения дома по ID",
+          groups = {"regression"})
     @Story("Получение информации о доме по идентификатору")
     @Description("Тест проверяет корректное отображение дома при поиске по ID")
     public void checkReadHouseById() {

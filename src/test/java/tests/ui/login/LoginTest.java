@@ -7,7 +7,8 @@ import tests.ui.base.BaseTest;
 @Story("Авторизация")
 public class LoginTest extends BaseTest {
 
-    @Test(testName = "Авторизация с валидными данными")
+    @Test(testName = "Авторизация с валидными данными",
+          groups = {"regression"})
     @Description("Авторизация с валидными данными")
     public void checkPositiveCred() {
         loginPage
@@ -15,7 +16,8 @@ public class LoginTest extends BaseTest {
                 .verifySuccessAuthorization();
     }
 
-    @Test(testName = "Авторизация с пустым полем user")
+    @Test(testName = "Авторизация с пустым полем user",
+          groups = {"regression"})
     @Description("Авторизация с пустым полем user")
     public void checkEmptyUserLogin() {
         loginPage
@@ -24,7 +26,8 @@ public class LoginTest extends BaseTest {
                 .verifyErrorMessageInvalidUser("email cannot be empty");
     }
 
-    @Test(testName = "Авторизация с некорректным данными в поле user")
+    @Test(testName = "Авторизация с некорректным данными в поле user",
+          groups = {"regression"})
     @Description("Авторизация с некорректным данными в поле user")
     public void checkInvalidUserLogin() {
         loginPage
@@ -33,7 +36,8 @@ public class LoginTest extends BaseTest {
                 .verifyErrorMessageInvalidUser("incorrect Email");
     }
 
-    @Test(testName = "Авторизация с полем password менее чем из 3 символов")
+    @Test(testName = "Авторизация с полем password менее чем из 3 символов",
+          groups = {"regression"})
     @Description("Авторизация с полем password менее чем из 3 символов")
     public void checkShortPasswordLogin() {
         loginPage
@@ -42,7 +46,8 @@ public class LoginTest extends BaseTest {
                 .verifyErrorMessageInvalidPassword("password length must be more than 3 symbols and less than 8 symbols");
     }
 
-    @Test(testName = "Авторизация с полем password более чем из 3 символов")
+    @Test(testName = "Авторизация с полем password более чем из 3 символов",
+          groups = {"regression"})
     @Description("Авторизация с полем password более чем из 8 символов")
     public void checkLongPasswordLogin() {
         loginPage
@@ -51,7 +56,8 @@ public class LoginTest extends BaseTest {
                 .verifyErrorMessageInvalidPassword("password length must be more than 3 symbols and less than 8 symbols");
     }
 
-    @Test(testName = "Авторизация с несуществующими данными")
+    @Test(testName = "Авторизация с несуществующими данными",
+          groups = {"regression"})
     @Description("Авторизация с несуществующими данными")
     public void checkInvalidLogin() {
         loginPage

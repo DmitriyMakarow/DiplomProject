@@ -35,7 +35,7 @@ public class AddMoneyApiTest extends BaseTest {
         }
     }
 
-    @Test(testName = "Успешное перечисление денег пользователю")
+    @Test(testName = "Успешное перечисление денег пользователю", groups = {"regression"})
     @Description("Проверка успешного перечисления денег пользователю")
     public void checkAddMoney(){
         double initialBalance = userAdapter.getUserBalance(userId);
@@ -46,7 +46,7 @@ public class AddMoneyApiTest extends BaseTest {
                 "Баланс пользователя не увеличился на сумму начисления.");
     }
 
-    @Test(testName = "Успешное перечисление нулевой суммы")
+    @Test(testName = "Успешное перечисление нулевой суммы", groups = {"regression"})
     @Description("Проверка перечисления нулевой суммы")
     public void checkAddMoneyEmptyAmount() {
         double initialBalance = userAdapter.getUserBalance(userId);
@@ -57,7 +57,7 @@ public class AddMoneyApiTest extends BaseTest {
                 "Баланс пользователя изменился.");
     }
 
-    @Test(testName = "Успешное перечисление максимальной суммы")
+    @Test(testName = "Успешное перечисление максимальной суммы", groups = {"regression"})
     @Description("Проверка перечисления максимальной суммы")
     public void checkAddMoneyMaxAmount() {
         double initialBalance = userAdapter.getUserBalance(userId);
@@ -68,7 +68,7 @@ public class AddMoneyApiTest extends BaseTest {
                 "Баланс пользователя изменился.");
     }
 
-    @Test(testName = "Успешное перечисление дробной суммы")
+    @Test(testName = "Успешное перечисление дробной суммы", groups = {"regression"})
     @Description("Проверка перечисления дробной суммы")
     public void checkAddMoneyFractionalAmount() {
         double initialBalance = userAdapter.getUserBalance(userId);
@@ -81,7 +81,8 @@ public class AddMoneyApiTest extends BaseTest {
                 "Баланс пользователя изменился не корректно");
     }
 
-    @Test(testName = "Негативный тест. Перечисление денег несуществующему пользователю")
+    @Test(testName = "Негативный тест. Перечисление денег несуществующему пользователю",
+          groups = {"regression"})
     @Description("Проверка перечисления денег несуществующему пользователю")
     public void checkAddMoneyEmptyUser() {
         int nonExistentUserId = 0;
@@ -90,7 +91,7 @@ public class AddMoneyApiTest extends BaseTest {
         usersSteps.validateStatusCode(response, 404);
     }
 
-    @Test(testName = "Негативный тест. Снятие деньги через эндпоинт начисления")
+    @Test(testName = "Негативный тест. Снятие деньги через эндпоинт начисления", groups = {"regression"})
     @Description("Проверка снятия деньги через эндпоинт начисления")
     public void checkAddMoneyNegativeAmount() {
         final double amount = -100;

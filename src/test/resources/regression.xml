@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite
+        name="regression">
+
+    <listeners>
+        <listener class-name="utils.listeners.TestListener"/>
+        <listener class-name="utils.AnnotationTransformer"/>
+    </listeners>
+
+    <test name="regressionTestsUI">
+        <parameter name="browser" value="CHROME"/>
+        <groups>
+            <run>
+                <include name="regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="tests.ui.allpost.AllPostTest"/>
+            <class name="tests.ui.cars.BuyOrSellCarTest"/>
+            <class name="tests.ui.cars.CreateCarTest"/>
+            <class name="tests.ui.cars.ReadAllCarsTest"/>
+            <class name="tests.ui.houses.ReadHouseByIdTest"/>
+            <class name="tests.ui.houses.CreateHouseTest"/>
+            <class name="tests.ui.houses.ReadAllHousesTest"/>
+            <class name="tests.ui.login.LoginTest"/>
+            <class name="tests.ui.users.IssueALoanTest"/>
+            <class name="tests.ui.users.CreateUsersTest"/>
+            <class name="tests.ui.users.AddMoneyTest"/>
+            <class name="tests.ui.users.ReadAllUsersTest"/>
+        </classes>
+    </test>
+
+    <test name="regressionTestsAPI">
+        <groups>
+            <run>
+                <include name="regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="tests.api.users.AddMoneyApiTest"/>
+            <class name="tests.api.users.CreateUserApiTest"/>
+            <class name="tests.api.users.LoanAPITest"/>
+            <class name="tests.api.houses.HouseApiTest"/>
+            <class name="tests.api.cars.BuyCarApiTest"/>
+            <class name="tests.api.cars.CarApiTest"/>
+            <class name="tests.api.cars.SellCarApiTest"/>
+        </classes>
+    </test>
+
+</suite>

@@ -39,7 +39,7 @@ public class BuyCarApiTest extends BaseTest {
     }
 
     @Owner("Кадырмятова А.В.")
-    @Test(testName = "Успешная покупка автомобиля")
+    @Test(testName = "Успешная покупка автомобиля", groups = {"regression"})
     @Description("Проверка покупки автомобиля при наличии достаточной суммы у пользователя")
     void successBuyCar() {
         userRequest = UserTestDataFactory.userMuchMoneyTestDataApi();
@@ -60,7 +60,7 @@ public class BuyCarApiTest extends BaseTest {
     }
 
     @Owner("Кадырмятова А.В.")
-    @Test(testName = "Ошибка при покупке автомобиля")
+    @Test(testName = "Ошибка при покупке автомобиля", groups = {"regression"})
     @Description("Проверка покупки автомобиля при недостаточной сумме у пользователя")
     void buyNoEnoughMoneyCar() {
         userRequest = UserTestDataFactory.putUserTestDataApi();

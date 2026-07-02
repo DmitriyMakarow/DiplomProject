@@ -35,7 +35,8 @@ public class CreateHouseTest extends BaseTest {
                 .openTableFromDropdown(HOUSES, CREATE_NEW_HOUSES);
     }
 
-    @Test(testName = "Создание дома с валидными данными")
+    @Test(testName = "Создание дома с валидными данными",
+          groups = {"regression"})
     void successCreateHouse() {
         final String status = "Status: Successfully pushed, code: 201";
 
@@ -54,6 +55,7 @@ public class CreateHouseTest extends BaseTest {
 
     @Story("Создание дома с невалидными данными")
     @Test(testName = "Создание дома с пустым полем",
+            groups = {"regression"},
             dataProvider = "Тестовые данные для негативных проверок создания дома",
             dataProviderClass = HousesPage.class)
     void unsuccessCreateHouse(String floors, String price, String parking) {
@@ -71,7 +73,8 @@ public class CreateHouseTest extends BaseTest {
 
     @Issue("")
     @Story("Создание дома с невалидными данными")
-    @Test(testName = "Создание дома с несоответствующими данными")
+    @Test(testName = "Создание дома с несоответствующими данными",
+          groups = {"regression"})
     void createHouseInvalidData() {
         final String status = "Status: Invalid input data";
 

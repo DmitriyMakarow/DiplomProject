@@ -46,7 +46,7 @@ public class HouseApiTest extends BaseTest {
         }
     }
 
-    @Test(testName = "Проверка создания дома с валидными параметрами")
+    @Test(testName = "Проверка создания дома с валидными параметрами", groups = {"regression"})
     void checkCreateHouse() {
         HouseResponse houseResponse = houseAdapter.createApiHouse(house);
         createdHouseId = houseResponse.getId();
@@ -55,7 +55,7 @@ public class HouseApiTest extends BaseTest {
         assertEquals(houseResponse.getPrice(), price, "Цена не совпадает");
     }
 
-    @Test(testName = "Проверка редактирования дома валидными параметрами")
+    @Test(testName = "Проверка редактирования дома валидными параметрами", groups = {"regression"})
     void checkEditHouse() {
         int newFloorCount = faker.number().numberBetween(1, 50);
         double newPrice = faker.number().numberBetween(100000, 10000000);
@@ -86,7 +86,7 @@ public class HouseApiTest extends BaseTest {
                 "Количество парковочных мест не совпадает после обновления");
     }
 
-    @Test(testName = "Проверка получения списка домов")
+    @Test(testName = "Проверка получения списка домов", groups = {"regression"})
     void checkGetHouses() {
         HouseResponse createdHouse = houseAdapter.createApiHouse(house);
         createdHouseId = createdHouse.getId();
@@ -102,7 +102,7 @@ public class HouseApiTest extends BaseTest {
         assertEquals(foundHouse.getPrice(), price, "Цена не совпадает");
     }
 
-    @Test(testName = "Проверка получения дома по ID")
+    @Test(testName = "Проверка получения дома по ID", groups = {"regression"})
     void checkGetHouseById() {
         HouseResponse createdHouse = houseAdapter.createApiHouse(house);
         createdHouseId = createdHouse.getId();
@@ -116,7 +116,7 @@ public class HouseApiTest extends BaseTest {
                 "Количество парковочных мест не совпадает");
     }
 
-    @Test(testName = "Проверка удаления дома")
+    @Test(testName = "Проверка удаления дома", groups = {"regression"})
     void checkDeleteHouse() {
         HouseResponse createdHouse = houseAdapter.createApiHouse(house);
         Integer houseId = createdHouse.getId();

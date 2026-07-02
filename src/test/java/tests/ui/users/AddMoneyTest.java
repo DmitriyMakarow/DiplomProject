@@ -5,7 +5,8 @@ import org.testng.annotations.Test;
 import tests.ui.base.BaseTest;
 
 public class AddMoneyTest extends BaseTest {
-    @Test(testName = "Добавление денег  существующему пользователю")
+    @Test(testName = "Добавление денег  существующему пользователю",
+          groups = {"regression"})
     @Description("Проверка корректности зачисления денежных средств на баланс существующего пользователя через интерфейс")
         public void addMoneyPositiveTest() {
     loginPage
@@ -17,7 +18,8 @@ public class AddMoneyTest extends BaseTest {
                 .validationAddMoneyToUser();
     }
 
-    @Test(testName = "Снятие денег (ошибочно) у пользователя через сервис добавление денег")
+    @Test(testName = "Снятие денег (ошибочно) у пользователя через сервис добавление денег",
+          groups = {"regression"})
     @Description("Проверка невозможности списания денежных средств через эндпоинт добавления денег")
     public void takeOffMoneyNegativeTest() {
         loginPage
@@ -29,7 +31,8 @@ public class AddMoneyTest extends BaseTest {
                 .validationNotAddMoneyToUser("Status: Incorrect input data");
     }
 
-    @Test(testName = "Добавление денег  несуществующему пользователю")
+    @Test(testName = "Добавление денег  несуществующему пользователю",
+          groups = {"regression"})
     @Description("Проверка реакции системы при попытке добавить деньги пользователю с несуществующим ID")
     public void addMoneyToNonExistentNegativeTest() {
         loginPage

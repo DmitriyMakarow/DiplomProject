@@ -37,7 +37,7 @@ public class CarApiTest extends BaseTest {
 
     @Owner("Кадырмятова А.В.")
     @Test(testName = "Проверка создания автомобиля с валидными параметрами",
-    groups = {"validCar", "deleteData"})
+    groups = {"validCar", "deleteData", "regression"})
     void checkCreateCar() {
         assertEquals(carResponse.getEngineType(), carRequest.getEngineType(), "Тип двигателя не соответствует");
         assertEquals(carResponse.getModel(), carResponse.getModel(), "Модель не соответствует");
@@ -47,7 +47,7 @@ public class CarApiTest extends BaseTest {
 
     @Owner("Кадырмятова А.В.")
     @Test(testName = "Проверка создания автомобиля с невалидными параметрами",
-            groups = {"invalidCar"})
+            groups = {"invalidCar", "regression"})
     void createInvalidCar() {
         CarRequest invalidCarRequest = CarTestDataFactory.emptyCarTestDataUI();
         carAdapter.createCar(invalidCarRequest, 400, null);
@@ -55,7 +55,7 @@ public class CarApiTest extends BaseTest {
 
     @Owner("Кадырмятова А.В.")
     @Test(testName = "Проверка редактирования автомобиля валидными параметрами",
-            groups = {"validCar", "deleteData"})
+            groups = {"validCar", "deleteData", "regression"})
     void checkEditCar() {
         CarRequest carNewRequest = CarTestDataFactory.validCarTestDataAPI();
         CarResponse carNewResponse = carAdapter.putCar(idCar, carNewRequest, 202, CarResponse.class);
@@ -69,7 +69,7 @@ public class CarApiTest extends BaseTest {
 
     @Owner("Кадырмятова А.В.")
     @Test(testName = "Проверка редактирования автомобиля невалидными параметрами",
-            groups = {"validCar", "deleteData"})
+            groups = {"validCar", "deleteData", "regression"})
     void checkEditInvalidCar() {
         CarRequest carNewRequest = CarTestDataFactory.emptyCarTestDataUI();
         carAdapter.putCar(idCar, carNewRequest, 400, null);
@@ -77,7 +77,7 @@ public class CarApiTest extends BaseTest {
 
     @Owner("Кадырмятова А.В.")
     @Test(testName = "Проверка удаления автомобиля",
-            groups = {"validCar"})
+            groups = {"validCar", "regression"})
     void checkDeleteCar() {
         carAdapter.deleteApiCar(idCar);
         carAdapter.getCar(idCar, 204, null);
