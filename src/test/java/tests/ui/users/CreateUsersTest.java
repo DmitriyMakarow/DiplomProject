@@ -44,7 +44,7 @@ public class CreateUsersTest extends BaseTest {
 
     @Story("Создание пользователя с невалидными данными")
     @Test(testName = "Создание пользователя с пустым полем",
-            groups = {"regression"},
+            groups = {"regression", "broken"},
             dataProvider = "UI. Тестовые данные для негативных проверок создания пользователя",
             dataProviderClass = UsersPage.class)
     void unsuccessCreateUser(UserTestData userTestData) {
