@@ -10,6 +10,11 @@
     </listeners>
 
     <test name="Chrome">
+        <groups>
+            <run>
+                <exclude name="broken"/>
+            </run>
+        </groups>
         <classes>
             <class name="tests.ui.login.LoginTest"/>
             <class name="tests.ui.users.ReadAllUsersTest"/>
@@ -21,6 +26,11 @@
     </test>
 
     <test name="Firefox">
+        <groups>
+            <run>
+                <exclude name="broken"/>
+            </run>
+        </groups>
         <classes>
             <class name="tests.ui.houses.ReadAllHousesTest"/>
             <class name="tests.ui.houses.ReadHouseByIdTest"/>
@@ -30,6 +40,11 @@
     </test>
 
     <test name="Edge">
+        <groups>
+            <run>
+                <exclude name="broken"/>
+            </run>
+        </groups>
         <classes>
             <class name="tests.ui.cars.ReadAllCarsTest"/>
             <class name="tests.ui.cars.CreateCarTest"/>

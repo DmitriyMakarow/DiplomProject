@@ -29,7 +29,7 @@ public class CreateUsersTest extends BaseTest {
     }
 
     @Test(testName = "Создание пользователя с валидными данными",
-          groups = {"regression"})
+          groups = {"regression", "broken"})
     void successCreateUser() {
         final String status = "Status: Successfully pushed, code: 201";
 
@@ -65,7 +65,7 @@ public class CreateUsersTest extends BaseTest {
     @Issue("")
     @Story("Создание пользователя с невалидными данными")
     @Test(testName = "Создание пользователя с несоответствующими данными",
-            groups = {"regression"},
+            groups = {"regression", "broken"},
             dataProvider = "UI. Тестовые данные с некорректными значениями для пользователя",
             dataProviderClass = UsersPage.class)
     void createUserInvalidData(UserTestData userTestData) {

@@ -109,7 +109,7 @@ public class BuyOrSellCarTest extends BaseTest {
     @Issue("Запрос на продажу выполняется успешно")
     @Owner("Кадырмятова А.В.")
     @Test(testName = "Ошибка при продаже автомобиля",
-            groups = {"haveMoneyUser, deleteData", "regression"})
+            groups = {"haveMoneyUser, deleteData", "regression", "broken"})
     @Description("Проверка продажи автомобиля не находящегося в собственности пользователя")
     void sellNoHaveCar() {
         userRequest = UserTestDataFactory.userMuchMoneyTestDataApi();

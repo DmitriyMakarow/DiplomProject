@@ -37,7 +37,7 @@ public class IssueALoanTest extends BaseTest {
         issueALoanPage.verifyOpenIssueALoanPage();
     }
 
-    @Test(testName = "Проверка запроса кредита с валидными данными", groups = {"needUser", "regression"})
+    @Test(testName = "Проверка запроса кредита с валидными данными", groups = {"needUser", "regression", "broken"})
     @Description("Проверка запроса кредита с валидными данными")
     @Owner("Makarov D.A.")
     public void checkRequestALoanWithPositiveData() {

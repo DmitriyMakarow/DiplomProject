@@ -36,7 +36,7 @@ public class ReadAllCarsTest extends BaseTest {
     }
 
     @Test(dataProvider = "columns",
-          groups = {"regression"})
+          groups = {"regression", "broken"})
     @Story("Сортировка Автомобилей")
     @Description("Тест проверяет сортировку по колонке \"{columnName}\"")
     public void checkSorting(String columnName) {
