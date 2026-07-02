@@ -14,7 +14,7 @@ pipeline {
 
     parameters {
         choice(name: 'BROWSER', choices: ['chrome', 'firefox', 'edge'], description: 'Браузер для прогона UI-тестов')
-        string(name: 'BRANCH', defaultValue: 'jenkins_fix', description: 'Ветка репозитория')
+        string(name: 'BRANCH', defaultValue: 'master', description: 'Ветка репозитория')
     }
 
     environment {
