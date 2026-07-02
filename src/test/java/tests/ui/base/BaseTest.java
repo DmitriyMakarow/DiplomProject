@@ -16,10 +16,10 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
 import ui.pages.allpost.AllPostPage;
-import ui.pages.login.LoginPage;
-import ui.pages.users.AddMoneyPage;
 import ui.pages.base.BasePage;
 import ui.pages.cars.CarsPage;
+import ui.pages.login.LoginPage;
+import ui.pages.users.AddMoneyPage;
 import ui.pages.users.IssueALoanPage;
 import ui.pages.users.UsersPage;
 import ui.steps.BaseSteps;
@@ -71,7 +71,6 @@ public class BaseTest {
         Configuration.baseUrl = baseUrl;
         Configuration.timeout = 10000;
         Configuration.clickViaJs = true;
-        //Configuration.headless = false;
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--start-maximized");
         chromeOptions.addArguments("--disable-notifications");
@@ -79,10 +78,6 @@ public class BaseTest {
         chromeOptions.addArguments("--no-sandbox");
         chromeOptions.addArguments("--disable-dev-shm-usage");
         chromeOptions.addArguments("--disable-gpu");
-        /*if (System.getProperty("headless", "true").equals("true")) {
-            chromeOptions.addArguments("--headless");
-        }
-         */
 
         HashMap<String, Object> prefs = new HashMap<>();
         prefs.put("credentials_enable_service", false);
@@ -101,10 +96,6 @@ public class BaseTest {
                 firefoxOptions.addArguments("--no-sandbox");
                 firefoxOptions.addArguments("--disable-dev-shm-usage");
                 firefoxOptions.addArguments("--disable-gpu");
-                /*if (System.getProperty("headless", "true").equals("true")) {
-                    firefoxOptions.addArguments("--headless");
-                }
-                 */
                 Configuration.browserCapabilities = firefoxOptions;
                 break;
             case "EDGE":
@@ -115,10 +106,6 @@ public class BaseTest {
                 edgeOptions.addArguments("--no-sandbox");
                 edgeOptions.addArguments("--disable-dev-shm-usage");
                 edgeOptions.addArguments("--disable-gpu");
-                /*if (System.getProperty("headless", "true").equals("true")) {
-                    edgeOptions.addArguments("--headless");
-                }
-                 */
                 Configuration.browserCapabilities = edgeOptions;
                 break;
             default:

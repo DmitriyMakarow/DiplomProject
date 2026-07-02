@@ -21,7 +21,8 @@ public class ReadAllHousesTest extends BaseTest {
         baseSteps.showDropdown(HOUSES);
     }
 
-    @Test(testName = "Проверка отображения таблицы домов")
+    @Test(testName = "Проверка отображения таблицы домов",
+          groups = {"regression"})
     @Story("Отображение списка домов")
     @Description("Тест проверяет, что таблица домов корректно отображается")
     public void checkReadAllHousesTable() {

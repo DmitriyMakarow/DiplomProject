@@ -40,14 +40,14 @@ public class CreateUserApiTest extends BaseTest{
         }
     }
 
-    @Test(testName = "Проверка создания пользователя с валидными параметрами")
+    @Test(testName = "Проверка создания пользователя с валидными параметрами", groups = {"regression"})
     void checkCreateUser() {
         usersSteps
                 .validateUserId(userId)
                 .validateUserData(userResponse, userRequest);
     }
 
-    @Test(testName = "Проверка редактирования пользователя валидными параметрами")
+    @Test(testName = "Проверка редактирования пользователя валидными параметрами", groups = {"regression"})
     void checkEditUserValid() {
         UserRequest newUserRequest = UserTestDataFactory.putUserTestDataApi();
         UserResponse newUserResponse = userAdapter.putValidApiUser(userId, newUserRequest);
@@ -56,6 +56,7 @@ public class CreateUserApiTest extends BaseTest{
 
     @Issue("#3156879")
     @Test(testName = "Проверка редактирования пользователя невалидными параметрами",
+            groups = {"regression"},
             dataProvider = "Api. Тестовые данные для негативных проверок создания пользователя",
             dataProviderClass = UsersPage.class)
     void checkEditUserInvalid(InvalidUserRequest invalidUserRequest) {
