@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite thread-count="2"
+<suite thread-count="1"
        name="PFLB Regression"
-       parallel="classes">
+       parallel="none">
 
     <listeners>
         <listener class-name="utils.listeners.TestListener"/>
