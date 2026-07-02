@@ -19,7 +19,6 @@ import static io.qameta.allure.Allure.step;
 
 @Epic("Пользователи. API")
 @Feature("Создание пользователя")
-@Owner("Lazarev G.A")
 public class CreateUserApiTest extends BaseTest{
 
     private UserResponse userResponse;
@@ -40,6 +39,7 @@ public class CreateUserApiTest extends BaseTest{
         }
     }
 
+    @Owner("Лазарев Г.А.")
     @Test(testName = "Проверка создания пользователя с валидными параметрами")
     void checkCreateUser() {
         usersSteps
@@ -47,6 +47,7 @@ public class CreateUserApiTest extends BaseTest{
                 .validateUserData(userResponse, userRequest);
     }
 
+    @Owner("Лазарев Г.А.")
     @Test(testName = "Проверка редактирования пользователя валидными параметрами")
     void checkEditUserValid() {
         UserRequest newUserRequest = UserTestDataFactory.putUserTestDataApi();
@@ -54,6 +55,7 @@ public class CreateUserApiTest extends BaseTest{
         usersSteps.validateUserData(newUserResponse, newUserRequest);
     }
 
+    @Owner("Лазарев Г.А.")
     @Issue("#3156879")
     @Test(testName = "Проверка редактирования пользователя невалидными параметрами",
             dataProvider = "Api. Тестовые данные для негативных проверок создания пользователя",

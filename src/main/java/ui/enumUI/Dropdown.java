@@ -11,7 +11,6 @@ public enum Dropdown {
      * Users
      */
     USERS("Users"),
-    READ_USER_WITH_CARS("Read user with cars"),
     CREATE_NEW_USERS("Create new"),
     ADD_MONEY("Add money"),
     BUY_OR_SELL_CAR_USERS("Buy or sell car"),

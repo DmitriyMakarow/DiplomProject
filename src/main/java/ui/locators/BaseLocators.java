@@ -36,7 +36,7 @@ public class BaseLocators {
     }
 
     public static SelenideElement getBtnColumnName(String buttonName) {
-        return $x("//div[@aria-label='sort']//button[contains(., '%s')]"
+        return $x("//button[contains(., '%s')]"
                 .formatted(buttonName));
     }
 
@@ -60,5 +60,9 @@ public class BaseLocators {
 
     public static SelenideElement getInputField(String input) {
         return $x("//input[contains(@id, '%s')]".formatted(input));
+    }
+
+    public static SelenideElement getTableName(String tableTitle){
+        return $x("//table[contains(@class, '%s')]".formatted(tableTitle));
     }
 }

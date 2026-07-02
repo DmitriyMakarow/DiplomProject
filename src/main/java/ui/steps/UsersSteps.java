@@ -6,8 +6,11 @@ import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import ui.pages.base.BasePage;
 
+import java.util.List;
+
 import static org.testng.Assert.*;
 import static org.testng.Assert.assertEquals;
+import static ui.steps.BaseSteps.*;
 
 public class UsersSteps extends BasePage {
 
@@ -86,5 +89,49 @@ public class UsersSteps extends BasePage {
                 Ожидаемый результат: %d
                 Фактический результат: %d
                 """.formatted(expectedStatusCode, actualStatusCode));
+    }
+
+    @Step("Проверка ID пользователя {userId} и его машин {carsIdList}")
+    public UsersSteps assertUserAndCarsExist(Integer userId, List<Integer> carsIdList) {
+        // Проверка пользователя
+        assertValuesExistsInTable("tableUser", List.of(userId.toString()));
+
+        // Проверка машин
+        List<String> carIds = carsIdList.stream()
+                .map(String::valueOf)
+                .toList();
+
+        assertValuesExistsInTable("tableCars", carIds);
+        return this;
+    }
+
+    /*
+     Проверяет соответствие количества машин в таблице пользователя и таблице машин
+
+     Алгоритм работы:
+     1. Извлекает все значения из колонки "Cars" таблицы пользователей
+     2. Получает количество машин из первой строки (так как в таблице всегда один пользователь)
+     3. Получает все строки данных из таблицы машин
+     4. Вычисляет количество строк в таблице машин (фактическое количество машин)
+     5. Сравнивает ожидаемое количество (из колонки Cars) с фактическим (количество строк в таблице машин)
+     6. При несовпадении выбрасывает AssertionError с детальным описанием ошибки
+     7. Возвращает текущий экземпляр UsersSteps для поддержки цепочечных вызовов
+
+     @param userTableTitle - название таблицы пользователей (например: "tableUser")
+     @param carsTableTitle - название таблицы машин (например: "tableCars")
+     @return UsersSteps - текущий экземпляр для построения цепочки вызовов
+     @throws AssertionError если ожидаемое количество машин не совпадает с фактическим
+     */
+    @Step("Проверка, что количество машин в колонке Cars таблицы {userTableTitle} " +
+            "соответствует количеству строк в таблице {carsTableTitle}")
+    public UsersSteps assertCarCountMatches(String userTableTitle, String carsTableTitle) {
+        List<String> carsColumn = getColumnValues(userTableTitle, "Cars");
+        int expectedCarCount = Integer.parseInt(carsColumn.get(0));
+        int actualCarCount = getTableData(carsTableTitle).size();
+
+        assertEquals(expectedCarCount, actualCarCount,
+                "Количество машин не совпадает! В колонке Cars: %d, в таблице машин: %d"
+                        .formatted(expectedCarCount, actualCarCount));
+        return this;
     }
 }
