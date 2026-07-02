@@ -37,7 +37,7 @@ public class IssueALoanTest extends BaseTest {
         issueALoanPage.verifyOpenIssueALoanPage();
     }
 
-    @Test(testName = "Проверка запроса кредита с валидными данными", groups = {"needUser"})
+    @Test(testName = "Проверка запроса кредита с валидными данными", groups = {"needUser", "regression"})
     @Description("Проверка запроса кредита с валидными данными")
     @Owner("Makarov D.A.")
     public void checkRequestALoanWithPositiveData() {
@@ -66,7 +66,7 @@ public class IssueALoanTest extends BaseTest {
     }
 
     @Test(testName = "Проверка ввода значений в поля с валидными данными",
-            groups = {"noUser"})
+            groups = {"noUser", "regression"})
     @Description("Проверка ввода значений в поля и изменение значений с помощью степперов")
     @Owner("Makarov D.A.")
     public void checkingInputOfValuesIntoField() {
@@ -82,7 +82,7 @@ public class IssueALoanTest extends BaseTest {
     }
 
     @Test(testName = "Проверка запроса кредита с негативными данными",
-            groups = {"noUser"},
+            groups = {"noUser", "regression"},
             dataProvider = "Тестовые данные для негативных проверок получения кредита",
             dataProviderClass = IssueALoanPage.class)
     @Description("Проверка запроса кредита с негативными данными")

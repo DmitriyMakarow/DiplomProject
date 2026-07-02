@@ -10,6 +10,7 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Description;
 import io.qameta.allure.selenide.AllureSelenide;
 import io.qameta.allure.testng.AllureTestNg;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -24,6 +25,7 @@ import ui.pages.users.IssueALoanPage;
 import ui.pages.users.UsersPage;
 import ui.steps.BaseSteps;
 import ui.steps.UsersSteps;
+import ui.wrappers.Input;
 import utils.PropertyReader;
 import utils.listeners.TestListener;
 
@@ -58,6 +60,7 @@ public class BaseTest {
      *
      * @param browser Имя браузера (параметр запуска)
      */
+    @BeforeSuite
     @Parameters({"browser"})
     @BeforeMethod(alwaysRun = true)
     @Description("Настройка браузера")

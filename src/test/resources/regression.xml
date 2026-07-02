@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite thread-count="1"
-       name="PFLB Regression"
-       parallel="false">
+<suite
+        name="regression">
 
     <listeners>
         <listener class-name="utils.listeners.TestListener"/>
         <listener class-name="utils.AnnotationTransformer"/>
     </listeners>
 
-    <test name="Regression Tests UI">
+    <test name="regressionTestsUI">
         <parameter name="browser" value="CHROME"/>
         <groups>
             <run>
@@ -32,7 +31,7 @@
         </classes>
     </test>
 
-    <test name="Regression Tests API">
+    <test name="regressionTestsAPI">
         <groups>
             <run>
                 <include name="regression"/>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite
-        name="PFLB_TEAM2"
+        name="PFLB Crossbrowser"
         parallel="tests">
 
     <listeners>
         <listener class-name="utils.listeners.TestListener"/>
-        <listener class-name="utils.AnnotationTransformer"></listener>
+        <listener class-name="utils.AnnotationTransformer"/>
     </listeners>
 
     <test name="Chrome">
