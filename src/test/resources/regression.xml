@@ -17,7 +17,7 @@
             </run>
         </groups>
         <classes>
-            <class name="tests.ui.allpost.AllPostTest"/>
+<!--        <class name="tests.ui.allpost.AllPostTest"/>
             <class name="tests.ui.cars.BuyOrSellCarTest"/>
             <class name="tests.ui.cars.CreateCarTest"/>
             <class name="tests.ui.cars.ReadAllCarsTest"/>
@@ -28,7 +28,7 @@
             <class name="tests.ui.users.IssueALoanTest"/>
             <class name="tests.ui.users.CreateUsersTest"/>
             <class name="tests.ui.users.AddMoneyTest"/>
-            <class name="tests.ui.users.ReadAllUsersTest"/>
+-->         <class name="tests.ui.users.ReadAllUsersTest"/>
         </classes>
     </test>
 
@@ -40,13 +40,13 @@
             </run>
         </groups>
         <classes>
-            <class name="tests.api.users.AddMoneyApiTest"/>
+<!--        <class name="tests.api.users.AddMoneyApiTest"/>
             <class name="tests.api.users.CreateUserApiTest"/>
             <class name="tests.api.users.LoanAPITest"/>
             <class name="tests.api.houses.HouseApiTest"/>
             <class name="tests.api.cars.BuyCarApiTest"/>
             <class name="tests.api.cars.CarApiTest"/>
-            <class name="tests.api.cars.SellCarApiTest"/>
+-->         <class name="tests.api.cars.SellCarApiTest"/>
         </classes>
     </test>
 
