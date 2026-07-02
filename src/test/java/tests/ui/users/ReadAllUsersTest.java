@@ -15,7 +15,6 @@ import static ui.enumUI.TableType.READ_ALL_USERS;
 
 @Epic("Пользователи")
 @Feature("Чтение всех пользователей")
-@Owner("Lazarev G.A")
 public class ReadAllUsersTest extends BaseTest {
 
     @BeforeMethod
@@ -35,6 +34,7 @@ public class ReadAllUsersTest extends BaseTest {
         };
     }
 
+    @Owner("Лазарев Г.А.")
     @Test(dataProvider = "columns")
     @Story("Сортировка пользователей")
     @Description("Тест проверяет сортировку по колонке \"{columnName}\"")
