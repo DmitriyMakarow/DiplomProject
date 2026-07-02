@@ -42,7 +42,7 @@ public class ReadUserWithCarsUITest extends BaseTest {
     @Owner("Лазарев Г.А.")
     @Test(testName = "Чтение пользователя с машинами")
     @Description("Проверка, что у пользователя есть машины")
-    void successBuyCar() {
+    void shouldShowMachinesForUser() {
         carAdapter.buyCars(userId, carsIdList, 10, 200, UserResponse.class);
         loginPage.authorization();
         baseSteps.openTableFromDropdown(USERS, READ_USER_WITH_CARS);

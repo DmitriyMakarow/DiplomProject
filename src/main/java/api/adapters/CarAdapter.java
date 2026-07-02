@@ -125,15 +125,7 @@ public class CarAdapter extends BaseAdapter {
 
     public void deleteApiCars(List<Integer> ids) {
         for (Integer id : ids) {
-            given()
-                    .spec(getSpec())
-                    .pathParam("id", id)
-                    .log().all()
-                    .when()
-                    .delete("/car/{id}")
-                    .then()
-                    .log().all()
-                    .spec(code204);
+            deleteApiCar(id);
         }
     }
 
@@ -169,21 +161,7 @@ public class CarAdapter extends BaseAdapter {
         List<Integer> carsToPurchase = carIds.subList(0, carsToBuy);
 
         for (Integer carId : carsToPurchase) {
-            var resp = given()
-                    .spec(getSpec())
-                    .pathParam("userId", userId)
-                    .pathParam("carId", carId)
-                    .log().all()
-                    .when()
-                    .post("/user/{userId}/buyCar/{carId}")
-                    .then()
-                    .log().all()
-                    .statusCode(status);
-
-            if (clazz != null) {
-                resp.body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/userSchema.json"));
-                resp.extract().as(clazz);
-            }
+            buyCar(userId, carId, status, clazz);
         }
     }
 
@@ -211,21 +189,7 @@ public class CarAdapter extends BaseAdapter {
         T result = null;
 
         for (Integer carId : carIds) {
-            var resp = given()
-                    .spec(getSpec())
-                    .pathParam("userId", userId)
-                    .pathParam("carId", carId)
-                    .log().all()
-                    .when()
-                    .post("/user/{userId}/sellCar/{carId}")
-                    .then()
-                    .log().all()
-                    .statusCode(status);
-
-            if (clazz != null) {
-                resp.body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/userSchema.json"));
-                result = resp.extract().as(clazz);
-            }
+            result = sellCar(userId, carId, status, clazz);
         }
 
         return result;
