@@ -1,15 +1,19 @@
 package tests.db;
 
 import org.testng.annotations.Test;
+import tests.ui.base.BaseTest;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DBTest {
 
+public class DBTest extends BaseTest {
+
+    /**
+    Пробное выполнение запроса
+     */
     @Test
     public void checkSelect() throws SQLException {
-        DBConnection connection = new DBConnection();
         connection.connect();
         ResultSet result = connection.select("SELECT * FROM public.person WHERE (id = 13132)");
         while (result.next()) {
@@ -22,6 +26,5 @@ public class DBTest {
             System.out.print(result.getInt("house_id") + " ");
             System.out.println();
         }
-        connection.close();
     }
 }

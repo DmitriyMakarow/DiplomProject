@@ -7,6 +7,7 @@ import api.adapters.UserAdapter;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
+import data.CarDao;
 import io.qameta.allure.Description;
 import io.qameta.allure.selenide.AllureSelenide;
 import io.qameta.allure.testng.AllureTestNg;
@@ -15,6 +16,7 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
+import tests.db.DBConnection;
 import ui.pages.allpost.AllPostPage;
 import ui.pages.login.LoginPage;
 import ui.pages.users.AddMoneyPage;
@@ -34,10 +36,17 @@ import static com.codeborne.selenide.Selenide.open;
 @Listeners({AllureTestNg.class, TestListener.class})
 public class BaseTest {
 
-    protected final String baseUrl = "http://82.142.167.37:4881/#";
-    protected final String user = System.getProperty("user", PropertyReader.getProperty("user"));
-    protected final String password = System.getProperty("password", PropertyReader.getProperty("password"));
+    protected final String
+            baseUrl = "http://82.142.167.37:4881/#",
+            user = System.getProperty("user", PropertyReader.getProperty("user")),
+            password = System.getProperty("password", PropertyReader.getProperty("password")),
 
+            urlDB = "jdbc:postgresql://82.142.167.37:4832/pflb_trainingcenter",
+            userDB = System.getProperty("userDB", PropertyReader.getProperty("userDB")),
+            passwordDB = System.getProperty("passwordDB", PropertyReader.getProperty("passwordDB"));
+
+    protected DBConnection connection;
+    protected CarDao carDao;
     protected BasePage basePage;
     protected BaseSteps baseSteps;
     protected LoginPage loginPage;
@@ -45,7 +54,6 @@ public class BaseTest {
     protected CarAdapter carAdapter;
     protected HouseAdapter houseAdapter;
     protected UserAdapter userAdapter;
-    protected BaseAdapter baseAdapter;
     protected CarsPage carsPage;
     protected UsersPage usersPage;
     protected IssueALoanPage issueALoanPage;
@@ -124,13 +132,14 @@ public class BaseTest {
 
         context.setAttribute("driver", WebDriverRunner.getWebDriver());
 
+        connection = new DBConnection();
+        carDao = new CarDao();
         basePage = new BasePage();
         baseSteps = new BaseSteps();
         loginPage = new LoginPage();
         addMoneyPage = new AddMoneyPage();
         carAdapter = new CarAdapter();
         houseAdapter = new HouseAdapter();
-        baseAdapter = new BaseAdapter();
         carsPage = new CarsPage();
         usersPage = new UsersPage();
         userAdapter = new UserAdapter();
@@ -144,5 +153,6 @@ public class BaseTest {
     public void tearDown(ITestContext ctx) {
         com.codeborne.selenide.Selenide.closeWebDriver();
         ctx.removeAttribute("driver");
+        connection.close();
     }
 }
