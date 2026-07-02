@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import static data.CarDao.getSelectCarByID;
 import static data.CarDao.getSelectCarByModel;
 import static io.qameta.allure.Allure.step;
+import static java.lang.Integer.valueOf;
 import static org.testng.Assert.assertTrue;
 import static ui.enumUI.Dropdown.CARS;
 import static ui.enumUI.TableType.CREATE_NEW_CARS;
@@ -43,9 +44,10 @@ public class CreateCarTest extends BaseTest {
                 .verifyTextStatus(status)
                 .verifyGetIdObject("New car ID:");
         String idCar = baseSteps.getNewObjectId();
-        Integer carId = Integer.valueOf(idCar);
+        Integer carId = valueOf(idCar);
 
-        step("Проверка получения созданного авто по ID", () -> carAdapter.getCar(carId, 200, CarResponse.class));
+        step("Проверка получения созданного авто по ID", () ->
+                carAdapter.getCar(carId, 200, CarResponse.class));
 
         step("Проверка записи по созданному авто в БД", () -> {
             connection.connect();

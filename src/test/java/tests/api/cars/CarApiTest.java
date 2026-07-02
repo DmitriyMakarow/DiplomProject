@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 
 import static data.CarDao.*;
 import static io.qameta.allure.Allure.step;
+import static java.lang.String.valueOf;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -51,7 +52,7 @@ public class CarApiTest extends BaseTest {
 
         step("Проверка записи по созданному авто в БД", () -> {
             connection.connect();
-            ResultSet result = carDao.select(getSelectCarByID(String.valueOf(idCar)));
+            ResultSet result = carDao.select(getSelectCarByID(valueOf(idCar)));
             while (result.next()) {
                 carDao.verifyAttributesCar(carResponse, result);
             }
@@ -86,7 +87,7 @@ public class CarApiTest extends BaseTest {
 
         step("Проверка записи по измененному авто в БД", () -> {
             connection.connect();
-            ResultSet result = carDao.select(getSelectCarByID(String.valueOf(idCar)));
+            ResultSet result = carDao.select(getSelectCarByID(valueOf(idCar)));
             while (result.next()) {
                 carDao.verifyAttributesCar(carNewResponse, result);
             }
@@ -102,7 +103,7 @@ public class CarApiTest extends BaseTest {
 
         step("Проверка сохранения изначальной записи по авто в БД", () -> {
             connection.connect();
-            ResultSet result = carDao.select(getSelectCarByID(String.valueOf(idCar)));
+            ResultSet result = carDao.select(getSelectCarByID(valueOf(idCar)));
             while (result.next()) {
                 carDao.verifyAttributesCar(carResponse, result);
             }
