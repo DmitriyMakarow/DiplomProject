@@ -10,6 +10,7 @@
     </listeners>
 
     <test name="Regression Tests UI">
+        <parameter name="browser" value="CHROME"/>
         <groups>
             <run>
                 <include name="regression"/>
@@ -32,7 +33,6 @@
     </test>
 
     <test name="Regression Tests API">
-        <parameter name="browser" value="EDGE"/>
         <groups>
             <run>
                 <include name="regression"/>
