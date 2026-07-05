@@ -18,8 +18,8 @@ public class CarTestDataFactory {
     public static CarRequest emptyCarTestDataUI() {
         return CarRequest.builder()
                 .engineType("")
-                .mark("")
-                .model("")
+                .mark("Mercedes-Benz")
+                .model("300 SLR Uhlenhaut Coupe") //нужны редкие данные для проверки отсутствия в бд
                 .price(0)
                 .build();
     }

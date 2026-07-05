@@ -10,6 +10,13 @@ import ui.dto.cars.CarTestDataFactory;
 import ui.pages.cars.CarsPage;
 import tests.ui.base.BaseTest;
 
+import java.sql.ResultSet;
+
+import static data.CarDao.getSelectCarByID;
+import static data.CarDao.getSelectCarByModel;
+import static io.qameta.allure.Allure.step;
+import static java.lang.Integer.valueOf;
+import static org.testng.Assert.assertTrue;
 import static ui.enumUI.Dropdown.CARS;
 import static ui.enumUI.TableType.CREATE_NEW_CARS;
 
@@ -36,10 +43,22 @@ public class CreateCarTest extends BaseTest {
                 .clickPushToApi()
                 .verifyTextStatus(status)
                 .verifyGetIdObject("New car ID:");
+        String idCar = baseSteps.getNewObjectId();
+        Integer carId = valueOf(idCar);
 
-        Integer carId = Integer.valueOf(baseSteps.getNewObjectId());
-        carAdapter.getCar(carId, 200, CarResponse.class);
-        carAdapter.deleteApiCar(carId);
+        step("Проверка получения созданного авто по ID", () ->
+                carAdapter.getCar(carId, 200, CarResponse.class));
+
+        step("Проверка записи по созданному авто в БД", () -> {
+            connection.connect();
+            ResultSet result = carDao.select(getSelectCarByID(idCar));
+            while (result.next()) {
+                carDao.verifyAttributesCar(validCar, result);
+            }
+        });
+
+        step("Удаление тестовых данных", () ->
+                carAdapter.deleteApiCar(carId));
     }
 
     @Owner("Кадырмятова А.В.")
@@ -55,6 +74,11 @@ public class CreateCarTest extends BaseTest {
                 .clickPushToApi()
                 .verifyTextStatus(status)
                 .verifyNoIdObject();
+
+        step("Проверка отсутствия записи по созданному авто в БД", () -> {
+            connection.connect();
+            assertTrue(carDao.emptySelect(getSelectCarByModel(carTestData)));
+        });
     }
 
     @Owner("Кадырмятова А.В.")
@@ -70,5 +94,10 @@ public class CreateCarTest extends BaseTest {
                 .clickPushToApi()
                 .verifyTextStatus(status)
                 .verifyNoIdObject();
+
+        step("Проверка отсутствия записи по созданному авто в БД", () -> {
+            connection.connect();
+            assertTrue(carDao.emptySelect(getSelectCarByModel(carTestData)));
+        });
     }
 }

@@ -16,8 +16,10 @@ import static io.restassured.RestAssured.given;
 
 public class BaseAdapter {
 
-    private static final String user = System.getProperty("user", utils.PropertyReader.getProperty("user"));
-    private static final String password = System.getProperty("password", PropertyReader.getProperty("password"));
+    private static final String
+            baseUrl = "http://82.142.167.37:4879",
+            user = System.getProperty("user", utils.PropertyReader.getProperty("user")),
+            password = System.getProperty("password", PropertyReader.getProperty("password"));
 
     public static Gson gson = new GsonBuilder()
             .excludeFieldsWithoutExposeAnnotation()
@@ -39,7 +41,7 @@ public class BaseAdapter {
 
         String token = given()
                 .contentType(ContentType.JSON)
-                .baseUri("http://82.142.167.37:4879")
+                .baseUri(baseUrl)
                 .body(BaseAdapter.gson.toJson(loginRequest))
                 .log().all()
                 .when()
@@ -52,7 +54,7 @@ public class BaseAdapter {
 
         return new RequestSpecBuilder()
                 .setContentType(ContentType.JSON)
-                .setBaseUri("http://82.142.167.37:4879")
+                .setBaseUri(baseUrl)
                 .addHeader("Authorization", "Bearer " + token)
                 .build();
     }
