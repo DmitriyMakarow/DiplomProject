@@ -5,6 +5,7 @@ import api.models.users.UserResponse;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Owner;
 import io.restassured.response.Response;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -35,6 +36,7 @@ public class AddMoneyApiTest extends BaseTest {
         }
     }
 
+    @Owner("Квасникова О.Н.")
     @Test(testName = "Успешное перечисление денег пользователю", groups = {"regression"})
     @Description("Проверка успешного перечисления денег пользователю")
     public void checkAddMoney(){
@@ -46,6 +48,7 @@ public class AddMoneyApiTest extends BaseTest {
                 "Баланс пользователя не увеличился на сумму начисления.");
     }
 
+    @Owner("Квасникова О.Н.")
     @Test(testName = "Успешное перечисление нулевой суммы", groups = {"regression"})
     @Description("Проверка перечисления нулевой суммы")
     public void checkAddMoneyEmptyAmount() {
@@ -57,6 +60,7 @@ public class AddMoneyApiTest extends BaseTest {
                 "Баланс пользователя изменился.");
     }
 
+    @Owner("Квасникова О.Н.")
     @Test(testName = "Успешное перечисление максимальной суммы", groups = {"regression"})
     @Description("Проверка перечисления максимальной суммы")
     public void checkAddMoneyMaxAmount() {
@@ -68,6 +72,7 @@ public class AddMoneyApiTest extends BaseTest {
                 "Баланс пользователя изменился.");
     }
 
+    @Owner("Квасникова О.Н.")
     @Test(testName = "Успешное перечисление дробной суммы", groups = {"regression"})
     @Description("Проверка перечисления дробной суммы")
     public void checkAddMoneyFractionalAmount() {
@@ -81,6 +86,7 @@ public class AddMoneyApiTest extends BaseTest {
                 "Баланс пользователя изменился не корректно");
     }
 
+    @Owner("Квасникова О.Н.")
     @Test(testName = "Негативный тест. Перечисление денег несуществующему пользователю",
           groups = {"regression"})
     @Description("Проверка перечисления денег несуществующему пользователю")
@@ -91,6 +97,7 @@ public class AddMoneyApiTest extends BaseTest {
         usersSteps.validateStatusCode(response, 404);
     }
 
+    @Owner("Квасникова О.Н.")
     @Test(testName = "Негативный тест. Снятие деньги через эндпоинт начисления", groups = {"regression"})
     @Description("Проверка снятия деньги через эндпоинт начисления")
     public void checkAddMoneyNegativeAmount() {
