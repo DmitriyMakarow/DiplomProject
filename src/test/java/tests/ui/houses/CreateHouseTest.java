@@ -30,9 +30,7 @@ public class CreateHouseTest extends BaseTest {
     @BeforeMethod
     public void setUp() {
         loginPage.authorization();
-        baseSteps
-                .showDropdown(HOUSES)
-                .openTableFromDropdown(HOUSES, CREATE_NEW_HOUSES);
+        baseSteps.openTableFromDropdown(HOUSES, CREATE_NEW_HOUSES);
     }
 
     @Test(testName = "Создание дома с валидными данными",

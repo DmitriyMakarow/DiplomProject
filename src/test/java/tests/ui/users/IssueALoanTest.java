@@ -31,9 +31,7 @@ public class IssueALoanTest extends BaseTest {
     public void precondition() {
         loginPage
                 .authorization();
-        baseSteps
-                .showDropdown(USERS)
-                .openTableFromDropdown(USERS, ISSUE_A_LOAN);
+        baseSteps.openTableFromDropdown(USERS, ISSUE_A_LOAN);
         issueALoanPage.verifyOpenIssueALoanPage();
     }
 
@@ -44,9 +42,7 @@ public class IssueALoanTest extends BaseTest {
         final String status = "Status: Successfully pushed, code: 200";
 
         loginPage.authorization();
-        baseSteps
-                .showDropdown(USERS)
-                .openTableFromDropdown(USERS, CREATE_NEW_USER);
+        baseSteps.openTableFromDropdown(USERS, CREATE_NEW_USER);
         usersPage.addNewUserUI(validUserData);
         baseSteps
                 .verifyUnselectedRadio(MALE)
@@ -55,9 +51,7 @@ public class IssueALoanTest extends BaseTest {
                 .verifyGetIdObject("New user ID:");
         String idUser = baseSteps.getNewObjectId();
         System.out.println("Получен ID пользователя: " + idUser);
-        baseSteps
-                .showDropdown(USERS)
-                .openTableFromDropdown(USERS, ISSUE_A_LOAN);
+        baseSteps.openTableFromDropdown(USERS, ISSUE_A_LOAN);
         issueALoanPage.verifyOpenIssueALoanPage();
         issueALoanPage
                 .fillingFieldText(idUser, "100000")

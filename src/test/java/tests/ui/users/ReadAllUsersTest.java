@@ -15,15 +15,11 @@ import static ui.enumUI.TableType.READ_ALL_USERS;
 
 @Epic("Пользователи")
 @Feature("Чтение всех пользователей")
-@Owner("Lazarev G.A")
 public class ReadAllUsersTest extends BaseTest {
 
     @BeforeMethod
     public void testData() {
-        loginPage
-                .authorization(user, password)
-                .verifySuccessAuthorization();
-        baseSteps.showDropdown(USERS);
+        loginPage.authorization();
     }
 
     @DataProvider(name = "columns")
@@ -38,6 +34,7 @@ public class ReadAllUsersTest extends BaseTest {
         };
     }
 
+    @Owner("Лазарев Г.А.")
     @Test(dataProvider = "columns", groups = {"regression"})
     @Story("Сортировка пользователей")
     @Description("Тест проверяет сортировку по колонке \"{columnName}\"")

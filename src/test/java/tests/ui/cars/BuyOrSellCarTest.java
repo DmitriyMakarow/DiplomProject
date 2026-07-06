@@ -29,9 +29,7 @@ public class BuyOrSellCarTest extends BaseTest {
     @BeforeMethod
     void createDataCar() {
         loginPage.authorization();
-        baseSteps
-                .showDropdown(CARS)
-                .openTableFromDropdown(CARS, BUY_OR_SELL_CAR);
+        baseSteps.openTableFromDropdown(CARS, BUY_OR_SELL_CAR);
         CarRequest carRequest = CarTestDataFactory.validCarTestDataAPI();
         CarResponse carResponse = carAdapter.createCar(carRequest, 201, CarResponse.class);
         carId = carResponse.getId();

@@ -15,7 +15,6 @@ import static io.qameta.allure.Allure.step;
 
 @Epic("Пользователи")
 @Feature("Создание пользователя")
-@Owner("Lazarev G.A")
 public class CreateUsersTest extends BaseTest {
 
     UserTestData validUserData = UserTestDataFactory.getUserTestDataUI();
@@ -23,11 +22,10 @@ public class CreateUsersTest extends BaseTest {
     @BeforeMethod
     public void testData() {
         loginPage.authorization();
-        baseSteps
-                .showDropdown(USERS)
-                .openTableFromDropdown(USERS, CREATE_NEW_USER);
+        baseSteps.openTableFromDropdown(USERS, CREATE_NEW_USER);
     }
 
+    @Owner("Лазарев Г.А.")
     @Test(testName = "Создание пользователя с валидными данными",
           groups = {"regression", "broken"})
     void successCreateUser() {
@@ -42,6 +40,7 @@ public class CreateUsersTest extends BaseTest {
                 .verifyGetIdObject("New user ID:");
     }
 
+    @Owner("Лазарев Г.А.")
     @Story("Создание пользователя с невалидными данными")
     @Test(testName = "Создание пользователя с пустым полем",
             groups = {"regression", "broken"},
@@ -62,6 +61,7 @@ public class CreateUsersTest extends BaseTest {
         });
     }
 
+    @Owner("Лазарев Г.А.")
     @Issue("")
     @Story("Создание пользователя с невалидными данными")
     @Test(testName = "Создание пользователя с несоответствующими данными",
