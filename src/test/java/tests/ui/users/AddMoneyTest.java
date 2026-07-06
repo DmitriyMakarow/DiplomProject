@@ -1,10 +1,12 @@
 package tests.ui.users;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Owner;
 import org.testng.annotations.Test;
 import tests.ui.base.BaseTest;
 
 public class AddMoneyTest extends BaseTest {
+    @Owner("Квасникова О.Н.")
     @Test(testName = "Добавление денег  существующему пользователю",
           groups = {"regression"})
     @Description("Проверка корректности зачисления денежных средств на баланс существующего пользователя через интерфейс")
@@ -18,6 +20,7 @@ public class AddMoneyTest extends BaseTest {
                 .validationAddMoneyToUser();
     }
 
+    @Owner("Квасникова О.Н.")
     @Test(testName = "Снятие денег (ошибочно) у пользователя через сервис добавление денег",
           groups = {"regression"})
     @Description("Проверка невозможности списания денежных средств через эндпоинт добавления денег")
@@ -31,6 +34,7 @@ public class AddMoneyTest extends BaseTest {
                 .validationNotAddMoneyToUser("Status: Incorrect input data");
     }
 
+    @Owner("Квасникова О.Н.")
     @Test(testName = "Добавление денег  несуществующему пользователю",
           groups = {"regression"})
     @Description("Проверка реакции системы при попытке добавить деньги пользователю с несуществующим ID")

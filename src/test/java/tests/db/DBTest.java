@@ -1,5 +1,6 @@
 package tests.db;
 
+import io.qameta.allure.Owner;
 import org.testng.annotations.Test;
 import tests.ui.base.BaseTest;
 
@@ -9,9 +10,7 @@ import java.sql.SQLException;
 
 public class DBTest extends BaseTest {
 
-    /**
-    Пробное выполнение запроса
-     */
+    @Owner("Квасникова О.Н.")
     @Test
     public void checkSelect() throws SQLException {
         connection.connect();
