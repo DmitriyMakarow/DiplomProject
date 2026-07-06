@@ -2,6 +2,7 @@ package ui.wrappers;
 
 import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
+import ui.steps.BaseSteps;
 
 import static com.codeborne.selenide.Selenide.$x;
 

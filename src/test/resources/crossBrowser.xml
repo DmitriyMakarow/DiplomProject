@@ -1,27 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite
-        name="PFLB_TEAM2"
+        name="PFLB Crossbrowser"
         parallel="tests">
 
     <listeners>
         <listener class-name="utils.listeners.TestListener"/>
-        <listener class-name="utils.AnnotationTransformer"></listener>
+        <listener class-name="utils.AnnotationTransformer"/>
     </listeners>
 
     <test name="Chrome">
+        <groups>
+            <run>
+                <exclude name="broken"/>
+            </run>
+        </groups>
         <classes>
-            <class name="tests.ui.users.AddMoneyTest"/>
+            <class name="tests.ui.login.LoginTest"/>
             <class name="tests.ui.users.ReadAllUsersTest"/>
+            <class name="tests.ui.users.CreateUsersTest"/>
+            <class name="tests.ui.users.AddMoneyTest"/>
+            <class name="tests.ui.users.IssueALoanTest"/>
             <parameter name="browser" value="CHROME"/>
         </classes>
     </test>
 
     <test name="Firefox">
+        <groups>
+            <run>
+                <exclude name="broken"/>
+            </run>
+        </groups>
         <classes>
-            <class name="tests.ui.login.LoginTest"/>
+            <class name="tests.ui.houses.ReadAllHousesTest"/>
+            <class name="tests.ui.houses.ReadHouseByIdTest"/>
             <class name="tests.ui.houses.CreateHouseTest"/>
             <parameter name="browser" value="FIREFOX"/>
+        </classes>
+    </test>
+
+    <test name="Edge">
+        <groups>
+            <run>
+                <exclude name="broken"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="tests.ui.cars.ReadAllCarsTest"/>
+            <class name="tests.ui.cars.CreateCarTest"/>
+            <class name="tests.ui.cars.BuyOrSellCarTest"/>
+            <class name="tests.ui.allpost.AllPostTest"/>
+            <parameter name="browser" value="EDGE"/>
         </classes>
     </test>
 </suite>

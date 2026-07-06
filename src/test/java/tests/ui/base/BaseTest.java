@@ -11,6 +11,7 @@ import data.CarDao;
 import io.qameta.allure.Description;
 import io.qameta.allure.selenide.AllureSelenide;
 import io.qameta.allure.testng.AllureTestNg;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -18,14 +19,15 @@ import org.testng.ITestContext;
 import org.testng.annotations.*;
 import tests.db.DBConnection;
 import ui.pages.allpost.AllPostPage;
-import ui.pages.login.LoginPage;
-import ui.pages.users.AddMoneyPage;
 import ui.pages.base.BasePage;
 import ui.pages.cars.CarsPage;
+import ui.pages.login.LoginPage;
+import ui.pages.users.AddMoneyPage;
 import ui.pages.users.IssueALoanPage;
 import ui.pages.users.UsersPage;
 import ui.steps.BaseSteps;
 import ui.steps.UsersSteps;
+import ui.wrappers.Input;
 import utils.PropertyReader;
 import utils.listeners.TestListener;
 
@@ -66,12 +68,14 @@ public class BaseTest {
      *
      * @param browser Имя браузера (параметр запуска)
      */
+    @BeforeSuite
     @Parameters({"browser"})
     @BeforeMethod(alwaysRun = true)
     @Description("Настройка браузера")
     public void setUp(@Optional("CHROME") String browser, ITestContext context) {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
-
+        String headlessProp = System.getProperty("selenide.headless", "false");
+        Configuration.headless = Boolean.parseBoolean(headlessProp);
         Configuration.screenshots = true;
         Configuration.reportsFolder = "build/reports/tests";
         Configuration.savePageSource = true;
@@ -85,9 +89,6 @@ public class BaseTest {
         chromeOptions.addArguments("--no-sandbox");
         chromeOptions.addArguments("--disable-dev-shm-usage");
         chromeOptions.addArguments("--disable-gpu");
-        if (System.getProperty("headless", "true").equals("true")) {
-            chromeOptions.addArguments("--headless");
-        }
 
         HashMap<String, Object> prefs = new HashMap<>();
         prefs.put("credentials_enable_service", false);
@@ -106,9 +107,6 @@ public class BaseTest {
                 firefoxOptions.addArguments("--no-sandbox");
                 firefoxOptions.addArguments("--disable-dev-shm-usage");
                 firefoxOptions.addArguments("--disable-gpu");
-                if (System.getProperty("headless", "true").equals("true")) {
-                    firefoxOptions.addArguments("--headless");
-                }
                 Configuration.browserCapabilities = firefoxOptions;
                 break;
             case "EDGE":
@@ -119,9 +117,6 @@ public class BaseTest {
                 edgeOptions.addArguments("--no-sandbox");
                 edgeOptions.addArguments("--disable-dev-shm-usage");
                 edgeOptions.addArguments("--disable-gpu");
-                if (System.getProperty("headless", "true").equals("true")) {
-                    edgeOptions.addArguments("--headless");
-                }
                 Configuration.browserCapabilities = edgeOptions;
                 break;
             default:
