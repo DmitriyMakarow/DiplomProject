@@ -1,22 +1,22 @@
 package tests.db;
 
+import lombok.extern.log4j.Log4j2;
+import tests.ui.base.BaseTest;
+
 import java.sql.*;
 
-public class DBConnection {
-
-    private final String URL = "jdbc:postgresql://82.142.167.37:4832/pflb_trainingcenter";
-    private final String USER = "pflb-at-read";
-    private final String PASSWORD = "PflbQaTraining2354";
+@Log4j2
+public class DBConnection extends BaseTest {
 
     private Connection connection; // класс нужен для того, чтобы подключаться к БД
-    private Statement statement;// класс нужен для того, чтобы в БД отправлять запрос
-    private ResultSet resultSet; // объект этого класс хранит результаты селект
+    static Statement statement;// класс нужен для того, чтобы в БД отправлять запрос
+    private ResultSet result; //объект этого класса хранит результаты селект
 
     public void connect() {
         try {
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            connection = DriverManager.getConnection(urlDB, userDB, passwordDB);
             statement = connection.createStatement();
-            System.out.println("Соединение с БД выполнено");
+            log.info("Соединение с БД выполнено");
         } catch (SQLException e) {
             throw new RuntimeException("Соединение не выполнено", e);
         }
@@ -30,18 +30,25 @@ public class DBConnection {
         }
     }
 
+    public boolean emptySelect(String query) throws SQLException {
+        try (ResultSet rs = select(query)) {
+            log.info("Найдены записи в БД!");
+            return !rs.next();
+        }
+    }
+
     public void close() {
         try {
-            if (resultSet!= null) {
-                resultSet.close();
+            if (result != null) {
+                result.close();
             }
-            if (statement!= null) {
+            if (statement != null) {
                 statement.close();
             }
-            if (connection!= null) {
+            if (connection != null) {
                 connection.close();
             }
-            System.out.println("Подключение к БД закрыто");
+            log.info("Подключение к БД закрыто");
         } catch (SQLException e) {
             throw new RuntimeException("Ошибка при закрытии соединения", e);
         }

@@ -44,7 +44,7 @@ public class SellCarApiTest extends BaseTest {
 
     @Issue("Сумма продажи не начисляется на счет пользователя")
     @Owner("Кадырмятова А.В.")
-    @Test(testName = "Успешная продажа автомобиля")
+    @Test(testName = "Успешная продажа автомобиля", groups = {"regression"})
     @Description("Проверка продажи автомобиля из собственности пользователя")
     void successBuyCar() {
         carAdapter.buyCar(userId, carId, 200, UserResponse.class);
@@ -65,7 +65,7 @@ public class SellCarApiTest extends BaseTest {
 
     @Issue("Запрос на продажу выполняется успешно")
     @Owner("Кадырмятова А.В.")
-    @Test(testName = "Ошибка при продаже автомобиля")
+    @Test(testName = "Ошибка при продаже автомобиля", groups = {"regression"})
     @Description("Проверка продажи автомобиля не находящегося в собственности пользователя")
     void buyNoEnoughMoneyCar() {
         userAdapter.getEmptyListCarsByUser(userId);

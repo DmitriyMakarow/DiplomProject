@@ -2,7 +2,6 @@ package api.adapters;
 
 import api.models.cars.CarRequest;
 import api.models.cars.CarResponse;
-import api.models.users.UserResponse;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import ui.dto.cars.CarTestDataFactory;
 

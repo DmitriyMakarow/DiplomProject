@@ -45,7 +45,8 @@ public class AllPostTest extends BaseTest {
         };
     }
 
-    @Test(testName = "Создание нового пользователя через ALL POST")
+    @Test(testName = "Создание нового пользователя через ALL POST",
+          groups = {"regression"})
     @Description("Проверка создания нового пользователя с валидными данными")
     public void testCreateUser() {
         UserTestData userData = UserTestDataFactory.getUserTestDataUI();
@@ -59,7 +60,8 @@ public class AllPostTest extends BaseTest {
         assertNotNull(userId, "ID созданного пользователя не получен");
     }
 
-    @Test(testName = "Добавление денег пользователю через ALL POST")
+    @Test(testName = "Добавление денег пользователю через ALL POST",
+          groups = {"regression"})
     @Description("Проверка добавления денег существующему пользователю")
     public void testAddMoney() {
         UserTestData userData = UserTestDataFactory.getUserTestDataUI();
@@ -76,7 +78,8 @@ public class AllPostTest extends BaseTest {
                 .verifyStatus(2, STATUS_200);
     }
 
-    @Test(testName = "Создание нового автомобиля через ALL POST")
+    @Test(testName = "Создание нового автомобиля через ALL POST",
+          groups = {"regression"})
     @Description("Проверка создания нового автомобиля с валидными данными")
     public void testCreateCar() {
         CarTestData carData = CarTestDataFactory.validCarTestDataUI();
@@ -86,7 +89,8 @@ public class AllPostTest extends BaseTest {
                 .verifyStatus(5, STATUS_201);
     }
 
-    @Test(testName = "Создание нового дома через ALL POST")
+    @Test(testName = "Создание нового дома через ALL POST",
+          groups = {"regression"})
     @Description("Проверка создания нового дома с валидными данными")
     public void testCreateHouse() {
         String floors = String.valueOf(faker.number().numberBetween(1, 50));
@@ -102,7 +106,8 @@ public class AllPostTest extends BaseTest {
     }
 
     @Test(dataProvider = "settleEvictActions",
-            testName = "Заселение/выселение пользователя в/из дом(а) через ALL POST")
+            testName = "Заселение/выселение пользователя в/из дом(а) через ALL POST",
+            groups = {"regression"})
     @Description("Параметризованный тест: заселение и выселение пользователя в дом")
     public void testSettleEvictUser(String actionName, RadioLabel action) {
         UserTestData userData = UserTestDataFactory.getUserTestDataUI();
@@ -138,7 +143,8 @@ public class AllPostTest extends BaseTest {
     }
 
     @Test(dataProvider = "buySellActions",
-            testName = "Покупка/продажа автомобиля пользователем через ALL POST")
+            testName = "Покупка/продажа автомобиля пользователем через ALL POST",
+            groups = {"regression"})
     @Description("Параметризованный тест: покупка и продажа автомобиля")
     public void testBuySellCar(String actionName, RadioLabel action) {
         UserTestData userData = UserTestDataFactory.getUserTestDataUI();

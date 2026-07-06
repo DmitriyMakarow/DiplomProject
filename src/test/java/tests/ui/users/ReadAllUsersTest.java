@@ -35,7 +35,7 @@ public class ReadAllUsersTest extends BaseTest {
     }
 
     @Owner("Лазарев Г.А.")
-    @Test(dataProvider = "columns")
+    @Test(dataProvider = "columns", groups = {"regression"})
     @Story("Сортировка пользователей")
     @Description("Тест проверяет сортировку по колонке \"{columnName}\"")
     public void checkSorting(String columnName) {

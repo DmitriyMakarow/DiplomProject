@@ -65,7 +65,7 @@ public class BuyOrSellCarTest extends BaseTest {
 
     @Owner("Кадырмятова А.В.")
     @Test(testName = "Ошибка при покупке автомобиля",
-            groups = {"deleteData"})
+            groups = {"deleteData", "regression"})
     @Description("Проверка покупки автомобиля при недостаточной сумме у пользователя")
     void buyNoEnoughMoneyCar() {
         userRequest = UserTestDataFactory.putUserTestDataApi();
@@ -83,7 +83,7 @@ public class BuyOrSellCarTest extends BaseTest {
 
     @Owner("Кадырмятова А.В.")
     @Test(testName = "Успешная продажа автомобиля",
-            groups = {"haveMoneyUser", "deleteData"})
+            groups = {"haveMoneyUser", "deleteData", "regression"})
     @Description("Проверка продажи автомобиля из собственности пользователя")
     void successSellCar() {
         userRequest = UserTestDataFactory.userMuchMoneyTestDataApi();
@@ -107,7 +107,7 @@ public class BuyOrSellCarTest extends BaseTest {
     @Issue("Запрос на продажу выполняется успешно")
     @Owner("Кадырмятова А.В.")
     @Test(testName = "Ошибка при продаже автомобиля",
-            groups = {"haveMoneyUser, deleteData"})
+            groups = {"haveMoneyUser, deleteData", "regression", "broken"})
     @Description("Проверка продажи автомобиля не находящегося в собственности пользователя")
     void sellNoHaveCar() {
         userRequest = UserTestDataFactory.userMuchMoneyTestDataApi();

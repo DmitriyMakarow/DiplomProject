@@ -17,7 +17,7 @@ public class LoanAPITest {
             .amount(faker.number().randomDigit())
             .build();
 
-    @Test(testName = "Проверка запроса кредита с валидными данными")
+    @Test(testName = "Проверка запроса кредита с валидными данными", groups = {"regression"})
     @Description("Проверка запроса кредита с валидными данными")
     @Owner("Makarov D.A.")
     public void checkRequestALoanWithPositiveDataAPI() {
