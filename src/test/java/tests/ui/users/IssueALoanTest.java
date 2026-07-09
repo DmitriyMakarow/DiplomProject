@@ -1,5 +1,6 @@
 package tests.ui.users;
 
+import data.IssueALoanData;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Owner;
@@ -9,7 +10,6 @@ import org.testng.annotations.Test;
 import tests.ui.base.BaseTest;
 import ui.dto.users.UserTestData;
 import ui.dto.users.UserTestDataFactory;
-import ui.pages.users.IssueALoanPage;
 
 import static java.lang.String.valueOf;
 import static ui.enumUI.Dropdown.USERS;
@@ -78,7 +78,7 @@ public class IssueALoanTest extends BaseTest {
     @Test(testName = "Проверка запроса кредита с негативными данными",
             groups = {"noUser", "regression"},
             dataProvider = "Тестовые данные для негативных проверок получения кредита",
-            dataProviderClass = IssueALoanPage.class)
+            dataProviderClass = IssueALoanData.class)
     @Description("Проверка запроса кредита с негативными данными")
     @Owner("Makarov D.A.")
     public void checkRequestALoanWithNegativeData(String userID, String amount, String errorMessage) {

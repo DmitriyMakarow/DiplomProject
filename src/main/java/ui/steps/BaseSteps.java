@@ -17,6 +17,7 @@ import java.util.Objects;
 import static org.testng.Assert.*;
 import static ui.enumUI.TableType.READ_USER_WITH_CARS;
 import static ui.locators.BaseLocators.*;
+import static utils.SortUtils.getStringComparator;
 
 public class BaseSteps extends BasePage {
 
@@ -360,7 +361,7 @@ public class BaseSteps extends BasePage {
         }
 
         List<String> sortedData = new ArrayList<>(actualData);
-        sortedData.sort(SortUtils.getStringComparator(true));
+        sortedData.sort(getStringComparator(true));
 
         assertEquals(sortedData, actualData,
                 "Колонка \"%s\" не отсортирована по возрастанию".formatted(columnName));
@@ -410,7 +411,7 @@ public class BaseSteps extends BasePage {
         }
 
         List<String> sortedData = new ArrayList<>(actualData);
-        sortedData.sort(SortUtils.getStringComparator(false));
+        sortedData.sort(getStringComparator(false));
 
         assertEquals(sortedData, actualData,
                 "Колонка \"%s\" не отсортирована по убыванию".formatted(columnName));

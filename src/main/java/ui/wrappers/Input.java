@@ -17,7 +17,7 @@ public class Input {
     @Step("Заполнение поля {label} значением {text}")
     public void fillField(String text) {
         log.info("Writing '{}' in to '{}'", text, label);
-        $x("//input[@id='%s']".formatted(label)).setValue(text);
+        $x("//input[contains(@id, '%s')]".formatted(label)).setValue(text);
     }
 
     @Step("Заполнение поля {label} в таблице {formIndex} значением {text}")

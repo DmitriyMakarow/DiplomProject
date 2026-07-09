@@ -2,7 +2,6 @@ package ui.pages.houses;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import org.testng.annotations.DataProvider;
 import ui.pages.base.BasePage;
 
 import static com.codeborne.selenide.Selenide.$x;
@@ -38,22 +37,5 @@ public class HousesPage extends BasePage {
 
     public void verifyHouseIdInTable(Integer houseId) {
         $x("//table//td[contains(text(), '" + houseId + "')]").shouldBe(Condition.visible);
-    }
-
-    @DataProvider(name = "Тестовые данные для негативных проверок создания дома")
-    public Object[][] houseData() {
-        return new Object[][] {
-                {"",
-                        faker.number().digits(7),
-                        String.valueOf(faker.number().numberBetween(1, 10))},
-
-                {String.valueOf(faker.number().numberBetween(1, 50)),
-                        "",
-                        String.valueOf(faker.number().numberBetween(1, 10))},
-
-                {String.valueOf(faker.number().numberBetween(1, 50)),
-                        "",
-                        ""}
-        };
     }
 }

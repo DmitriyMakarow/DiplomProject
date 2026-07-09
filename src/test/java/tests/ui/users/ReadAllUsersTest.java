@@ -6,9 +6,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import tests.ui.base.BaseTest;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static ui.enumUI.Dropdown.USERS;
 import static ui.enumUI.TableType.READ_ALL_USERS;
@@ -40,23 +38,13 @@ public class ReadAllUsersTest extends BaseTest {
     @Description("Тест проверяет сортировку по колонке \"{columnName}\"")
     public void checkSorting(String columnName) {
         Allure.parameter("Колонка", columnName);
-        Set<String> skipSortCheck = new HashSet<>(List.of(
-                "First", "Last"  // Проблема с сортировкой - TODO: отрефачить метод getStringComparator (пока что не получается настроить компоратор)
-        ));
         baseSteps.openTableFromDropdown(USERS, READ_ALL_USERS);
         List<List<String>> initialData = baseSteps.getTableData();
         baseSteps
                 .clickBtn(columnName)
                 .verifyColumnNameAsc(columnName)
-                .assertDataChangedAfterSort(initialData);
-        if (!skipSortCheck.contains(columnName)) {
-            baseSteps.verifySortAscending(columnName);
-        } else {
-            Allure.addAttachment("Информация",
-                    "Проверка сортировки по возрастанию пропущена для колонки \"%s\" (известная проблема)"
-                            .formatted(columnName));
-        }
-        baseSteps
+                .assertDataChangedAfterSort(initialData)
+                .verifySortAscending(columnName)
                 .clickBtn(columnName)
                 .verifyColumnNameDesc(columnName)
                 .verifySortDescending(columnName)

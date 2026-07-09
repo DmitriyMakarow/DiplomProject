@@ -1,6 +1,5 @@
 package tests.ui.base;
 
-import api.adapters.BaseAdapter;
 import api.adapters.CarAdapter;
 import api.adapters.HouseAdapter;
 import api.adapters.UserAdapter;
@@ -11,7 +10,6 @@ import data.CarDao;
 import io.qameta.allure.Description;
 import io.qameta.allure.selenide.AllureSelenide;
 import io.qameta.allure.testng.AllureTestNg;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -27,7 +25,6 @@ import ui.pages.users.IssueALoanPage;
 import ui.pages.users.UsersPage;
 import ui.steps.BaseSteps;
 import ui.steps.UsersSteps;
-import ui.wrappers.Input;
 import utils.PropertyReader;
 import utils.listeners.TestListener;
 
