@@ -1,11 +1,11 @@
 package tests.ui.users;
 
+import data.UsersData;
 import ui.dto.users.UserTestData;
 import ui.dto.users.UserTestDataFactory;
 import io.qameta.allure.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import ui.pages.users.UsersPage;
 import tests.ui.base.BaseTest;
 
 import static ui.enumUI.Dropdown.USERS;
@@ -45,7 +45,7 @@ public class CreateUsersTest extends BaseTest {
     @Test(testName = "Создание пользователя с пустым полем",
             groups = {"regression", "broken"},
             dataProvider = "UI. Тестовые данные для негативных проверок создания пользователя",
-            dataProviderClass = UsersPage.class)
+            dataProviderClass = UsersData.class)
     void unsuccessCreateUser(UserTestData userTestData) {
         final String status = "Status: Invalid request data";
 
@@ -67,7 +67,7 @@ public class CreateUsersTest extends BaseTest {
     @Test(testName = "Создание пользователя с несоответствующими данными",
             groups = {"regression", "broken"},
             dataProvider = "UI. Тестовые данные с некорректными значениями для пользователя",
-            dataProviderClass = UsersPage.class)
+            dataProviderClass = UsersData.class)
     void createUserInvalidData(UserTestData userTestData) {
         final String status = "Status: AxiosError: Request failed with status code 400";
 

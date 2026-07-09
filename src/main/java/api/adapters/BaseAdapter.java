@@ -1,6 +1,6 @@
 package api.adapters;
 
-import api.models.LoginRequest;
+import api.models.users.LoginRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.restassured.builder.RequestSpecBuilder;

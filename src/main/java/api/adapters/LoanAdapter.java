@@ -1,6 +1,6 @@
 package api.adapters;
 
-import api.models.LoanResponse;
+import api.models.users.LoanResponse;
 import io.restassured.module.jsv.JsonSchemaValidator;
 
 import static io.restassured.RestAssured.given;

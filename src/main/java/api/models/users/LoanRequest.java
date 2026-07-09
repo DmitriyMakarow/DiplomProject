@@ -1,4 +1,4 @@
-package api.models;
+package api.models.users;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -3,6 +3,7 @@ package tests.api.users;
 import api.models.users.InvalidUserRequest;
 import api.models.users.UserRequest;
 import api.models.users.UserResponse;
+import data.UsersData;
 import ui.dto.users.UserTestDataFactory;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -13,13 +14,12 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import tests.ui.base.BaseTest;
-import ui.pages.users.UsersPage;
 
 import static io.qameta.allure.Allure.step;
 
 @Epic("Пользователи. API")
 @Feature("Создание пользователя")
-public class CreateUserApiTest extends BaseTest{
+public class CreateUserApiTest extends BaseTest {
 
     private UserResponse userResponse;
     private UserRequest userRequest;
@@ -60,7 +60,7 @@ public class CreateUserApiTest extends BaseTest{
     @Test(testName = "Проверка редактирования пользователя невалидными параметрами",
             groups = {"regression"},
             dataProvider = "Api. Тестовые данные для негативных проверок создания пользователя",
-            dataProviderClass = UsersPage.class)
+            dataProviderClass = UsersData.class)
     void checkEditUserInvalid(InvalidUserRequest invalidUserRequest) {
 
         step("Проверка невалидными данными \"%s\"".formatted(invalidUserRequest.getDescription()), () -> {

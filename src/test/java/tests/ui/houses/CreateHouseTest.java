@@ -1,5 +1,6 @@
 package tests.ui.houses;
 
+import data.HousesData;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Issue;
@@ -7,7 +8,6 @@ import io.qameta.allure.Story;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import ui.pages.houses.HousesPage;
 import tests.ui.base.BaseTest;
 import ui.wrappers.Input;
 
@@ -55,7 +55,7 @@ public class CreateHouseTest extends BaseTest {
     @Test(testName = "Создание дома с пустым полем",
             groups = {"regression"},
             dataProvider = "Тестовые данные для негативных проверок создания дома",
-            dataProviderClass = HousesPage.class)
+            dataProviderClass = HousesData.class)
     void unsuccessCreateHouse(String floors, String price, String parking) {
         final String status = "Status: Invalid input data";
 

@@ -1,7 +1,7 @@
 package tests.api.users;
 
-import api.models.LoanRequest;
-import api.models.LoanResponse;
+import api.models.users.LoanRequest;
+import api.models.users.LoanResponse;
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
 import org.testng.annotations.Test;

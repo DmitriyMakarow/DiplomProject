@@ -1,13 +1,13 @@
 package tests.ui.cars;
 
 import api.models.cars.CarResponse;
+import data.CarsData;
 import io.qameta.allure.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import ui.dto.cars.CarTestData;
 import ui.dto.cars.CarTestDataFactory;
-import ui.pages.cars.CarsPage;
 import tests.ui.base.BaseTest;
 
 import java.sql.ResultSet;
@@ -64,7 +64,7 @@ public class CreateCarTest extends BaseTest {
     @Story("Создание автомобиля с невалидными данными")
     @Test(testName = "Создание автомобиля с пустым полем ",
             dataProvider = "Тестовые данные для негативных проверок создания автомобиля с пустыми полями",
-            dataProviderClass = CarsPage.class,
+            dataProviderClass = CarsData.class,
             groups = {"regression"})
     void unsuccessCreateCar(CarTestData carTestData) {
         final String status = "Status: Invalid request data";
@@ -85,7 +85,7 @@ public class CreateCarTest extends BaseTest {
     @Story("Создание автомобиля с невалидными данными")
     @Test(testName = "Создание автомобиля с числом в строковом поле",
             dataProvider = "Тестовые данные для проверок создания автомобиля с цифровым значением для строкового поля",
-            dataProviderClass = CarsPage.class,
+            dataProviderClass = CarsData.class,
             groups = {"regression"})
     void createCarWithNumbers(CarTestData carTestData) {
         final String status = "Status: AxiosError: Request failed with status code 400";
