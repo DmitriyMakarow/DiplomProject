@@ -7,6 +7,8 @@ import io.qameta.allure.Owner;
 import org.testng.annotations.Test;
 
 import static api.adapters.LoanAdapter.RequestALoan;
+import static io.qameta.allure.Allure.getLifecycle;
+import static io.qameta.allure.Allure.parameter;
 import static org.testng.Assert.assertEquals;
 import static ui.pages.base.BasePage.faker;
 
@@ -21,6 +23,13 @@ public class LoanAPITest {
     @Description("Проверка запроса кредита с валидными данными")
     @Owner("Makarov D.A.")
     public void checkRequestALoanWithPositiveDataAPI() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Проверка запроса кредита с валидными данными")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Запрос кредита через API");
+        parameter("Ожидаемый результат", "Кредит успешно выдан");
+
         LoanResponse rs = RequestALoan("15538", "100000");
         assertEquals(rs.id, 15538);
     }

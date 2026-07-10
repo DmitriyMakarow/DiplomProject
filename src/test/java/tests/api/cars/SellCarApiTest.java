@@ -15,6 +15,8 @@ import ui.dto.users.UserTestDataFactory;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import static io.qameta.allure.Allure.getLifecycle;
+import static io.qameta.allure.Allure.parameter;
 import static org.testng.Assert.*;
 
 @Epic("Автомобили. API")
@@ -47,6 +49,13 @@ public class SellCarApiTest extends BaseTest {
     @Test(testName = "Успешная продажа автомобиля", groups = {"regression"})
     @Description("Проверка продажи автомобиля из собственности пользователя")
     void successBuyCar() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Успешная продажа автомобиля")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Продажа автомобиля");
+        parameter("Ожидаемый результат", "Автомобиль успешно продан");
+
         carAdapter.buyCar(userId, carId, 200, UserResponse.class);
 
         UserResponse userAfterSellResponse = carAdapter.sellCar(userId, carId, 200, UserResponse.class);
@@ -68,6 +77,13 @@ public class SellCarApiTest extends BaseTest {
     @Test(testName = "Ошибка при продаже автомобиля", groups = {"regression"})
     @Description("Проверка продажи автомобиля не находящегося в собственности пользователя")
     void buyNoEnoughMoneyCar() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Ошибка при продаже автомобиля")
+        );
+        parameter("Тип теста", "Негативный");
+        parameter("Действие", "Продажа автомобиля не в собственности");
+        parameter("Ожидаемый результат", "Ошибка, автомобиль не в собственности");
+
         userAdapter.getEmptyListCarsByUser(userId);
         UserResponse userAfterSellResponse = carAdapter.sellCar(userId, carId, 406, UserResponse.class);
         assertEquals(userAfterSellResponse.getMoney(), startMoney, "Сумма денег у пользователя изменилась!");

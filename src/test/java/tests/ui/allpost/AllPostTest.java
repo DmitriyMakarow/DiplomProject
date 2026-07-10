@@ -14,6 +14,8 @@ import ui.dto.users.UserTestData;
 import ui.dto.users.UserTestDataFactory;
 import ui.enumUI.RadioLabel;
 
+import static io.qameta.allure.Allure.getLifecycle;
+import static io.qameta.allure.Allure.parameter;
 import static org.testng.Assert.assertNotNull;
 import static ui.pages.base.BasePage.faker;
 
@@ -48,9 +50,16 @@ public class AllPostTest extends BaseTest {
 
     @Owner("Кирсанов А.П.")
     @Test(testName = "Создание нового пользователя через ALL POST",
-          groups = {"regression"})
+            groups = {"regression"})
     @Description("Проверка создания нового пользователя с валидными данными")
     public void testCreateUser() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Создание нового пользователя через ALL POST")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Создание пользователя через ALL POST");
+        parameter("Ожидаемый результат", "Пользователь успешно создан");
+
         UserTestData userData = UserTestDataFactory.getUserTestDataUI();
 
         allPostPage.fillCreateUserForm(userData);
@@ -64,9 +73,16 @@ public class AllPostTest extends BaseTest {
 
     @Owner("Кирсанов А.П.")
     @Test(testName = "Добавление денег пользователю через ALL POST",
-          groups = {"regression"})
+            groups = {"regression"})
     @Description("Проверка добавления денег существующему пользователю")
     public void testAddMoney() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Добавление денег пользователю через ALL POST")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Добавление денег через ALL POST");
+        parameter("Ожидаемый результат", "Деньги успешно добавлены");
+
         UserTestData userData = UserTestDataFactory.getUserTestDataUI();
         allPostPage.fillCreateUserForm(userData);
         baseSteps.selectRadioLabel(RadioLabel.MALE);
@@ -83,9 +99,16 @@ public class AllPostTest extends BaseTest {
 
     @Owner("Кирсанов А.П.")
     @Test(testName = "Создание нового автомобиля через ALL POST",
-          groups = {"regression"})
+            groups = {"regression"})
     @Description("Проверка создания нового автомобиля с валидными данными")
     public void testCreateCar() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Создание нового автомобиля через ALL POST")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Создание автомобиля через ALL POST");
+        parameter("Ожидаемый результат", "Автомобиль успешно создан");
+
         CarTestData carData = CarTestDataFactory.validCarTestDataUI();
 
         allPostPage.fillCreateCarForm(carData)
@@ -95,9 +118,16 @@ public class AllPostTest extends BaseTest {
 
     @Owner("Кирсанов А.П.")
     @Test(testName = "Создание нового дома через ALL POST",
-          groups = {"regression"})
+            groups = {"regression"})
     @Description("Проверка создания нового дома с валидными данными")
     public void testCreateHouse() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Создание нового дома через ALL POST")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Создание дома через ALL POST");
+        parameter("Ожидаемый результат", "Дом успешно создан");
+
         String floors = String.valueOf(faker.number().numberBetween(1, 50));
         String price = String.valueOf(faker.number().numberBetween(100000, 10000000));
         String parkingFirst = String.valueOf(faker.number().numberBetween(0, 10));
@@ -116,6 +146,14 @@ public class AllPostTest extends BaseTest {
             groups = {"regression"})
     @Description("Параметризованный тест: заселение и выселение пользователя в дом")
     public void testSettleEvictUser(String actionName, RadioLabel action) {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Заселение/выселение пользователя в/из дом(а) через ALL POST")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Заселение/выселение через ALL POST");
+        parameter("Ожидаемый результат", "Операция успешно выполнена");
+        parameter("Действие пользователя", actionName);
+
         UserTestData userData = UserTestDataFactory.getUserTestDataUI();
         allPostPage.fillCreateUserForm(userData);
         baseSteps.selectRadioLabel(RadioLabel.MALE);
@@ -154,6 +192,14 @@ public class AllPostTest extends BaseTest {
             groups = {"regression"})
     @Description("Параметризованный тест: покупка и продажа автомобиля")
     public void testBuySellCar(String actionName, RadioLabel action) {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Покупка/продажа автомобиля пользователем через ALL POST")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Покупка/продажа через ALL POST");
+        parameter("Ожидаемый результат", "Операция успешно выполнена");
+        parameter("Действие пользователя", actionName);
+
         UserTestData userData = UserTestDataFactory.getUserTestDataUI();
         allPostPage.fillCreateUserForm(userData);
         baseSteps.selectRadioLabel(RadioLabel.MALE);

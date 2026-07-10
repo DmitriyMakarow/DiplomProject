@@ -14,6 +14,8 @@ import ui.wrappers.Input;
 
 import java.util.List;
 
+import static io.qameta.allure.Allure.getLifecycle;
+import static io.qameta.allure.Allure.parameter;
 import static java.lang.String.valueOf;
 import static ui.enumUI.Dropdown.USERS;
 import static ui.enumUI.TableType.READ_USER_WITH_CARS;
@@ -43,6 +45,15 @@ public class ReadUserWithCarsUITest extends BaseTest {
     @Test(testName = "Чтение пользователя с машинами")
     @Description("Проверка, что у пользователя есть машины")
     void shouldShowMachinesForUser() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Чтение пользователя с машинами")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Чтение пользователя с машинами");
+        parameter("Ожидаемый результат", "Отображены машины пользователя");
+        parameter("ID пользователя", userId);
+        parameter("Список машин", carsIdList != null ? carsIdList.toString() : "пусто");
+
         carAdapter.buyCars(userId, carsIdList, 10, 200, UserResponse.class);
         loginPage.authorization();
         baseSteps.openTableFromDropdown(USERS, READ_USER_WITH_CARS);

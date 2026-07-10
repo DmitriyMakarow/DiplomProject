@@ -15,7 +15,7 @@ import ui.dto.cars.CarTestDataFactory;
 import java.sql.ResultSet;
 
 import static data.CarDao.*;
-import static io.qameta.allure.Allure.step;
+import static io.qameta.allure.Allure.*;
 import static java.lang.String.valueOf;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -43,8 +43,15 @@ public class CarApiTest extends BaseTest {
 
     @Owner("Кадырмятова А.В.")
     @Test(testName = "Проверка создания автомобиля с валидными параметрами",
-    groups = {"validCar", "deleteData", "regression"})
+            groups = {"validCar", "deleteData", "regression"})
     void checkCreateCar() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Проверка создания автомобиля с валидными параметрами")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Создание автомобиля");
+        parameter("Ожидаемый результат", "Автомобиль успешно создан");
+
         assertEquals(carResponse.getEngineType(), carRequest.getEngineType(), "Тип двигателя не соответствует");
         assertEquals(carResponse.getModel(), carRequest.getModel(), "Модель не соответствует");
         assertEquals(carResponse.getMark(), carRequest.getMark(), "Марка не соответствует");
@@ -63,6 +70,13 @@ public class CarApiTest extends BaseTest {
     @Test(testName = "Проверка создания автомобиля с невалидными параметрами",
             groups = {"invalidCar", "regression"})
     void createInvalidCar() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Проверка создания автомобиля с невалидными параметрами")
+        );
+        parameter("Тип теста", "Негативный");
+        parameter("Действие", "Создание автомобиля с невалидными параметрами");
+        parameter("Ожидаемый результат", "Ошибка валидации, автомобиль не создан");
+
         CarRequest invalidCarRequest = CarTestDataFactory.emptyCarTestDataUI();
         carAdapter.createCar(invalidCarRequest, 400, null);
 
@@ -76,6 +90,13 @@ public class CarApiTest extends BaseTest {
     @Test(testName = "Проверка редактирования автомобиля валидными параметрами",
             groups = {"validCar", "deleteData", "regression"})
     void checkEditCar() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Проверка редактирования автомобиля валидными параметрами")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Редактирование автомобиля");
+        parameter("Ожидаемый результат", "Автомобиль успешно отредактирован");
+
         CarRequest carNewRequest = CarTestDataFactory.validCarTestDataAPI();
         CarResponse carNewResponse = carAdapter.putCar(idCar, carNewRequest, 202, CarResponse.class);
 
@@ -98,6 +119,13 @@ public class CarApiTest extends BaseTest {
     @Test(testName = "Проверка редактирования автомобиля невалидными параметрами",
             groups = {"validCar", "deleteData", "regression"})
     void checkEditInvalidCar() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Проверка редактирования автомобиля невалидными параметрами")
+        );
+        parameter("Тип теста", "Негативный");
+        parameter("Действие", "Редактирование автомобиля невалидными параметрами");
+        parameter("Ожидаемый результат", "Ошибка валидации");
+
         CarRequest carNewRequest = CarTestDataFactory.emptyCarTestDataUI();
         carAdapter.putCar(idCar, carNewRequest, 400, null);
 
@@ -114,6 +142,13 @@ public class CarApiTest extends BaseTest {
     @Test(testName = "Проверка удаления автомобиля",
             groups = {"validCar", "regression"})
     void checkDeleteCar() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Проверка удаления автомобиля")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Удаление автомобиля");
+        parameter("Ожидаемый результат", "Автомобиль успешно удален");
+
         carAdapter.deleteApiCar(idCar);
         carAdapter.getCar(idCar, 204, null);
 
