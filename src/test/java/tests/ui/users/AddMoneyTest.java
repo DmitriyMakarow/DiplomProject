@@ -1,13 +1,17 @@
 package tests.ui.users;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
 import org.testng.annotations.Test;
 import tests.ui.base.BaseTest;
 
+@Epic("Пользователи")
+@Feature("Действия с балансом")
 public class AddMoneyTest extends BaseTest {
     @Owner("Квасникова О.Н.")
-    @Test(testName = "Добавление денег  существующему пользователю",
+    @Test(testName = "Добавление денег существующему пользователю",
           groups = {"regression"})
     @Description("Проверка корректности зачисления денежных средств на баланс существующего пользователя через интерфейс")
         public void addMoneyPositiveTest() {
