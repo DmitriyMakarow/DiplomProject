@@ -1,16 +1,15 @@
 package tests.ui.houses;
 
 import data.HousesData;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Issue;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import tests.ui.base.BaseTest;
 import ui.wrappers.Input;
 
+import static io.qameta.allure.Allure.getLifecycle;
+import static io.qameta.allure.Allure.parameter;
 import static ui.enumUI.TableType.CREATE_NEW_HOUSES;
 import static ui.enumUI.Dropdown.HOUSES;
 import static ui.pages.base.BasePage.faker;
@@ -33,9 +32,17 @@ public class CreateHouseTest extends BaseTest {
         baseSteps.openTableFromDropdown(HOUSES, CREATE_NEW_HOUSES);
     }
 
+    @Owner("Хвадина А.В.")
     @Test(testName = "Создание дома с валидными данными",
           groups = {"regression"})
     void successCreateHouse() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Создание дома с валидными данными")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Создание дома");
+        parameter("Ожидаемый результат", "Дом успешно создан");
+
         final String status = "Status: Successfully pushed, code: 201";
 
         new Input("floor_send").fillField(floors);
@@ -51,12 +58,20 @@ public class CreateHouseTest extends BaseTest {
                 .verifyGetIdObject("New house ID:");
     }
 
+    @Owner("Хвадина А.В.")
     @Story("Создание дома с невалидными данными")
     @Test(testName = "Создание дома с пустым полем",
             groups = {"regression"},
             dataProvider = "Тестовые данные для негативных проверок создания дома",
             dataProviderClass = HousesData.class)
     void unsuccessCreateHouse(String floors, String price, String parking) {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Создание дома с пустым полем")
+        );
+        parameter("Тип теста", "Негативный");
+        parameter("Действие", "Создание дома с пустыми полями");
+        parameter("Ожидаемый результат", "Ошибка валидации, дом не создан");
+
         final String status = "Status: Invalid input data";
 
         new Input("floor_send").fillField(floors);
@@ -69,11 +84,19 @@ public class CreateHouseTest extends BaseTest {
                 .verifyNoIdObject();
     }
 
+    @Owner("Хвадина А.В.")
     @Issue("")
     @Story("Создание дома с невалидными данными")
     @Test(testName = "Создание дома с несоответствующими данными",
           groups = {"regression"})
     void createHouseInvalidData() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Создание дома с несоответствующими данными")
+        );
+        parameter("Тип теста", "Негативный");
+        parameter("Действие", "Создание дома с невалидными данными");
+        parameter("Ожидаемый результат", "Ошибка валидации, дом не создан");
+
         final String status = "Status: Invalid input data";
 
         new Input("floor_send").fillField("invalid_string");

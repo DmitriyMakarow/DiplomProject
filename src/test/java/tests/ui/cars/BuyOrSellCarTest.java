@@ -13,6 +13,8 @@ import ui.dto.cars.CarTestDataFactory;
 import ui.dto.users.UserTestDataFactory;
 import ui.wrappers.Input;
 
+import static io.qameta.allure.Allure.getLifecycle;
+import static io.qameta.allure.Allure.parameter;
 import static ui.enumUI.Dropdown.CARS;
 import static ui.enumUI.RadioLabel.BUY;
 import static ui.enumUI.RadioLabel.SELL;
@@ -53,6 +55,13 @@ public class BuyOrSellCarTest extends BaseTest {
             groups = {"haveMoneyUser"})
     @Description("Проверка покупки автомобиля при наличии достаточной суммы у пользователя")
     void successBuyCar() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Успешная покупка автомобиля")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Покупка автомобиля");
+        parameter("Ожидаемый результат", "Автомобиль успешно куплен");
+
         final String status = "Status: Successfully pushed, code: 200";
 
         new Input("id_send").fillField(String.valueOf(userId));
@@ -68,6 +77,13 @@ public class BuyOrSellCarTest extends BaseTest {
             groups = {"deleteData", "regression"})
     @Description("Проверка покупки автомобиля при недостаточной сумме у пользователя")
     void buyNoEnoughMoneyCar() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Ошибка при покупке автомобиля")
+        );
+        parameter("Тип теста", "Негативный");
+        parameter("Действие", "Покупка автомобиля");
+        parameter("Ожидаемый результат", "Ошибка, недостаточно средств");
+
         userRequest = UserTestDataFactory.putUserTestDataApi();
         userResponse = userAdapter.createUser(userRequest);
         userId = userResponse.getId();
@@ -86,6 +102,13 @@ public class BuyOrSellCarTest extends BaseTest {
             groups = {"haveMoneyUser", "deleteData", "regression"})
     @Description("Проверка продажи автомобиля из собственности пользователя")
     void successSellCar() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Успешная продажа автомобиля")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Продажа автомобиля");
+        parameter("Ожидаемый результат", "Автомобиль успешно продан");
+
         userRequest = UserTestDataFactory.userMuchMoneyTestDataApi();
         userResponse = userAdapter.createUser(userRequest);
         userId = userResponse.getId();
@@ -110,6 +133,12 @@ public class BuyOrSellCarTest extends BaseTest {
             groups = {"haveMoneyUser, deleteData", "regression", "broken"})
     @Description("Проверка продажи автомобиля не находящегося в собственности пользователя")
     void sellNoHaveCar() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Ошибка при продаже автомобиля")
+        );
+        parameter("Тип теста", "Негативный");
+        parameter("Действие", "Продажа автомобиля");
+        parameter("Ожидаемый результат", "Ошибка, автомобиль не в собственности");
         userRequest = UserTestDataFactory.userMuchMoneyTestDataApi();
         userResponse = userAdapter.createUser(userRequest);
         userId = userResponse.getId();

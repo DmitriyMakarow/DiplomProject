@@ -11,6 +11,8 @@ import tests.ui.base.BaseTest;
 import ui.dto.users.UserTestData;
 import ui.dto.users.UserTestDataFactory;
 
+import static io.qameta.allure.Allure.getLifecycle;
+import static io.qameta.allure.Allure.parameter;
 import static java.lang.String.valueOf;
 import static ui.enumUI.Dropdown.USERS;
 import static ui.enumUI.RadioLabel.MALE;
@@ -39,6 +41,13 @@ public class IssueALoanTest extends BaseTest {
     @Description("Проверка запроса кредита с валидными данными")
     @Owner("Makarov D.A.")
     public void checkRequestALoanWithPositiveData() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Проверка запроса кредита с валидными данными")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Запрос кредита");
+        parameter("Ожидаемый результат", "Кредит успешно запрошен");
+
         final String status = "Status: Successfully pushed, code: 200";
 
         loginPage.authorization();
@@ -64,6 +73,13 @@ public class IssueALoanTest extends BaseTest {
     @Description("Проверка ввода значений в поля и изменение значений с помощью степперов")
     @Owner("Makarov D.A.")
     public void checkingInputOfValuesIntoField() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Проверка ввода значений в поля с валидными данными")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Ввод значений в поля и изменение степперами");
+        parameter("Ожидаемый результат", "Значения успешно изменены");
+
         final String
                 id = "id_send",
                 money = "money_send";
@@ -82,6 +98,13 @@ public class IssueALoanTest extends BaseTest {
     @Description("Проверка запроса кредита с негативными данными")
     @Owner("Makarov D.A.")
     public void checkRequestALoanWithNegativeData(String userID, String amount, String errorMessage) {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Проверка запроса кредита с негативными данными")
+        );
+        parameter("Тип теста", "Негативный");
+        parameter("Действие", "Запрос кредита с негативными данными");
+        parameter("Ожидаемый результат", "Ошибка валидации, кредит не выдан");
+
         issueALoanPage
                 .verifyOpenIssueALoanPage()
                 .fillingFieldText(userID, amount)

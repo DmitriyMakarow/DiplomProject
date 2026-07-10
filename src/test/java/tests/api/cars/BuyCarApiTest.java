@@ -19,6 +19,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
+import static io.qameta.allure.Allure.getLifecycle;
+import static io.qameta.allure.Allure.parameter;
 import static org.testng.Assert.*;
 
 @Log4j2
@@ -42,6 +44,13 @@ public class BuyCarApiTest extends BaseTest {
     @Test(testName = "Успешная покупка автомобиля", groups = {"regression"})
     @Description("Проверка покупки автомобиля при наличии достаточной суммы у пользователя")
     void successBuyCar() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Успешная покупка автомобиля")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Покупка автомобиля");
+        parameter("Ожидаемый результат", "Автомобиль успешно куплен");
+
         userRequest = UserTestDataFactory.userMuchMoneyTestDataApi();
         userResponse = userAdapter.createUser(userRequest);
         userId = userResponse.getId();
@@ -51,7 +60,7 @@ public class BuyCarApiTest extends BaseTest {
         List<CarResponse> carList = userAdapter.getCarsByUser(CarResponse.class, userId);
 
         assertTrue(carList.stream().anyMatch(car -> car.getId() == carId),
-           "Автомобиль %s отсутствует в списке автомобилей пользователя".formatted(carId));
+                "Автомобиль %s отсутствует в списке автомобилей пользователя".formatted(carId));
 
         BigDecimal bd = new BigDecimal(startMoney - carResponse.getPrice()).setScale(2, RoundingMode.HALF_UP);
         double roundedMoneyAfterBuy = bd.doubleValue();
@@ -63,6 +72,13 @@ public class BuyCarApiTest extends BaseTest {
     @Test(testName = "Ошибка при покупке автомобиля", groups = {"regression"})
     @Description("Проверка покупки автомобиля при недостаточной сумме у пользователя")
     void buyNoEnoughMoneyCar() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Ошибка при покупке автомобиля")
+        );
+        parameter("Тип теста", "Негативный");
+        parameter("Действие", "Покупка автомобиля при недостатке средств");
+        parameter("Ожидаемый результат", "Ошибка, недостаточно средств");
+
         userRequest = UserTestDataFactory.putUserTestDataApi();
         userResponse = userAdapter.createUser(userRequest);
         userId = userResponse.getId();

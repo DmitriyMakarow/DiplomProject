@@ -14,7 +14,7 @@ import java.sql.ResultSet;
 
 import static data.CarDao.getSelectCarByID;
 import static data.CarDao.getSelectCarByModel;
-import static io.qameta.allure.Allure.step;
+import static io.qameta.allure.Allure.*;
 import static java.lang.Integer.valueOf;
 import static org.testng.Assert.assertTrue;
 import static ui.enumUI.Dropdown.CARS;
@@ -34,19 +34,36 @@ public class CreateCarTest extends BaseTest {
     @Test(testName = "Создание автомобиля с валидными данными",
           groups = {"regression"})
     void successCreateCar() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Создание автомобиля с валидными данными")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Создание автомобиля");
+        parameter("Ожидаемый результат", "Автомобиль успешно создан");
+
         CarTestData validCar = CarTestDataFactory.validCarTestDataUI();
         final String status = "Status: Successfully pushed, code: 201";
 
-        carsPage.addNewCarUI(validCar);
-        baseSteps
-                .clickPushToApi()
-                .verifyTextStatus(status)
-                .verifyGetIdObject("New car ID:");
+        step("Создание нового автомобиля через UI", () -> {
+            carsPage.addNewCarUI(validCar);
+        });
+
+        step("Отправка данных в API", () -> {
+            baseSteps
+                    .clickPushToApi()
+                    .verifyTextStatus(status)
+                    .verifyGetIdObject("New car ID:");
+        });
+
         String idCar = baseSteps.getNewObjectId();
         Integer carId = valueOf(idCar);
 
-        step("Проверка получения созданного авто по ID", () ->
-                carAdapter.getCar(carId, 200, CarResponse.class));
+        parameter("ID созданного автомобиля", idCar);
+
+        step("Проверка получения созданного авто по ID", () -> {
+            carAdapter.getCar(carId, 200, CarResponse.class);
+            addAttachment("Результат проверки", "Автомобиль с ID " + idCar + " успешно найден");
+        });
 
         step("Проверка записи по созданному авто в БД", () -> {
             connection.connect();
@@ -54,10 +71,13 @@ public class CreateCarTest extends BaseTest {
             while (result.next()) {
                 carDao.verifyAttributesCar(validCar, result);
             }
+            addAttachment("Проверка БД", "Запись в БД соответствует созданному автомобилю");
         });
 
-        step("Удаление тестовых данных", () ->
-                carAdapter.deleteApiCar(carId));
+        step("Удаление тестовых данных", () -> {
+            carAdapter.deleteApiCar(carId);
+            addAttachment("Очистка", "Автомобиль с ID " + idCar + " удален");
+        });
     }
 
     @Owner("Кадырмятова А.В.")
@@ -67,6 +87,13 @@ public class CreateCarTest extends BaseTest {
             dataProviderClass = CarsData.class,
             groups = {"regression"})
     void unsuccessCreateCar(CarTestData carTestData) {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Создание автомобиля с пустым полем")
+        );
+        parameter("Тип теста", "Негативный");
+        parameter("Действие", "Создание автомобиля с пустыми полями");
+        parameter("Ожидаемый результат", "Ошибка валидации, автомобиль не создан");
+
         final String status = "Status: Invalid request data";
 
         carsPage.addNewCarUI(carTestData);
@@ -88,6 +115,13 @@ public class CreateCarTest extends BaseTest {
             dataProviderClass = CarsData.class,
             groups = {"regression"})
     void createCarWithNumbers(CarTestData carTestData) {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Создание автомобиля с числом в строковом поле")
+        );
+        parameter("Тип теста", "Негативный");
+        parameter("Действие", "Создание автомобиля с числами в строковых полях");
+        parameter("Ожидаемый результат", "Ошибка валидации, автомобиль не создан");
+
         final String status = "Status: AxiosError: Request failed with status code 400";
 
         carsPage.addNewCarUI(carTestData);

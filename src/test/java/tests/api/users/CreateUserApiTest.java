@@ -15,7 +15,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import tests.ui.base.BaseTest;
 
-import static io.qameta.allure.Allure.step;
+import static io.qameta.allure.Allure.*;
 
 @Epic("Пользователи. API")
 @Feature("Создание пользователя")
@@ -42,6 +42,13 @@ public class CreateUserApiTest extends BaseTest {
     @Owner("Лазарев Г.А.")
     @Test(testName = "Проверка создания пользователя с валидными параметрами", groups = {"regression"})
     void checkCreateUser() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Проверка создания пользователя с валидными параметрами")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Создание пользователя");
+        parameter("Ожидаемый результат", "Пользователь успешно создан");
+
         usersSteps
                 .validateUserId(userId)
                 .validateUserData(userResponse, userRequest);
@@ -50,6 +57,13 @@ public class CreateUserApiTest extends BaseTest {
     @Owner("Лазарев Г.А.")
     @Test(testName = "Проверка редактирования пользователя валидными параметрами", groups = {"regression"})
     void checkEditUserValid() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Проверка редактирования пользователя валидными параметрами")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Редактирование пользователя");
+        parameter("Ожидаемый результат", "Пользователь успешно отредактирован");
+
         UserRequest newUserRequest = UserTestDataFactory.putUserTestDataApi();
         UserResponse newUserResponse = userAdapter.putValidApiUser(userId, newUserRequest);
         usersSteps.validateUserData(newUserResponse, newUserRequest);
@@ -62,6 +76,12 @@ public class CreateUserApiTest extends BaseTest {
             dataProvider = "Api. Тестовые данные для негативных проверок создания пользователя",
             dataProviderClass = UsersData.class)
     void checkEditUserInvalid(InvalidUserRequest invalidUserRequest) {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Проверка редактирования пользователя невалидными параметрами")
+        );
+        parameter("Тип теста", "Негативный");
+        parameter("Действие", "Редактирование пользователя с невалидными данными");
+        parameter("Ожидаемый результат", "Ошибка валидации");
 
         step("Проверка невалидными данными \"%s\"".formatted(invalidUserRequest.getDescription()), () -> {
             Response response = userAdapter.putInvalidApiUser(userId, invalidUserRequest);

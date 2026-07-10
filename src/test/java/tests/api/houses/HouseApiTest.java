@@ -10,10 +10,11 @@ import org.testng.annotations.Test;
 import tests.ui.base.BaseTest;
 import ui.dto.users.UserTestDataFactory;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static io.qameta.allure.Allure.getLifecycle;
+import static io.qameta.allure.Allure.parameter;
 import static org.testng.Assert.*;
 import static ui.pages.base.BasePage.faker;
 
@@ -49,8 +50,16 @@ public class HouseApiTest extends BaseTest {
         }
     }
 
+    @Owner("Хвадина А.В.")
     @Test(testName = "Проверка создания дома с валидными параметрами", groups = {"regression"})
     void checkCreateHouse() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Проверка создания дома с валидными параметрами")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Создание дома");
+        parameter("Ожидаемый результат", "Дом успешно создан");
+
         HouseResponse houseResponse = houseAdapter.createApiHouse(house);
         createdHouseId = houseResponse.getId();
 
@@ -58,8 +67,16 @@ public class HouseApiTest extends BaseTest {
         assertEquals(houseResponse.getPrice(), price, "Цена не совпадает");
     }
 
+    @Owner("Хвадина А.В.")
     @Test(testName = "Проверка редактирования дома валидными параметрами", groups = {"regression"})
     void checkEditHouse() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Проверка редактирования дома валидными параметрами")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Редактирование дома");
+        parameter("Ожидаемый результат", "Дом успешно отредактирован");
+
         int newFloorCount = faker.number().numberBetween(1, 50);
         double newPrice = faker.number().numberBetween(100000, 10000000);
         int newParkingCount = faker.number().numberBetween(1, 10);
@@ -89,8 +106,16 @@ public class HouseApiTest extends BaseTest {
                 "Количество парковочных мест не совпадает после обновления");
     }
 
+    @Owner("Хвадина А.В.")
     @Test(testName = "Проверка получения списка домов", groups = {"regression"})
     void checkGetHouses() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Проверка получения списка домов")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Получение списка домов");
+        parameter("Ожидаемый результат", "Список домов успешно получен");
+
         HouseResponse createdHouse = houseAdapter.createApiHouse(house);
         createdHouseId = createdHouse.getId();
 
@@ -105,8 +130,16 @@ public class HouseApiTest extends BaseTest {
         assertEquals(foundHouse.getPrice(), price, "Цена не совпадает");
     }
 
+    @Owner("Хвадина А.В.")
     @Test(testName = "Проверка получения дома по ID", groups = {"regression"})
     void checkGetHouseById() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Проверка получения дома по ID")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Получение дома по ID");
+        parameter("Ожидаемый результат", "Дом успешно найден");
+
         HouseResponse createdHouse = houseAdapter.createApiHouse(house);
         createdHouseId = createdHouse.getId();
 
@@ -119,8 +152,16 @@ public class HouseApiTest extends BaseTest {
                 "Количество парковочных мест не совпадает");
     }
 
+    @Owner("Хвадина А.В.")
     @Test(testName = "Проверка удаления дома", groups = {"regression"})
     void checkDeleteHouse() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Проверка удаления дома")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Удаление дома");
+        parameter("Ожидаемый результат", "Дом успешно удален");
+
         HouseResponse createdHouse = houseAdapter.createApiHouse(house);
         Integer houseId = createdHouse.getId();
         createdHouseId = houseId;
@@ -140,6 +181,13 @@ public class HouseApiTest extends BaseTest {
     @Test(testName = "Проверка заселения пользователя в дом", groups = {"regression"})
     @Description("Проверка успешного заселения пользователя в дом")
     void checkSettleUserToHouse() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Проверка заселения пользователя в дом")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Заселение пользователя в дом");
+        parameter("Ожидаемый результат", "Пользователь успешно заселен");
+
         HouseResponse createdHouse = houseAdapter.createApiHouse(house);
         createdHouseId = createdHouse.getId();
 
@@ -163,6 +211,13 @@ public class HouseApiTest extends BaseTest {
     @Test(testName = "Проверка выселения пользователя из дома", groups = {"regression"})
     @Description("Проверка успешного выселения пользователя из дома")
     void checkEvictUserFromHouse() {
+        getLifecycle().updateTestCase(testCase ->
+                testCase.setName("Проверка выселения пользователя из дома")
+        );
+        parameter("Тип теста", "Позитивный");
+        parameter("Действие", "Выселение пользователя из дома");
+        parameter("Ожидаемый результат", "Пользователь успешно выселен");
+
         HouseResponse createdHouse = houseAdapter.createApiHouse(house);
         createdHouseId = createdHouse.getId();
 
