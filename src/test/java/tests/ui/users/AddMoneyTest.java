@@ -15,8 +15,9 @@ import static io.qameta.allure.Allure.parameter;
 public class AddMoneyTest extends BaseTest {
 
     @Owner("Квасникова О.Н.")
-    @Test(groups = {"regression"})
-    @Description("Добавление денег существующему пользователю")
+    @Test(testName = "Добавление денег  существующему пользователю",
+            groups = {"regression"})
+    @Description("Проверка корректности зачисления денежных средств на баланс существующего пользователя через интерфейс")
     void addMoneyPositiveTest() {
         getLifecycle().updateTestCase(testCase ->
                 testCase.setName("Добавление денег существующему пользователю")
@@ -35,7 +36,8 @@ public class AddMoneyTest extends BaseTest {
     }
 
     @Owner("Квасникова О.Н.")
-    @Test(groups = {"regression"})
+    @Test(testName = "Снятие денег (ошибочно) у пользователя через сервис добавление денег",
+            groups = {"regression"})
     @Description("Проверка невозможности списания денежных средств через эндпоинт добавления денег")
     public void takeOffMoneyNegativeTest() {
         getLifecycle().updateTestCase(testCase ->
@@ -55,7 +57,8 @@ public class AddMoneyTest extends BaseTest {
     }
 
     @Owner("Квасникова О.Н.")
-    @Test(groups = {"regression"})
+    @Test(testName = "Добавление денег  несуществующему пользователю",
+            groups = {"regression"})
     @Description("Проверка реакции системы при попытке добавить деньги пользователю с несуществующим ID")
     public void addMoneyToNonExistentNegativeTest() {
         getLifecycle().updateTestCase(testCase ->
