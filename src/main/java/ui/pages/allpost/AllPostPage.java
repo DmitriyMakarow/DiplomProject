@@ -96,7 +96,7 @@ public class AllPostPage extends BasePage {
     public AllPostPage fillCreateHouseForm(String floors, String price, String parkingFirst,
                                            String parkingSecond, String parkingThird, String parkingFourth) {
         new Input("floor_send").fillField(floors);
-        new Input("price_send").fillField(price);
+        new Input("price_send").fillField(price, 6);
         new Input("parking_first_send").fillField(parkingFirst);
         new Input("parking_second_send").fillField(parkingSecond);
         new Input("parking_third_send").fillField(parkingThird);
