@@ -3,6 +3,7 @@ package api.adapters;
 import api.models.houses.HouseRequest;
 import api.models.houses.HouseResponse;
 import io.restassured.common.mapper.TypeRef;
+import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
 
 import java.util.List;
@@ -80,5 +81,35 @@ public class HouseAdapter extends BaseAdapter {
                 .then()
                 .log().all()
                 .spec(code204);
+    }
+
+    public HouseResponse settleUser(Integer houseId, Integer userId) {
+        return given()
+                .spec(getSpec())
+                .pathParam("houseId", houseId)
+                .pathParam("userId", userId)
+                .log().all()
+                .when()
+                .post("/house/{houseId}/settle/{userId}")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .extract()
+                .as(HouseResponse.class);
+    }
+
+    public HouseResponse evictUser(Integer houseId, Integer userId) {
+        return given()
+                .spec(getSpec())
+                .pathParam("houseId", houseId)
+                .pathParam("userId", userId)
+                .log().all()
+                .when()
+                .post("/house/{houseId}/evict/{userId}")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .extract()
+                .as(HouseResponse.class);
     }
 }

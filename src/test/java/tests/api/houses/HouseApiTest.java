@@ -2,17 +2,19 @@ package tests.api.houses;
 
 import api.models.houses.HouseRequest;
 import api.models.houses.HouseResponse;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
+import api.models.users.UserRequest;
+import api.models.users.UserResponse;
+import io.qameta.allure.*;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 import tests.ui.base.BaseTest;
+import ui.dto.users.UserTestDataFactory;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.*;
 import static ui.pages.base.BasePage.faker;
 
 @Epic("Дома. API")
@@ -24,6 +26,7 @@ public class HouseApiTest extends BaseTest {
     private final int parkingCount = faker.number().numberBetween(1, 10);
 
     private Integer createdHouseId;
+    private Integer createdUserId;
 
     HouseRequest.ParkingPlace parkingPlace = HouseRequest.ParkingPlace.builder()
             .isWarm(true)
@@ -130,5 +133,53 @@ public class HouseApiTest extends BaseTest {
                 .anyMatch(h -> h.getId() == houseId);
 
         assertFalse(houseExists, "Дом должен быть удалён из списка");
+    }
+
+    @Issue("/house/{houseId}/settle/{userId} возвращает 406 при запросе с Content-Type header")
+    @Owner("Кирсанов А.П.")
+    @Test(testName = "Проверка заселения пользователя в дом", groups = {"regression"})
+    @Description("Проверка успешного заселения пользователя в дом")
+    void checkSettleUserToHouse() {
+        HouseResponse createdHouse = houseAdapter.createApiHouse(house);
+        createdHouseId = createdHouse.getId();
+
+        UserRequest userRequest = UserTestDataFactory.postUserTestDataApi();
+        UserResponse userResponse = userAdapter.createUser(userRequest);
+        createdUserId = userResponse.getId();
+
+        usersSteps
+                .validateUserId(createdUserId)
+                .validateUserData(userResponse, userRequest);
+
+        HouseResponse updatedHouse = houseAdapter.settleUser(createdHouseId, createdUserId);
+
+        assertTrue(updatedHouse.getLodgers().stream()
+                        .anyMatch(l -> l.getId() == createdUserId),
+                "Пользователь %s не найден в списке lodgers после заселения".formatted(createdUserId));
+    }
+
+    @Issue("/house/{houseId}/evict/{userId} возвращает 406 при запросе с Content-Type header")
+    @Owner("Кирсанов А.П.")
+    @Test(testName = "Проверка выселения пользователя из дома", groups = {"regression"})
+    @Description("Проверка успешного выселения пользователя из дома")
+    void checkEvictUserFromHouse() {
+        HouseResponse createdHouse = houseAdapter.createApiHouse(house);
+        createdHouseId = createdHouse.getId();
+
+        UserRequest userRequest = UserTestDataFactory.postUserTestDataApi();
+        UserResponse userResponse = userAdapter.createUser(userRequest);
+        createdUserId = userResponse.getId();
+
+        usersSteps
+                .validateUserId(createdUserId)
+                .validateUserData(userResponse, userRequest);
+
+        houseAdapter.settleUser(createdHouseId, createdUserId);
+
+        HouseResponse updatedHouse = houseAdapter.evictUser(createdHouseId, createdUserId);
+
+        assertTrue(updatedHouse.getLodgers().isEmpty()
+                        || updatedHouse.getLodgers().stream().noneMatch(l -> l.getId() == createdUserId),
+                "Пользователь %s все еще в списке lodgers после выселения".formatted(createdUserId));
     }
 }

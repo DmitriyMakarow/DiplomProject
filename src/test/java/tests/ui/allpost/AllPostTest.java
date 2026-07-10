@@ -3,6 +3,7 @@ package tests.ui.allpost;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Owner;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -45,6 +46,7 @@ public class AllPostTest extends BaseTest {
         };
     }
 
+    @Owner("Кирсанов А.П.")
     @Test(testName = "Создание нового пользователя через ALL POST",
           groups = {"regression"})
     @Description("Проверка создания нового пользователя с валидными данными")
@@ -60,6 +62,7 @@ public class AllPostTest extends BaseTest {
         assertNotNull(userId, "ID созданного пользователя не получен");
     }
 
+    @Owner("Кирсанов А.П.")
     @Test(testName = "Добавление денег пользователю через ALL POST",
           groups = {"regression"})
     @Description("Проверка добавления денег существующему пользователю")
@@ -78,6 +81,7 @@ public class AllPostTest extends BaseTest {
                 .verifyStatus(2, STATUS_200);
     }
 
+    @Owner("Кирсанов А.П.")
     @Test(testName = "Создание нового автомобиля через ALL POST",
           groups = {"regression"})
     @Description("Проверка создания нового автомобиля с валидными данными")
@@ -89,6 +93,7 @@ public class AllPostTest extends BaseTest {
                 .verifyStatus(5, STATUS_201);
     }
 
+    @Owner("Кирсанов А.П.")
     @Test(testName = "Создание нового дома через ALL POST",
           groups = {"regression"})
     @Description("Проверка создания нового дома с валидными данными")
@@ -105,6 +110,7 @@ public class AllPostTest extends BaseTest {
                 .verifyStatus(6, STATUS_201);
     }
 
+    @Owner("Кирсанов А.П.")
     @Test(dataProvider = "settleEvictActions",
             testName = "Заселение/выселение пользователя в/из дом(а) через ALL POST",
             groups = {"regression"})
@@ -142,6 +148,7 @@ public class AllPostTest extends BaseTest {
                 .verifyStatus(3, STATUS_200);
     }
 
+    @Owner("Кирсанов А.П.")
     @Test(dataProvider = "buySellActions",
             testName = "Покупка/продажа автомобиля пользователем через ALL POST",
             groups = {"regression"})
